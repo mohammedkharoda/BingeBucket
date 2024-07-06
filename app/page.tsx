@@ -1,3 +1,4 @@
+import EmailSubscriptionBanner from "@/components/EmailSubscriptionBanner";
 import Hero from "@/components/Hero";
 import MediaCard from "@/components/MediaCard";
 import MoviePromotionBanner from "@/components/MoviePromotionBanner";
@@ -8,6 +9,7 @@ const Home = async () => {
       <Hero />
       <MoviePromotionBanner />
       <MediaCard />
+      <EmailSubscriptionBanner />
     </>
   );
 };
