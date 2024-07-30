@@ -35,8 +35,8 @@ const MoviePromotionBanner = () => {
         <div className="min-w-[130px] flex flex-col gap-[40px] relative ">
           <div className="lg:absolute lg:top-0 lg:left-[-20px] lg:h-full lg:flex lg:flex-col lg:justify-between hidden lg:show">
             <div
-              className="bg-brown w-[5px] absolute rounded-lg h-[100px] transition-all duration-500 ease-in-out"
-              style={{ top: `${(currentTextIndex - 1) * 210}px` }}
+              className="bg-brown w-[5px] absolute rounded-lg h-[50px] transition-all duration-500 ease-in-out"
+              style={{ top: `${(currentTextIndex - 1) * 240}px` }}
             />
           </div>
           <div className="flex flex-col gap-[16px]">
