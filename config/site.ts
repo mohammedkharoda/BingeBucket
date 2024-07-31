@@ -10,7 +10,7 @@ export const siteConfig = {
     },
     {
       label: "Movies",
-      href: "/movie",
+      href: "/movies",
     },
     {
       label: "Series",

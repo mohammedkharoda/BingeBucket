@@ -33,7 +33,6 @@ const MediaCard = () => {
   };
   const { data, isFetching } = useTrendingOfDay();
   const movieData = data;
-  console.log("Movie Data:", movieData);
   return (
     <div className="lg:my-[112px] lg:mx-[64px] my-[64px] mx-[20px]">
       {/* box-1 */}

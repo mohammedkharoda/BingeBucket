@@ -44,3 +44,30 @@ export const MediaCardText = [
     description: "Explore our collection of movies and series.",
   },
 ];
+
+export const FooterText = [
+  {
+    links: [
+      {
+        label: "Facebook",
+        href: "https://www.facebook.com",
+      },
+      {
+        label: "X",
+        href: "https://www.twitter.com",
+      },
+      {
+        label: "Reddit",
+        href: "https://www.instagram.com",
+      },
+      {
+        label: "Threads",
+        href: "https://www.linkedin.com",
+      },
+      {
+        label: "Instagram",
+        href: "https://www.youtube.com",
+      },
+    ],
+  },
+];
