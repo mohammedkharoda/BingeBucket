@@ -58,7 +58,7 @@ const MediaCard = () => {
             movieData?.length > 0 &&
             movieData.map((movie: any) => (
               <SplideSlide key={movie.id}>
-                <div className="cursor-pointer rounded-md">
+                <div className="rounded-md">
                   <Image
                     height={500}
                     width={500}
