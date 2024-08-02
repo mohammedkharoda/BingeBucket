@@ -15,7 +15,6 @@ const categories = [
   { label: "Upcoming", value: "upcoming" },
   { label: "Now Playing", value: "now_playing" },
 ];
-
 const SortedMovieComponent: React.FC = () => {
   const [category, setCategory] = useState("now_playing");
 
@@ -41,8 +40,33 @@ const SortedMovieComponent: React.FC = () => {
     setCategory(event.target.value);
   };
 
+  console.log(movies);
   return (
-    <div className="container mx-auto p-4">
+    <div className="lg:px-[64px] lg:py-[112px] px-[20px] py-[64px]">
+      <div className="flex gap-5 justify-center">
+        <div
+          style={{
+            fontWeight: 800, // equivalent to Tailwind's font-extrabol
+            fontSize: "50px", // equivalent to Tailwind's text-4xl
+            background: "linear-gradient(to right, #1c1c1c, #8b5a00, #f82852)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            color: "transparent",
+            paddingBottom: "30px",
+          }}
+        >
+          Hot Picks in Theaters
+        </div>
+        <img
+          src="../image/fire.gif"
+          alt="Animated fire gif"
+          style={{
+            width: "80px", // adjust size as needed
+            height: "80px",
+          }}
+        />
+      </div>
       <div className="flex justify-between items-center mb-4">
         <select
           value={category}
@@ -81,7 +105,9 @@ const SortedMovieComponent: React.FC = () => {
                   className={`flex justify-between items-center w-full lg:${movie.vote_average ? "flex-row" : "flex-col gap-5"} flex-col`}
                 >
                   <h2 className="text-[20px] text-left font-semibold text-black ">
-                    {movie.title}
+                    {movie.title.length >= 20
+                      ? movie.title.substring(0, 15) + "..."
+                      : movie.title}
                   </h2>
                   {movie.vote_average ? (
                     <p className="text-[15px] font-semibold text-black">

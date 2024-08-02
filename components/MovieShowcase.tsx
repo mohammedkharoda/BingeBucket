@@ -27,15 +27,15 @@ export default function MovieShowcase() {
   }, [popularMovies]);
 
   return (
-    <div className="flex justify-center gap-20 flex-col lg:flex-row px-[20px] py-[64px] md:px-0 md:py-0">
+    <div className="flex justify-center items-center gap-20 flex-col lg:flex-row px-[20px] py-[64px] lg:px-0 lg:py-0">
       {/* // heading and image */}
-      <div className="md:w-[60%] flex flex-col items-center justify-center">
-        <p className="flex items-center justify-center font-roboto text-[36px] text-center md:text-[56px] font-bold">
-          Discover Amazing Movies to Watch
+      <div className="md:w-[60%] flex flex-col items-center justify-center lg:px-[112px] lg:py-[64px] px-[20px] py-[64px]">
+        <p className="flex items-center justify-center font-roboto text-[36px] text-center md:text-[56px] font-bold lg:min-w-max">
+          Discover Amazing Movies
           <img
             src="../image/movie-clap.gif"
             alt="movie-clap"
-            className="h-[100px] hidden md:block"
+            className="h-[100px] hidden lg:block"
           />
         </p>
         <p className="mt-2 text-lg md:text-xl text-gray-600 w-full">

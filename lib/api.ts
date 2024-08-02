@@ -72,8 +72,24 @@ export const fetchUpcomingMovies = async (): Promise<Movie[]> => {
 };
 
 export const fetchPopularMovie = async (): Promise<PopularMovie[]> => {
+  const currentDate = new Date();
+
+  // Function to format date as 'YYYY-MM-DD'
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const endDate = new Date(currentDate);
+  endDate.setMonth(currentDate.getMonth() + 2);
+
+  // Format the dates
+  const formattedStartDate = formatDate(currentDate);
+  const formattedEndDate = formatDate(endDate);
   const response = await fetch(
-    `${BASE_URL}/movie/popular?language=en-US&page=1`,
+    `${BASE_URL}/movie/popular?language=en-US&page=1&primary_release_date.gte=${formattedStartDate}&primary_release_date.lte=${formattedEndDate}`,
     {
       method: "GET",
       headers: {
@@ -88,7 +104,25 @@ export const fetchPopularMovie = async (): Promise<PopularMovie[]> => {
   }
 
   const data = await response.json();
-  return data.results;
+  if (!data.results) {
+    console.error("No results found in the response.");
+    return [];
+  }
+
+  // Sort movies by release date (earliest to latest)
+  const sortedMovies = data.results.sort((a: any, b: any) => {
+    const dateA = new Date(a.release_date);
+    const dateB = new Date(b.release_date);
+    return dateB.getTime() - dateA.getTime(); // Sorting in descending order
+  });
+
+  // Add a sequential number to each movie
+  const numberedMovies = sortedMovies.map((movie: any, index: number) => ({
+    ...movie,
+    number: index + 1,
+  }));
+
+  return numberedMovies;
 };
 
 export const fetchTrendingOfDay = async (): Promise<TrendingMovie[]> => {
@@ -129,8 +163,24 @@ export const fetchTopRatedMovies = async (): Promise<TopRating[]> => {
 };
 
 export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
+  const currentDate = new Date();
+
+  // Function to format date as 'YYYY-MM-DD'
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const endDate = new Date(currentDate);
+  endDate.setMonth(currentDate.getMonth() + 2);
+
+  // Format the dates
+  const formattedStartDate = formatDate(currentDate);
+  const formattedEndDate = formatDate(endDate);
   const response = await fetch(
-    `${BASE_URL}/movie/now_playing?language=en-US&page=1`,
+    `${BASE_URL}/movie/now_playing?language=en-US&page=1&primary_release_date.gte=${formattedStartDate}&primary_release_date.lte=${formattedEndDate}`,
     {
       method: "GET",
       headers: {
@@ -145,5 +195,23 @@ export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
   }
 
   const data = await response.json();
-  return data.results;
+  if (!data.results) {
+    console.error("No results found in the response.");
+    return [];
+  }
+
+  // Sort movies by release date (earliest to latest)
+  const sortedMovies = data.results.sort((a: any, b: any) => {
+    const dateA = new Date(a.release_date);
+    const dateB = new Date(b.release_date);
+    return dateB.getTime() - dateA.getTime(); // Sorting in descending order
+  });
+
+  // Add a sequential number to each movie
+  const numberedMovies = sortedMovies.map((movie: any, index: number) => ({
+    ...movie,
+    number: index + 1,
+  }));
+
+  return numberedMovies;
 };

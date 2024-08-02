@@ -1,10 +1,10 @@
 "use client";
 
+import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { Image } from "@nextui-org/react";
-import { useUpcomingMovies } from "../hooks/useUpcomingMovie"; // Ensure this path is correct
 
 const ContentGrid = () => {
-  const { data: movies, error } = useUpcomingMovies();
+  const { data: movies, error } = usePopularMovie();
 
   if (error) return <div>Error: {error.message}</div>;
   return (
