@@ -1,19 +1,16 @@
 "use client";
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaBars, FaTimes } from "react-icons/fa";
-import BingeLogo from "@/icons/BingeLogo";
-import { Button } from "@nextui-org/button";
 import { siteConfig } from "@/config/site";
-import SignUpBtn from "@/shared/SignUpBtn";
+import BingeLogo from "@/icons/BingeLogo";
 import LogInBtn from "@/shared/LogInBtn";
-import { SignIn, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import SignUpBtn from "@/shared/SignUpBtn";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -65,24 +62,9 @@ export default function Navbar() {
             ))}
           </div>
           {/* buttons */}
-          <div className="hidden lg:flex space-x-4 items-center justify-center">
-            <SignedOut>
-              <>
-                <SignUpBtn />
-                <LogInBtn />
-              </>
-            </SignedOut>
-            <SignedIn>
-              <UserButton
-                showName
-                appearance={{
-                  elements: {
-                    userButtonBox:
-                      "text-white font-semibold border-1 border-yellow-dark rounded-md px-4 py-2",
-                  },
-                }}
-              />
-            </SignedIn>
+          <div className="hidden lg:flex space-x-4 items-center">
+            <SignUpBtn />
+            <LogInBtn />
           </div>
           {/* ====================== MOBILE AREA ================================= */}
           {/* hamburger menu button */}
@@ -130,23 +112,8 @@ export default function Navbar() {
                 </motion.a>
               ))}
               <div className="flex flex-col gap-5 w-full justify-center items-center">
-                <SignedOut>
-                  <>
-                    <SignUpBtn />
-                    <LogInBtn />
-                  </>
-                </SignedOut>
-                <SignedIn>
-                  <UserButton
-                    showName
-                    appearance={{
-                      elements: {
-                        userButtonBox:
-                          "text-white font-semibold border-1 border-yellow-dark rounded-md px-4 py-2",
-                      },
-                    }}
-                  />
-                </SignedIn>
+                <SignUpBtn />
+                <LogInBtn />
               </div>
             </div>
           </motion.div>

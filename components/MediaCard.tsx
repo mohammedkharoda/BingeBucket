@@ -6,6 +6,8 @@ import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
 import { truncateSentence } from "@/config/turncate";
 import LoadingCard from "@/shared/LoadingCard";
 import Image from "next/image";
+import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
+import Link from "next/link";
 const MediaCard = () => {
   const splideOptions = {
     type: "loop",
@@ -31,7 +33,7 @@ const MediaCard = () => {
       },
     },
   };
-  const { data, isFetching } = useTrendingOfDay();
+  const { data, isFetching } = useNowPlayingMovies();
   const movieData = data;
   return (
     <div className="lg:my-[112px] lg:mx-[64px] my-[64px] mx-[20px]">
@@ -58,30 +60,32 @@ const MediaCard = () => {
             movieData?.length > 0 &&
             movieData.map((movie: any) => (
               <SplideSlide key={movie.id}>
-                <div className="rounded-md">
-                  <Image
-                    height={500}
-                    width={500}
-                    src={`https://image.tmdb.org/t/p/original/${
-                      movie?.poster_path
-                    }`}
-                    alt={movie.title}
-                    loading="lazy"
-                    className="rounded-lg drop-shadow-md transition-all duration-500 ease-in-out hover:scale-105"
-                    placeholder="blur"
-                    blurDataURL={`https://image.tmdb.org/t/p/original/${
-                      movie?.poster_path
-                    }`}
-                  />
-                </div>
-                <div className="flex flex-col gap-4 pt-4">
-                  <p className="lg:text-[18px] text-[20px] font-semibold">
-                    {movie.title || movie.name}
-                  </p>
-                  <p className="lg:text-[16px] font-medium text-[18px]">
-                    {truncateSentence(movie.overview, 150)}
-                  </p>
-                </div>
+                <Link href={`/movies/${movie.id}`} key={movie.id}>
+                  <div className="rounded-md">
+                    <Image
+                      height={500}
+                      width={500}
+                      src={`https://image.tmdb.org/t/p/original/${
+                        movie?.poster_path
+                      }`}
+                      alt={movie.title}
+                      loading="lazy"
+                      className="rounded-lg drop-shadow-md transition-all duration-500 ease-in-out hover:scale-105"
+                      placeholder="blur"
+                      blurDataURL={`https://image.tmdb.org/t/p/original/${
+                        movie?.poster_path
+                      }`}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-4 pt-4">
+                    <p className="lg:text-[18px] text-[20px] font-semibold">
+                      {movie.title || movie.name}
+                    </p>
+                    <p className="lg:text-[16px] font-medium text-[18px]">
+                      {truncateSentence(movie.overview, 150)}
+                    </p>
+                  </div>
+                </Link>
               </SplideSlide>
             ))}
         </Splide>

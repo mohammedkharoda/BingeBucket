@@ -1,5 +1,6 @@
 import {
   Movie,
+  MovieDetails,
   NowPlaying,
   PopularMovie,
   TopRating,
@@ -126,20 +127,38 @@ export const fetchPopularMovie = async (): Promise<PopularMovie[]> => {
 };
 
 export const fetchTrendingOfDay = async (): Promise<TrendingMovie[]> => {
-  const response = await fetch(`${BASE_URL}/trending/all/day?language=en-US`, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  });
+  const response = await fetch(
+    `${BASE_URL}/trending/movie/day?language=en-US`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
 
   const data = await response.json();
-  return data.results;
+
+  // Filter out movies without a valid vote_average
+  const filteredMovies = data.results.filter(
+    (movie: any) =>
+      typeof movie.vote_average === "number" && !isNaN(movie.vote_average)
+  );
+
+  // Sort the filtered movies by vote_average in descending order
+  const sortedMovies = filteredMovies
+    .sort(
+      (a: { vote_average: number }, b: { vote_average: number }) =>
+        b.vote_average - a.vote_average
+    )
+    .slice(0, 3); // Take only the top 6 movies
+
+  return sortedMovies;
 };
 
 export const fetchTopRatedMovies = async (): Promise<TopRating[]> => {
@@ -214,4 +233,23 @@ export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
   }));
 
   return numberedMovies;
+};
+
+// ============================== details apis ==============================
+
+export const fetchMovieDetails = async (id: number): Promise<MovieDetails> => {
+  const response = await fetch(`${BASE_URL}/movie/${id}?language=en-US`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data;
 };
