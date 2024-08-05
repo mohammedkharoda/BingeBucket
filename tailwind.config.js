@@ -19,6 +19,8 @@ module.exports = {
       "gray-light": "#9e9e9e", // from bottom right
       white: "#ffffff",
       "crimson-red": "#f82852",
+      "off-white": "#fefae0",
+      "green-pastel": "#06d6a0",
     },
     extend: {
       fontFamily: {

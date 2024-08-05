@@ -1,12 +1,14 @@
 "use client";
 import MovieDetailCard from "@/components/MovieDetailCard";
+import TopBillingCast from "@/components/TopBillingCast";
 import { useParams } from "next/navigation";
 
 const MoviesDetails = () => {
   const { id } = useParams();
   return (
-    <div className="lg:px-[64px] lg:py-[112px] px-[20px] py-[64px]">
+    <div className="">
       <MovieDetailCard id={id} />
+      <TopBillingCast id={id} />
     </div>
   );
 };
