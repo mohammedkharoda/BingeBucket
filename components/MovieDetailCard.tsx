@@ -1,6 +1,7 @@
 import { formatDate } from "@/config/dateFormat";
 import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
 import { useMovieDetails } from "@/hooks/useMovieDetails";
+import useCrewStore from "@/store/useCrewStore";
 import { CircularProgress, Image } from "@nextui-org/react";
 
 const MovieDetailCard = (id: { id: string | string[] }) => {
@@ -11,6 +12,7 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
     moviesDetails?.runtime ?? 0
   );
   const dateData = formatDate(moviesDetails?.release_date ?? "");
+  const CrewMember = useCrewStore((state) => state.crew);
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"
@@ -86,6 +88,20 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               {moviesDetails?.overview}
             </p>
           </div>
+
+          {/* Crew Members */}
+          {CrewMember.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:min-w-max gap-6 mt-5">
+              {CrewMember.map((member) => (
+                <div key={member.id} className="flex gap-4">
+                  <div className="flex flex-col items-start">
+                    <p className="font-semibold text-[16px]">{member.name}</p>
+                    <p className="text-gray-300 font-light">{member.job}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
