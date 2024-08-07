@@ -1,11 +1,25 @@
+import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
+import { ImageDetails } from "@/types";
 import React from "react";
 
-// Define the props interface
-interface ImageShowcaseProps {
-  images: string[]; // An array of image URLs
-}
+const ImageShowcase = (id: { id: string | string[] }) => {
+  // Assuming useMovieImageShowcase returns an object with data, loading, and error
+  const { data, isLoading, error } = useMovieImageShowcase(Number(id.id));
+  const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
+  // Handle loading state
+  if (isLoading) return <p>Loading images...</p>;
 
-const ImageShowcase: React.FC<ImageShowcaseProps> = ({ images }) => {
+  // Handle error state
+  if (error) return <p>Error loading images: {error.message}</p>;
+
+  // Accessing backdrops array from data
+  const images = data?.backdrops ?? [];
+
+  // Handle no images case
+  if (images.length === 0) {
+    return <p>No images available for this movie.</p>;
+  }
+
   return (
     <div className="bg-yellow-700 py-10 text-center text-white">
       <h2 className="text-4xl font-bold mb-4">Image Showcase</h2>
@@ -16,17 +30,19 @@ const ImageShowcase: React.FC<ImageShowcaseProps> = ({ images }) => {
         {/* Main Image */}
         <div className="md:col-span-2 row-span-2">
           <img
-            src={images[0]}
+            // @ts-ignore
+            src={`${IMAGE_BASE_URL}${images[0]?.file_path}`} // Constructing the main image URL
             alt="Main"
             className="w-full h-full object-cover rounded-md shadow-lg"
           />
         </div>
 
         {/* Side Images */}
-        {images.slice(1, 5).map((src, index) => (
+        {images.slice(3, 8).map((image, index) => (
           <div key={index} className="col-span-1">
             <img
-              src={src}
+              // @ts-ignore
+              src={`${IMAGE_BASE_URL}${image?.file_path}`} // Correctly accessing file_path
               alt={`Side ${index + 1}`}
               className="w-full h-full object-cover rounded-md shadow-lg"
             />

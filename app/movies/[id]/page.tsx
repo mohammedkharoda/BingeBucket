@@ -2,6 +2,7 @@
 import ImageShowcase from "@/components/ImageShowCase";
 import MovieDetailCard from "@/components/MovieDetailCard";
 import TopBillingCast from "@/components/TopBillingCast";
+import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
 import { useParams } from "next/navigation";
 
 const MoviesDetails = () => {
@@ -13,11 +14,13 @@ const MoviesDetails = () => {
     "https://image.tmdb.org/t/p/original/jqYL6YQaImXQJrU2RJVlEjW3xxg.jpg",
   ];
   const { id } = useParams();
+  const Images = useMovieImageShowcase(Number(id));
+
   return (
-    <div className="">
+    <div>
       <MovieDetailCard id={id} />
       <TopBillingCast id={id} />
-      <ImageShowcase images={imageUrls} />
+      <ImageShowcase id={id} />
     </div>
   );
 };

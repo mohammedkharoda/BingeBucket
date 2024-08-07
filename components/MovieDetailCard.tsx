@@ -24,7 +24,7 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
       <div className="absolute inset-0 bg-black opacity-85"></div>
 
       {/* Main content container */}
-      <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#0000] bg-opacity-80 rounded-lg shadow-lg text-white m-4">
+      <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#0000] bg-opacity-80 rounded-lg text-white m-4">
         {/* Left Section: Movie Poster */}
         <div className="flex justify-center md:justify-start w-full md:w-1/3 mb-8 md:mb-0">
           <Image

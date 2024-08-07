@@ -273,3 +273,20 @@ export const fetchMovieCast = async (id: number) => {
   const data = await response.json();
   return data;
 };
+
+export const fetchMovieImages = async (id: number) => {
+  const response = await fetch(`${BASE_URL}/movie/${id}/images`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data;
+};
