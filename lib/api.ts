@@ -290,3 +290,24 @@ export const fetchMovieImages = async (id: number) => {
   const data = await response.json();
   return data;
 };
+
+// ============================== recommanded apis ==============================
+export const fetchRecommandedMovies = async (id: number) => {
+  const response = await fetch(
+    `${BASE_URL}/movie/${id}/recommendations?language=en-US&page=1`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data.results;
+};

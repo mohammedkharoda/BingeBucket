@@ -1,6 +1,7 @@
 "use client";
 import ImageShowcase from "@/components/ImageShowCase";
 import MovieDetailCard from "@/components/MovieDetailCard";
+import RecommandedMovies from "@/components/RecommandedMovies";
 import TopBillingCast from "@/components/TopBillingCast";
 import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
 import { useParams } from "next/navigation";
@@ -21,6 +22,7 @@ const MoviesDetails = () => {
       <MovieDetailCard id={id} />
       <TopBillingCast id={id} />
       <ImageShowcase id={id} />
+      <RecommandedMovies id={id} />
     </div>
   );
 };

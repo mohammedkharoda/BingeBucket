@@ -19,12 +19,11 @@ const ImageShowcase = (id: { id: string | string[] }) => {
   if (images.length === 0) {
     return <p>No images available for this movie.</p>;
   }
-
   return (
     <div className="bg-yellow-700 py-10 text-center text-white">
       <h2 className="text-4xl font-bold mb-4">Image Showcase</h2>
       <p className="text-lg mb-8">
-        Explore the captivating images and videos of the movie or series.
+        Explore the captivating images and videos of the movie.
       </p>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
         {/* Main Image */}
@@ -38,7 +37,7 @@ const ImageShowcase = (id: { id: string | string[] }) => {
         </div>
 
         {/* Side Images */}
-        {images.slice(3, 8).map((image, index) => (
+        {images.slice(1, 6).map((image, index) => (
           <div key={index} className="col-span-1">
             <img
               // @ts-ignore
