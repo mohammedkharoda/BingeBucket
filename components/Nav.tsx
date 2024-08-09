@@ -4,7 +4,7 @@ import BingeLogo from "@/icons/BingeLogo";
 import LogInBtn from "@/shared/LogInBtn";
 import SignUpBtn from "@/shared/SignUpBtn";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 

@@ -12,6 +12,7 @@ module.exports = {
       yellow: "#ffd700", // from top left
       "yellow-dark": "#C49216", // from second top left
       "orange-yellow": "#DDB900", // from third top left
+      "brown-dark": "#7e5920", // from top right
       brown: "#8b5a00", // from top right
       black: "#1c1c1c", // from bottom left
       "gray-dark": "#2e2e2e", // from second bottom left
@@ -21,6 +22,9 @@ module.exports = {
       "crimson-red": "#f82852",
       "off-white": "#fefae0",
       "green-pastel": "#06d6a0",
+      "dark-green": "#52b788",
+      "dark-red": "#c1121f",
+      "off-orange": "#fe7f2d",
     },
     extend: {
       fontFamily: {

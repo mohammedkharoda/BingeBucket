@@ -12,7 +12,7 @@ const TopBillingCast = (id: { id: string | string[] }) => {
   useEffect(() => {
     if (castInfo.data) {
       const { cast, crew } = castInfo.data as any;
-      setCast(cast.slice(0, 7));
+      setCast(cast.slice(0, 6));
       setCrew(
         crew.filter((member: any) =>
           ["Director", "Producer", "Writer"].includes(member.job)
@@ -21,9 +21,9 @@ const TopBillingCast = (id: { id: string | string[] }) => {
     }
   }, [castInfo.data]);
   return (
-    <div className="p-6 font-sans">
-      <h2 className="text-2xl font-bold mb-4">Top Cast</h2>
-      <div className="flex overflow-x-auto gap-10 flex-wrap lg:flex-nowrap flex-row lg:gap-5 items-center justify-center space-x-4">
+    <div className="lg:py-[50px] lg:px-[64px] px-[64px] py-[20px] font-sans">
+      <h2 className="text-[45px] font-bold mb-4">Top Cast</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 items-center justify-center">
         {cast.map((member) => (
           <Card
             key={member.id}
@@ -41,14 +41,12 @@ const TopBillingCast = (id: { id: string | string[] }) => {
                     : "/image/forbidden.png"
                 }
                 alt={member.name}
-                className=" md:w-[400px] lg:w-[250px] object-cover rounded-lg"
+                className="w-full h-auto object-cover rounded-lg"
               />
             </CardHeader>
             <CardBody>
               <div className="mt-2">
-                <p className="font-bold text-[16px] min-w-max ">
-                  {member.name}
-                </p>
+                <p className="font-bold text-[16px]">{member.name}</p>
                 <p className="text-gray-500 text-[14px]">
                   {member.character.split("/")[0]}
                 </p>

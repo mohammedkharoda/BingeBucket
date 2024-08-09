@@ -12,7 +12,7 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
     moviesDetails?.runtime ?? 0
   );
   const dateData = formatDate(moviesDetails?.release_date ?? "");
-  const CrewMember = useCrewStore((state) => state.crew);
+  const CrewMember = useCrewStore((state) => state?.crew);
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"

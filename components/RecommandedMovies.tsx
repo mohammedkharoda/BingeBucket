@@ -1,31 +1,27 @@
 import { useRecommandedMovie } from "@/hooks/useRecommandedMovie";
 import { MovieDetails } from "@/types";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CircularProgress,
-  Image,
-} from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
 
 const RecommandedMovies = (id: { id: string | string[] }) => {
   const recommandedMovie = useRecommandedMovie(Number(id.id));
   const recommandedMovieData: any = recommandedMovie.data;
+  console.log(recommandedMovieData);
   return (
     <div className="lg:py-[112px] lg:px-[64] py-[64px] px-[20px] flex flex-col justify-center items-center gap-10">
       <h1 className="text-white text-[40px] font-bold uppercase underline underline-offset-8">
         Similar Movies that might <br />
         interested to look
       </h1>
-      <div className="flex flex-wrap justify-between items-center gap-9">
-        {/* Recommanded Movies */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {recommandedMovieData?.map((movie: MovieDetails) => (
-          <Card key={movie.id} className="py-4" isHoverable isPressable>
+          <div
+            key={movie.id}
+            className="bg-brown-dark p-4 rounded-lg hover:shadow-lg transition-shadow duration-300"
+          >
             <Link href={`/movies/${movie.id}`}>
-              <CardHeader className="pb-0 pt-2 px-4 flex-col items-center gap-1">
-                <h4 className="font-bold text-large break-words max-w-[calc(100%-60px)]">
+              <div className="pb-0 pt-2 px-4 flex flex-col items-center gap-1">
+                <h4 className="font-bold text-large break-words max-w-full">
                   {movie.title}
                 </h4>
                 <div className="flex gap-4 items-center">
@@ -34,27 +30,40 @@ const RecommandedMovies = (id: { id: string | string[] }) => {
                   </p>
                   <CircularProgress
                     classNames={{
-                      svg: "w-[40px] h-[40px] drop-shadow-md",
-                      indicator: `${Math.round((movie?.vote_average ?? 0) * 10) > 70 ? "stroke-green-pastel" : Math.round((movie?.vote_average ?? 0) * 10) >= 40 ? "stroke-yellow-dark" : "stroke-crimson-red"}`,
-                      value: "text-[12px] font-semibold text-white",
+                      svg: "w-[50px] h-[50px] drop-shadow-md",
+                      indicator: `${
+                        Math.round((movie?.vote_average ?? 0) * 10) > 70
+                          ? "stroke-dark-green"
+                          : Math.round((movie?.vote_average ?? 0) * 10) >= 40
+                            ? "stroke-off-orange"
+                            : "stroke-dark-red"
+                      }`,
+                      value: "text-[14px] font-semibold text-white",
                     }}
                     value={Math.round((movie?.vote_average ?? 0) * 10)}
                     strokeWidth={2}
                     showValueLabel={true}
                   />
                 </div>
-              </CardHeader>
-              <CardBody className="overflow-hidden py-2">
-                <Image
-                  isZoomed
-                  alt="Card background"
-                  className="object-cover w-full h-auto rounded-xl"
-                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                  width={270}
-                />
-              </CardBody>
+              </div>
+              <div className="overflow-hidden py-2">
+                {movie.poster_path ? (
+                  <img
+                    alt="Card background"
+                    className="w-full h-auto object-cover rounded-lg"
+                    src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    width={270}
+                  />
+                ) : (
+                  <div className="w-full h-[500px] flex items-center justify-center bg-gray-700 rounded-lg">
+                    <span className="text-white text-lg">
+                      No Image Available
+                    </span>
+                  </div>
+                )}
+              </div>
             </Link>
-          </Card>
+          </div>
         ))}
       </div>
     </div>
