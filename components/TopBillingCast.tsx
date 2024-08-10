@@ -23,7 +23,13 @@ const TopBillingCast = (id: { id: string | string[] }) => {
   return (
     <div className="lg:py-[50px] lg:px-[64px] px-[64px] py-[20px] font-sans">
       <h2 className="text-[45px] font-bold mb-4">Top Cast</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 items-center justify-center">
+      <div
+        className={`${
+          cast.length === 1
+            ? "flex justify-center"
+            : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+        } gap-5 items-center`}
+      >
         {cast.map((member) => (
           <Card
             key={member.id}
@@ -41,7 +47,7 @@ const TopBillingCast = (id: { id: string | string[] }) => {
                     : "/image/forbidden.png"
                 }
                 alt={member.name}
-                className="w-full h-auto object-cover rounded-lg"
+                className={`${cast.length === 1 ? "w-[250px] h-fit" : "w-full h-auto object-cover rounded-lg"}`}
               />
             </CardHeader>
             <CardBody>

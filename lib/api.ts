@@ -311,3 +311,21 @@ export const fetchRecommandedMovies = async (id: number) => {
   const data = await response.json();
   return data.results;
 };
+
+// ============================== series apis ==============================
+export const fetchSeriesShowcase = async () => {
+  const response = await fetch(`${BASE_URL}/trending/tv/week?language=en-IN`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data.results;
+};
