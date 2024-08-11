@@ -329,3 +329,38 @@ export const fetchSeriesShowcase = async () => {
   const data = await response.json();
   return data.results;
 };
+
+export const fetchTrendingSeriesOfDay = async () => {
+  const response = await fetch(
+    `${BASE_URL}/discover/tv?language=en-US&with_original_language=en&sort_by=popularity.desc&page=1&air_date.gte=2024-01-01`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+
+  // Filter out series without a valid vote_average
+  const filteredSeries = data.results.filter(
+    (series: any) =>
+      typeof series.vote_average === "number" && !isNaN(series.vote_average)
+  );
+
+  // Sort the filtered series by vote_average in descending order
+  const sortedSeries = filteredSeries
+    .sort(
+      (a: { vote_average: number }, b: { vote_average: number }) =>
+        b.vote_average - a.vote_average
+    )
+    .slice(0, 3); // Take only the top 3 series
+
+  return sortedSeries;
+};
