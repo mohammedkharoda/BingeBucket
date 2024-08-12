@@ -10,7 +10,6 @@ import { PiWarningCircleBold } from "react-icons/pi";
 
 const TrendingSeriesBanner = () => {
   const { data: series, isLoading, isError, error } = useTrendingSeriesOfDay();
-  console.log(series);
   return (
     <div className="py-16">
       <div className="flex gap-5 justify-center">

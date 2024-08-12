@@ -364,3 +364,109 @@ export const fetchTrendingSeriesOfDay = async () => {
 
   return sortedSeries;
 };
+
+export const fetchTopRatedSeries = async () => {
+  const response = await fetch(
+    `${BASE_URL}/tv/top_rated?language=en-US&page=1`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data.results;
+};
+
+export const fetchUpcomingSeries = async () => {
+  const currentDate = new Date();
+
+  // Function to format date as 'YYYY-MM-DD'
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const endDate = new Date(currentDate);
+  endDate.setMonth(currentDate.getMonth() + 2);
+
+  // Format the dates
+  const formattedStartDate = formatDate(currentDate);
+  const formattedEndDate = formatDate(endDate);
+
+  const response = await fetch(
+    `${BASE_URL}/discover/tv?language=en-US&sort_by=popularity.desc&with_original_language=en|hi&first_air_date.gte=${formattedStartDate}&first_air_date.lte=${formattedEndDate}`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  if (!data.results) {
+    console.error("No results found in the response.");
+    return [];
+  }
+
+  // Sort series by release date (earliest to latest)
+  const sortedSeries = data.results.sort((a: any, b: any) => {
+    const dateA = new Date(a.first_air_date);
+    const dateB = new Date(b.first_air_date);
+    return dateB.getTime() - dateA.getTime(); // Sorting in descending order
+  });
+
+  // Add a sequential number to each series
+  const numberedSeries = sortedSeries.map((series: any, index: number) => ({
+    ...series,
+    number: index + 1,
+  }));
+
+  return numberedSeries;
+};
+
+export const fetchOnAirTodaySeries = async () => {
+  const response = await fetch(
+    `${BASE_URL}/tv/on_the_air?language=en-US&with_original_language=en|hi`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  if (!data.results) {
+    console.error("No results found in the response.");
+    return [];
+  }
+
+  // Add a sequential number to each series
+  const numberedSeries = data.results.map((series: any, index: number) => ({
+    ...series,
+    number: index + 1,
+  }));
+
+  return numberedSeries;
+};
