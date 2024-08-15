@@ -3,15 +3,23 @@ import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import useSeriesCrewStore from "@/store/useSeriesCrewStore";
 import { CircularProgress, Image } from "@nextui-org/react";
-import React from "react";
+import { set } from "date-fns";
+import React, { useEffect } from "react";
 
 const SeriesDetailsCard = (id: { id: string | string[] }) => {
   const moviesInfo = useSeriesDetails(Number(id.id));
   const seriesDetails = moviesInfo.data;
   const userRating = Math.round((seriesDetails?.vote_average ?? 0) * 10);
   const dateData = formatDate(seriesDetails?.first_air_date ?? "");
-  const CrewMember = useSeriesCrewStore((state) => state?.createdBy);
-  console.log(CrewMember);
+  const CrewMember = useSeriesCrewStore((state) => state.createdBy);
+  const setCreatedBy = useSeriesCrewStore((state) => state.setCreatedBy);
+
+  useEffect(() => {
+    if (seriesDetails?.created_by) {
+      setCreatedBy(seriesDetails.created_by);
+    }
+  }, [seriesDetails, setCreatedBy]);
+
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"
@@ -91,7 +99,13 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:min-w-max gap-6 mt-5">
               {CrewMember.map((member) => (
                 <div key={member.id} className="flex gap-4">
-                  <div className="flex flex-col items-start">
+                  <div className="flex flex-col items-start gap-2">
+                    <p className="font-semibold text-[20px]">Created By:</p>
+                    <Image
+                      radius="sm"
+                      width={100}
+                      src={`https://image.tmdb.org/t/p/original/${member?.profile_path}`}
+                    />
                     <p className="font-semibold text-[16px]">
                       {member.original_name}
                     </p>

@@ -1,12 +1,13 @@
-import { useTopBilledCast } from "@/hooks/useTopBilled";
+import { useTopBilledSeriesCast } from "@/hooks/useSeriesCredits";
 import useCrewStore from "@/store/useCrewStore";
-import { CastMember, Credits, CrewMember } from "@/types";
+import { CastMember } from "@/types";
 import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
-const TopBillingCast = (id: { id: string | string[] }) => {
-  const castInfo = useTopBilledCast(Number(id.id));
+const TopBillingSeriesCast = (id: { id: string | string[] }) => {
+  const castInfo = useTopBilledSeriesCast(Number(id.id));
   const [cast, setCast] = useState<CastMember[]>([]);
+  // crew store hook of state mangement is common one for the crew members
   const setCrew = useCrewStore((state) => state.setCrew);
   useEffect(() => {
     if (castInfo.data) {
@@ -64,4 +65,4 @@ const TopBillingCast = (id: { id: string | string[] }) => {
   );
 };
 
-export default TopBillingCast;
+export default TopBillingSeriesCast;

@@ -491,3 +491,40 @@ export const fetchSeriesDetails = async (
   const data = await response.json();
   return data;
 };
+
+export const fetchSeriesCast = async (id: number) => {
+  const response = await fetch(`${BASE_URL}/tv/${id}/credits?language=en-US`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const fetchSeriesVideos = async (id: number) => {
+  const response = await fetch(
+    `${BASE_URL}/tv/${id}/videos?language=en-US&page=1`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data.results;
+};
