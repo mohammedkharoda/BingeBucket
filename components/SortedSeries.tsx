@@ -6,6 +6,7 @@ import { useUpcomingSeries } from "@/hooks/useUpcomingSeries";
 import Loading from "@/shared/Loading";
 import { SeriesShowcase } from "@/types";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
@@ -89,57 +90,59 @@ const SortedSeriesComponent: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {series &&
           series?.map((series: SeriesShowcase) => (
-            <Card
-              key={series.id}
-              className="bg-white rounded-lg overflow-hidden h-full"
-              shadow="md"
-              isPressable
-              isBlurred
-              fullWidth
-            >
-              <CardBody>
-                <img
-                  src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
-                  alt={series.name}
-                />
-              </CardBody>
-              <CardHeader className=" flex flex-col p-4">
-                <div
-                  className={`flex justify-between items-center w-full lg:${series.vote_average ? "flex-row" : "flex-col gap-5"} flex-col`}
-                >
-                  <h2 className="text-[20px] text-left font-semibold text-black ">
-                    {series.name?.length >= 20
-                      ? series.name.substring(0, 15) + "..."
-                      : series.name}
-                  </h2>
-                  {series.vote_average ? (
-                    <p className="text-[15px] font-semibold text-black">
-                      &#11088; {series.vote_average.toFixed(1)}
-                    </p>
-                  ) : (
-                    <p className=" bg-yellow-dark px-2 min-w-max py-2 rounded-full text-black font-semibold text-[16px] flex items-center gap-2">
-                      <PiWarningCircleBold size={26} />
-                      Yet to be released
+            <Link href={`/series/${series.id}`} key={series.id}>
+              <Card
+                key={series.id}
+                className="bg-white rounded-lg overflow-hidden h-full"
+                shadow="md"
+                isPressable
+                isBlurred
+                fullWidth
+              >
+                <CardBody>
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
+                    alt={series.name}
+                  />
+                </CardBody>
+                <CardHeader className=" flex flex-col p-4">
+                  <div
+                    className={`flex justify-between items-center w-full lg:${series.vote_average ? "flex-row" : "flex-col gap-5"} flex-col`}
+                  >
+                    <h2 className="text-[20px] text-left font-semibold text-black ">
+                      {series.name?.length >= 20
+                        ? series.name.substring(0, 15) + "..."
+                        : series.name}
+                    </h2>
+                    {series.vote_average ? (
+                      <p className="text-[15px] font-semibold text-black">
+                        &#11088; {series.vote_average.toFixed(1)}
+                      </p>
+                    ) : (
+                      <p className=" bg-yellow-dark px-2 min-w-max py-2 rounded-full text-black font-semibold text-[16px] flex items-center gap-2">
+                        <PiWarningCircleBold size={26} />
+                        Yet to be released
+                      </p>
+                    )}
+                  </div>
+                  {series.first_air_date && (
+                    <p className="text-[15px] font-semibold  text-black my-4">
+                      &#128197;:{" "}
+                      {new Date(series.first_air_date).toLocaleDateString()}
                     </p>
                   )}
-                </div>
-                {series.first_air_date && (
-                  <p className="text-[15px] font-semibold  text-black my-4">
-                    &#128197;:{" "}
-                    {new Date(series.first_air_date).toLocaleDateString()}
-                  </p>
-                )}
-                {series.overview ? (
-                  <p className="text-black font-medium">
-                    {series.overview.substring(0, 130)}...
-                  </p>
-                ) : (
-                  <p className="text-black font-medium">
-                    No overview available
-                  </p>
-                )}
-              </CardHeader>
-            </Card>
+                  {series.overview ? (
+                    <p className="text-black font-medium">
+                      {series.overview.substring(0, 130)}...
+                    </p>
+                  ) : (
+                    <p className="text-black font-medium">
+                      No overview available
+                    </p>
+                  )}
+                </CardHeader>
+              </Card>
+            </Link>
           ))}
       </div>
     </>

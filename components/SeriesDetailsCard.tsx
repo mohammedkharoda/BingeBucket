@@ -1,8 +1,8 @@
 import { formatDate } from "@/config/dateFormat";
-import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import useSeriesCrewStore from "@/store/useSeriesCrewStore";
-import { CircularProgress, Image } from "@nextui-org/react";
+import useSeasonSeries from "@/store/useSeriesSeason";
+import { CircularProgress, Code, Image } from "@nextui-org/react";
 import { set } from "date-fns";
 import React, { useEffect } from "react";
 
@@ -11,14 +11,33 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
   const seriesDetails = moviesInfo.data;
   const userRating = Math.round((seriesDetails?.vote_average ?? 0) * 10);
   const dateData = formatDate(seriesDetails?.first_air_date ?? "");
+  // Accessing the store
   const CrewMember = useSeriesCrewStore((state) => state.createdBy);
+  const Networks = useSeriesCrewStore((state) => state.networks);
+  const production = useSeriesCrewStore((state) => state.productionCompanies);
   const setCreatedBy = useSeriesCrewStore((state) => state.setCreatedBy);
+  const setNetworks = useSeriesCrewStore((state) => state.setNetworks);
+  const setProductionCompanies = useSeriesCrewStore(
+    (state) => state.setProductionCompanies
+  );
+  const setSeasonSeries = useSeasonSeries(
+    (state: any) => state.setSeasonSeries
+  );
 
   useEffect(() => {
     if (seriesDetails?.created_by) {
       setCreatedBy(seriesDetails.created_by);
     }
-  }, [seriesDetails, setCreatedBy]);
+    if (seriesDetails?.networks) {
+      setNetworks(seriesDetails.networks);
+    }
+    if (seriesDetails?.production_companies) {
+      setProductionCompanies(seriesDetails.production_companies);
+    }
+    if (seriesDetails?.seasons) {
+      setSeasonSeries(seriesDetails.seasons);
+    }
+  }, [seriesDetails, setCreatedBy, setNetworks]);
 
   return (
     <div
@@ -31,7 +50,7 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
       <div className="absolute inset-0 bg-black opacity-85"></div>
 
       {/* Main content container */}
-      <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#0000] bg-opacity-80 rounded-lg text-white m-4">
+      <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#9797974d] bg-opacity-80 rounded-lg text-white m-4">
         {/* Left Section: Movie Poster */}
         <div className="flex justify-center md:justify-start w-full md:w-1/3 mb-8 md:mb-0">
           <Image
@@ -95,25 +114,71 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
           </div>
 
           {/* Crew Members */}
-          {CrewMember.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:min-w-max gap-6 mt-5">
-              {CrewMember.map((member) => (
-                <div key={member.id} className="flex gap-4">
-                  <div className="flex flex-col items-start gap-2">
-                    <p className="font-semibold text-[20px]">Created By:</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:min-w-max gap-6 mt-5">
+            {CrewMember.map((member) => (
+              <div key={member.id} className="flex gap-4">
+                <div className="flex flex-col items-start gap-2">
+                  <p className="font-semibold text-[20px]">Created By</p>
+                  <Image
+                    radius="sm"
+                    width={100}
+                    src={`https://image.tmdb.org/t/p/original/${member?.profile_path}`}
+                  />
+                  <p className="font-semibold text-[16px]">
+                    {member.original_name}
+                  </p>
+                </div>
+              </div>
+            ))}
+            {/* network */}
+            {Networks.map((network) => (
+              <div className="flex flex-col items-start gap-2">
+                <p className="font-semibold text-[20px]">Streaming On</p>
+                <Image
+                  className="rounded-none"
+                  width={130}
+                  loading="lazy"
+                  src={`https://image.tmdb.org/t/p/original/${network?.logo_path}`}
+                />
+              </div>
+            ))}
+            {/* productions */}
+            <div className="flex flex-col items-center gap-5">
+              <p className="font-semibold text-[20px] capitalize">
+                Production house
+              </p>
+              {production.map((company) => (
+                <div
+                  key={company.id}
+                  className="flex flex-col items-center gap-2"
+                >
+                  {company?.logo_path ? (
                     <Image
-                      radius="sm"
+                      className="rounded-none"
                       width={100}
-                      src={`https://image.tmdb.org/t/p/original/${member?.profile_path}`}
+                      loading="lazy"
+                      src={`https://image.tmdb.org/t/p/original/${company?.logo_path}`}
                     />
-                    <p className="font-semibold text-[16px]">
-                      {member.original_name}
-                    </p>
-                  </div>
+                  ) : (
+                    <p className="font-semibold text-[16px]">{company.name}</p>
+                  )}
                 </div>
               ))}
             </div>
-          )}
+            {/* Status */}
+            <div className="flex flex-col items-start gap-2">
+              <p className="font-semibold text-[20px]">Status</p>
+              {seriesDetails?.status === "Returning Series" ? (
+                <Code color="danger" className="font-semibold text-[16px]">
+                  {seriesDetails?.status}
+                </Code>
+              ) : (
+                <Code color="success" className="font-semibold text-[16px]">
+                  Ended
+                </Code>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

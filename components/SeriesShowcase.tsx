@@ -44,7 +44,7 @@ const SeriesShowcase = () => {
       </div>
       {/* Text side */}
       <div className="flex flex-col justify-center lg:px-[112px] lg:py-[64px] px-[20px] py-[64px]">
-        <p className="flex font- gap-8 text-[36px] text-left md:text-[56px] font-bold lg:min-w-max">
+        <p className="flex gap-8 text-[36px] text-left md:text-[56px] font-bold lg:text-[45px] items-center">
           Discover Captivating Series
           <img
             src="../image/tv.gif"
