@@ -114,7 +114,7 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
           </div>
 
           {/* Crew Members */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:min-w-max gap-6 mt-5">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 md:min-w-max gap-6 mt-5">
             {CrewMember.map((member) => (
               <div key={member.id} className="flex gap-4">
                 <div className="flex flex-col items-start gap-2">

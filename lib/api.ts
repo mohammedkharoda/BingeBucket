@@ -528,3 +528,27 @@ export const fetchSeriesVideos = async (id: number) => {
   const data = await response.json();
   return data.results;
 };
+
+// ============================== season details apis ==============================
+export const fetchSeasonDetails = async (
+  id: number,
+  seasonNumber: number
+): Promise<any> => {
+  const response = await fetch(
+    `${BASE_URL}/tv/${id}/season/${seasonNumber}?language=en-US`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data; // Ensure this matches SeasonDetails structure
+};

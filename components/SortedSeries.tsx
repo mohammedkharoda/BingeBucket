@@ -5,7 +5,7 @@ import { useTopRatedSeries } from "@/hooks/useTopRatedSeries";
 import { useUpcomingSeries } from "@/hooks/useUpcomingSeries";
 import Loading from "@/shared/Loading";
 import { SeriesShowcase } from "@/types";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
@@ -93,14 +93,17 @@ const SortedSeriesComponent: React.FC = () => {
             <Link href={`/series/${series.id}`} key={series.id}>
               <Card
                 key={series.id}
-                className="bg-white rounded-lg overflow-hidden h-full"
+                className="bg-white rounded-lg overflow-hidden"
                 shadow="md"
                 isPressable
                 isBlurred
                 fullWidth
               >
                 <CardBody>
-                  <img
+                  <Image
+                    isZoomed
+                    radius="none"
+                    className="w-full h-auto rounded-none"
                     src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
                     alt={series.name}
                   />

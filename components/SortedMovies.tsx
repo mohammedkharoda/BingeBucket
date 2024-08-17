@@ -5,7 +5,7 @@ import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
 import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import { PiWarningCircleBold } from "react-icons/pi";
 import Loading from "@/shared/Loading";
 import Link from "next/link";
@@ -100,7 +100,10 @@ const SortedMovieComponent: React.FC = () => {
                 fullWidth
               >
                 <CardBody>
-                  <img
+                  <Image
+                    isZoomed
+                    loading="lazy"
+                    radius="sm"
                     src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                     alt={movie.title}
                   />

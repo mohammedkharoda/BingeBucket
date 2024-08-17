@@ -43,7 +43,8 @@ export default function Navbar() {
                 key={index}
                 href={item.href}
                 className={`relative ${
-                  pathname === item.href
+                  (item.href === "/" && pathname === item.href) ||
+                  (item.href !== "/" && pathname.startsWith(item.href))
                     ? "text-yellow hover:text-yellow"
                     : "text-white"
                 } hover:text-orange-yellow`}
@@ -54,13 +55,18 @@ export default function Navbar() {
                   className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
                   initial={{ width: 0 }}
                   animate={{
-                    width: pathname === item.href ? "100%" : "0%",
+                    width:
+                      (item.href === "/" && pathname === item.href) ||
+                      (item.href !== "/" && pathname.startsWith(item.href))
+                        ? "100%"
+                        : "0%",
                   }}
                   transition={{ duration: 0.3 }}
                 />
               </motion.a>
             ))}
           </div>
+
           {/* buttons */}
           <div className="hidden lg:flex space-x-4 items-center">
             <SignUpBtn />
