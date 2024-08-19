@@ -4,6 +4,7 @@ import BingeLogo from "@/icons/BingeLogo";
 import LogInBtn from "@/shared/LogInBtn";
 import SignUpBtn from "@/shared/SignUpBtn";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -34,7 +35,9 @@ export default function Navbar() {
         <div className="flex justify-between h-16 items-center">
           {/* logo */}
           <div className="flex items-center">
-            <BingeLogo />
+            <Link href="/">
+              <BingeLogo />
+            </Link>
           </div>
           {/* services */}
           <div className="hidden lg:flex space-x-8 items-center justify-center">

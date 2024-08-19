@@ -552,3 +552,39 @@ export const fetchSeasonDetails = async (
   const data = await response.json();
   return data; // Ensure this matches SeasonDetails structure
 };
+
+// ============================== surprise-me apis ==============================
+export const fetchMoodSuggestion = async (mood: string): Promise<any> => {
+  const apiKey = process.env.TMDB_API_KEY;
+  const moodGenreMap: { [key: string]: number } = {
+    Happy: 35, // Comedy
+    Sad: 18, // Drama
+    Excited: 28, // Action
+    Relaxed: 10749, // Romance
+    Adventurous: 12, // Adventure
+  };
+
+  const genreId = moodGenreMap[mood];
+
+  if (!genreId) {
+    throw new Error("Invalid mood");
+  }
+
+  const response = await fetch(
+    `${BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch the data");
+  }
+
+  const data = await response.json();
+  return data.results[Math.floor(Math.random() * data.results.length)];
+};
