@@ -1,6 +1,15 @@
 "use client";
-import React, { useState } from "react";
 import { useMoodSuggestion } from "@/hooks/useMoodSuggestion";
+import Loading from "@/shared/Loading";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Image,
+  Spacer,
+} from "@nextui-org/react";
+import { useState } from "react";
 
 const moods = [
   { name: "Happy", emoji: "😊" },
@@ -11,7 +20,7 @@ const moods = [
 ];
 
 const MoodSuggestion = () => {
-  const [selectedMood, setSelectedMood] = useState<string>("");
+  const [selectedMood, setSelectedMood] = useState<string>("Happy");
   const {
     data: suggestion,
     error,
@@ -24,72 +33,66 @@ const MoodSuggestion = () => {
     refetch(); // Refetch the data whenever a mood is selected
   };
 
-  console.log(suggestion);
-
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <h1>What's Your Mood Today?</h1>
-      <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+    <div className="p-6 flex flex-col gap-3">
+      <h2 className="text-center text-[50px] font-extrabold">
+        &#128578; How Are You Feeling Today?
+      </h2>
+      <Spacer y={1} />
+      <div className="flex gap-4 items-center justify-center">
         {moods.map((mood) => (
-          <button
-            key={mood.name}
-            onClick={() => handleMoodSelect(mood.name)}
-            style={{
-              padding: "10px 20px",
-              fontSize: "18px",
-              cursor: "pointer",
-              backgroundColor: selectedMood === mood.name ? "#FFC107" : "#000",
-              border: "none",
-              borderRadius: "5px",
-            }}
-          >
-            {mood.emoji} {mood.name}
-          </button>
+          <div key={mood.name}>
+            <Button
+              size="lg"
+              onPress={() => handleMoodSelect(mood.name)}
+              style={{
+                backgroundColor:
+                  selectedMood === mood.name ? "#FFC107" : "#333",
+                color: selectedMood === mood.name ? "#000" : "#fff",
+              }}
+            >
+              {mood.emoji} {mood.name}
+            </Button>
+          </div>
         ))}
       </div>
 
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      <Spacer y={2} />
+
+      {isLoading && <Loading />}
+      {error && error.message}
 
       {suggestion && (
-        <div style={{ marginTop: "40px" }}>
-          <h2>Here&apos;s Something for Your Mood</h2>
-          <div style={{ display: "inline-block", textAlign: "left" }}>
-            <img
-              src={`https://image.tmdb.org/t/p/w500${suggestion.poster_path}`}
-              alt={suggestion.title}
-              style={{ width: "200px", borderRadius: "10px" }}
-            />
-            <h3>{suggestion.title}</h3>
-            <p>{suggestion.overview}</p>
-            <button
-              style={{
-                padding: "10px 20px",
-                backgroundColor: "#FFC107",
-                color: "#000",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Watch Now
-            </button>
-            <button
-              onClick={() => refetch()}
-              style={{
-                marginLeft: "10px",
-                padding: "10px 20px",
-                backgroundColor: "#607D8B",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Show Another
-            </button>
+        <Card className="max-w-4xl mx-auto flex flex-row items-center bg-brown-dark p-5">
+          <Image
+            src={`https://image.tmdb.org/t/p/w500${suggestion.poster_path}`}
+            alt={suggestion.title}
+            style={{ borderRadius: "10px" }}
+            className="w-fit h-auto"
+            loading="lazy"
+          />
+          <div className="flex flex-col gap-10 items-center justify-between w-full pl-5 text-center">
+            <CardHeader className="flex items-center justify-center">
+              <h3 className="font-bold text-white text-[28px] text-center">
+                {suggestion.title}
+              </h3>
+            </CardHeader>
+            <p className="text-white">{suggestion.overview}</p>
+            <div className="flex gap-4">
+              <Button color="danger" className="text-white" variant="solid">
+                Watch Now
+              </Button>
+              <Button
+                className="text-white"
+                variant="bordered"
+                color="warning"
+                onPress={() => refetch()}
+              >
+                Show Another
+              </Button>
+            </div>
           </div>
-        </div>
+        </Card>
       )}
     </div>
   );
