@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Movie } from "../types";
+import { Movie } from "../../types";
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";

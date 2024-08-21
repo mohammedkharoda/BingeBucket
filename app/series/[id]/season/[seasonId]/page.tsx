@@ -1,5 +1,5 @@
 "use client";
-import SeasonDetailCard from "@/components/SeasonDetailCard";
+import SeasonDetailCard from "@/components/seriesComponents/SeasonDetailCard";
 import { useParams } from "next/navigation";
 import React from "react";
 

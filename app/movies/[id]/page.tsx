@@ -1,8 +1,8 @@
 "use client";
-import ImageShowcase from "@/components/ImageShowCase";
+import ImageShowcase from "@/components/movieComponents/ImageShowCase";
 import MovieDetailCard from "@/components/MovieDetailCard";
-import RecommandedMovies from "@/components/RecommandedMovies";
-import TopBillingCast from "@/components/TopBillingCast";
+import RecommandedMovies from "@/components/movieComponents/RecommandedMovies";
+import TopBillingCast from "@/components/movieComponents/TopBillingCast";
 import { useParams } from "next/navigation";
 
 const MoviesDetails = () => {

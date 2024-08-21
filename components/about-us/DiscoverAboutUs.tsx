@@ -1,0 +1,32 @@
+import { Button } from "@nextui-org/button";
+import Link from "next/link";
+import React from "react";
+
+const DiscoverAboutUs = () => {
+  return (
+    <div className="flex lg:flex-row flex-col justify-between items-center p-10">
+      <div className="lg:w-1/2 w-full text-left">
+        <h1 className="text-[56px] font-bold leading-[120%] text-white">
+          Unleash the Magic
+        </h1>
+      </div>
+      <div className="lg:w-1/2 w-full mt-6 lg:mt-0 flex flex-col items-start">
+        <div className="text-[18px] text-left font-normal leading-[150%] text-white bg-yellow-600 py-6 ">
+          Welcome to our website, where you can explore a world of captivating
+          movies and series. Our mission is to provide you with a refined and
+          enhanced experience, just like IMDB but better. With a vast collection
+          of films and shows, we aim to bring you the best entertainment
+          available.
+        </div>
+        <Button
+          variant="flat"
+          className="mt-4 bg-brown-dark border-none text-white font-bold hover:bg-orange-yellow hover:text-black p-6"
+        >
+          <Link href="/">BINGE NOW</Link>
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default DiscoverAboutUs;

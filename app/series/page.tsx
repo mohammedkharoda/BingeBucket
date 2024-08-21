@@ -1,6 +1,6 @@
-import SeriesShowcase from "@/components/SeriesShowcase";
-import SortedSeries from "@/components/SortedSeries";
-import TrendingSeriesBanner from "@/components/TrendingSeriesBanner";
+import SeriesShowcase from "@/components/seriesComponents/SeriesShowcase";
+import SortedSeries from "@/components/seriesComponents/SortedSeries";
+import TrendingSeriesBanner from "@/components/seriesComponents/TrendingSeriesBanner";
 
 export default function Series() {
   return (
