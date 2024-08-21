@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <div className="bg-brown flex flex-col items-center lg:py-[112px] lg:px-[64px] py-[64px] px-[20px] gap-[20px]">
       <div>
-        <BingeLogo />
+        <BingeLogo width={300} height={200} />
       </div>
       <div>
         {FooterText.map((text, index) => (

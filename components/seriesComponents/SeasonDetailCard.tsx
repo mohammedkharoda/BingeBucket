@@ -32,7 +32,7 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
         {seasonDetails.episodes.map((episode) => (
           <Card key={episode.id} className="overflow-hidden" shadow="lg">
             {episode.still_path && (
-              <CardHeader className="p-0">
+              <CardHeader className="p-0 rounded-none">
                 <Image
                   src={`https://image.tmdb.org/t/p/original${episode.still_path}`}
                   alt={`${episode.name} still`}
@@ -40,6 +40,7 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
                   height={200}
                   loading="lazy"
                   className="rounded-none"
+                  radius="none"
                   isZoomed
                 />
               </CardHeader>

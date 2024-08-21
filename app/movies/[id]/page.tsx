@@ -1,6 +1,6 @@
 "use client";
 import ImageShowcase from "@/components/movieComponents/ImageShowCase";
-import MovieDetailCard from "@/components/MovieDetailCard";
+import MovieDetailCard from "@/components/movieComponents/MovieDetailCard";
 import RecommandedMovies from "@/components/movieComponents/RecommandedMovies";
 import TopBillingCast from "@/components/movieComponents/TopBillingCast";
 import { useParams } from "next/navigation";
