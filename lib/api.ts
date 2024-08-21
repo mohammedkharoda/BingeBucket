@@ -555,7 +555,6 @@ export const fetchSeasonDetails = async (
 
 // ============================== surprise-me apis ==============================
 export const fetchMoodSuggestion = async (mood: string): Promise<any> => {
-  const apiKey = process.env.TMDB_API_KEY;
   const moodGenreMap: { [key: string]: number } = {
     Happy: 35, // Comedy
     Sad: 18, // Drama
@@ -570,7 +569,7 @@ export const fetchMoodSuggestion = async (mood: string): Promise<any> => {
     throw new Error("Invalid mood");
   }
 
-  const response = await fetch(
+  const movieResponse = await fetch(
     `${BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`,
     {
       method: "GET",
@@ -581,10 +580,32 @@ export const fetchMoodSuggestion = async (mood: string): Promise<any> => {
     }
   );
 
-  if (!response.ok) {
+  const tvResponse = await fetch(
+    `${BASE_URL}/discover/tv?with_genres=${genreId}&sort_by=popularity.desc`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!movieResponse.ok || !tvResponse.ok) {
     throw new Error("Failed to fetch the data");
   }
 
-  const data = await response.json();
-  return data.results[Math.floor(Math.random() * data.results.length)];
+  const movieData = await movieResponse.json();
+  const tvData = await tvResponse.json();
+
+  const combinedResults = [...movieData.results, ...tvData.results];
+
+  if (combinedResults.length === 0) {
+    throw new Error("No results found");
+  }
+
+  const randomSuggestion =
+    combinedResults[Math.floor(Math.random() * combinedResults.length)];
+
+  return randomSuggestion;
 };

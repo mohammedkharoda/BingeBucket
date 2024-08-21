@@ -33,17 +33,17 @@ const MediaCard = () => {
       },
     },
   };
-  const { data, isFetching } = useNowPlayingMovies();
+  const { data } = useNowPlayingMovies();
   const movieData = data;
   return (
     <div className="lg:my-[112px] lg:mx-[64px] my-[64px] mx-[20px]">
       {/* box-1 */}
       <div className="flex flex-col gap-6 mb-5">
         <p className="text-white text-[16px] font-semibold leading-5">
-          Discover
+          Discover some amazing
         </p>
         <p className="text-white text-[48px] font-bold leading-4">
-          Movies & Series
+          Entertainment
         </p>
         <p className="text-[18px] font-normal text-white">
           Explore our collection of movies and series.

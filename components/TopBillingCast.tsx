@@ -1,3 +1,4 @@
+import { truncateSentence } from "@/config/turncate";
 import { useTopBilledCast } from "@/hooks/useTopBilled";
 import useCrewStore from "@/store/useCrewStore";
 import { CastMember, Credits, CrewMember } from "@/types";
@@ -51,7 +52,9 @@ const TopBillingCast = (id: { id: string | string[] }) => {
             </CardHeader>
             <CardBody>
               <div className="mt-2">
-                <p className="font-bold text-[16px]">{member.name}</p>
+                <p className="font-bold text-[16px]">
+                  {truncateSentence(member.name, 20)}
+                </p>
                 <p className="text-gray-500 text-[14px]">
                   {member.character.split("/")[0]}
                 </p>

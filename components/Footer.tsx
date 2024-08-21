@@ -10,7 +10,10 @@ const Footer = () => {
       </div>
       <div>
         {FooterText.map((text, index) => (
-          <div key={index} className="flex gap-[20px]">
+          <div
+            key={index}
+            className="flex gap-[20px] flex-col lg:flex-row items-center"
+          >
             {text.links.map((link, index) => (
               <a
                 key={index}
