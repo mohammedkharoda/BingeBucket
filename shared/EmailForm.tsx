@@ -1,18 +1,15 @@
 "use client";
 import { sendEmail } from "@/app/_actions";
-import React, { useState } from "react";
-import { set, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 type EmailFormProps = {
   email: string;
 };
 
 const EmailForm = () => {
-  const [data, setData] = useState<EmailFormProps>();
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<EmailFormProps>({ defaultValues: { email: "" } });
@@ -20,14 +17,12 @@ const EmailForm = () => {
     const result = await sendEmail(data);
 
     if (result?.success) {
-      console.log({ data: result.data });
       toast.success("YAY!🥳 You have Subscribe to our NewsLetter");
       reset();
       return;
     }
 
     // toast error
-    console.log(result?.error);
     toast.error("Email Field can't be empty");
   };
 
