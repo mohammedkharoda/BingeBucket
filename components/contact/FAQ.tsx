@@ -14,7 +14,7 @@ const FAQ = () => {
       </div>
       <Accordion>
         <AccordionItem
-          className="text-left"
+          className="text-left text-white"
           key="signup"
           aria-label="How to sign up?"
           indicator={<FaLink color="white" />}
