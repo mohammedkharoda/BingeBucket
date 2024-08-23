@@ -1,5 +1,6 @@
 "use client";
 import { sendContactEmail } from "@/app/_actions";
+import { Checkbox } from "@nextui-org/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -77,13 +78,13 @@ const ContactForm = () => {
               <p className="text-red-500 mt-1">{errors.message.message}</p>
             )}
           </div>
-          <div className="flex items-start">
-            <input
+          <div className="flex items-center">
+            <Checkbox
+              color="warning"
               type="checkbox"
               {...register("terms", {
                 required: "You must agree to the terms",
               })}
-              className="mr-2 mt-1"
             />
             <label className="text-white">I agree to the Terms</label>
           </div>
@@ -103,7 +104,7 @@ const ContactForm = () => {
         <img
           src="/image/face.png"
           alt="Contact Illustration"
-          className="lg:w-3/4 w-full rounded-lg"
+          className="lg:w-3/4 w-full rounded-lg hidden lg:block"
         />
       </div>
     </div>

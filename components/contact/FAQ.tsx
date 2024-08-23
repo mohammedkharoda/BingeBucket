@@ -5,8 +5,8 @@ import { FaLink } from "react-icons/fa";
 
 const FAQ = () => {
   return (
-    <div className="flex px-[64px] py-[80px]">
-      <div className="flex flex-col gap-5 w-full items-start">
+    <div className="flex px-[64px] py-[80px] flex-col lg:flex-row gap-5">
+      <div className="flex flex-col gap-5 w-full items-center lg:items-start">
         <p className="text-[48px] font-bold leading-[120%] text-white">FAQs</p>
         <div className="text-[18px] font-normal leading-[150%] text-white">
           Find answers to common questions and get quick information.
@@ -14,59 +14,71 @@ const FAQ = () => {
       </div>
       <Accordion>
         <AccordionItem
-          className="text-left text-white"
+          className="text-left"
           key="signup"
           aria-label="How to sign up?"
           indicator={<FaLink color="white" />}
           title="How to sign up?"
         >
-          Signing up is easy! Just click on the "Sign Up" button on the top
-          right corner of the homepage. You'll need to provide your email
-          address, create a password, and confirm your email.
+          Signing up is simple! Just click on the "Sign Up" button at the top
+          right corner of the homepage. You&apos;ll need to provide your email
+          address or you can use the other platform for sign-up as well.
         </AccordionItem>
         <AccordionItem
           className="text-left"
           key="search"
-          aria-label="How to search?"
+          aria-label="How to search for movies and shows?"
           indicator={<FaLink color="white" />}
-          title="How to search?"
+          title="How to search for movies and shows?"
         >
-          You can search for movies, TV shows, and more by using the search bar
-          at the top of the page. Simply type in the name or keyword, and press
-          Enter to see the results.
+          You can search for movies, TV shows, and other content by using the
+          search bar located at the top of every page. Type in a title or
+          keyword, and our search engine will display relevant results
+          instantly.
         </AccordionItem>
         <AccordionItem
           className="text-left"
           key="watch"
-          aria-label="How to watch?"
+          aria-label="How to watch content?"
           indicator={<FaLink color="white" />}
-          title="How to watch?"
+          title="How to watch content?"
         >
-          After finding a movie or show, click on it to see more details. If
-          it's available to stream, you'll see options for watching it directly
-          or where it's available online.
+          Once you find a movie or show you&apos;re interested in, click on it
+          to view more details. If it's available for streaming, you&apos;ll see
+          the platforms where it&apos;s accessible.
         </AccordionItem>
         <AccordionItem
           className="text-left"
-          key="rate"
-          aria-label="How to rate?"
+          key="create-list"
+          aria-label="How to create a watchlist?"
           indicator={<FaLink color="white" />}
-          title="How to rate?"
+          title="How to create a watchlist?"
         >
-          To rate a movie or show, you'll need to be logged in. Once logged in,
-          you can give it a star rating and leave a review from the detail page
-          of the movie or show.
+          After logging in, you can create a personalized watchlist by adding
+          movies and shows to it. Simply click on the “Add to Watchlist” button
+          on any movie or show&apos;s detail page.
         </AccordionItem>
         <AccordionItem
           className="text-left"
           key="contact"
-          aria-label="How to contact?"
+          aria-label="How to contact us?"
           indicator={<FaLink color="white" />}
-          title="How to contact?"
+          title="How to contact us?"
         >
-          You can reach out to us through our contact form available on the
-          "Contact Us" page. We're here to help with any inquiries or issues you
-          may have.
+          If you have any questions or need support, you can contact us through
+          the "Contact Us" page. Fill out the form with your inquiry, and our
+          team will get back to you as soon as possible.
+        </AccordionItem>
+        <AccordionItem
+          className="text-left"
+          key="rate"
+          aria-label="Can I rate movies and shows?"
+          indicator={<FaLink color="white" />}
+          title="Can I rate movies and shows?"
+        >
+          At this time, our platform does not support a rating system. However,
+          we are working on adding this feature in the future. Stay tuned for
+          updates!
         </AccordionItem>
       </Accordion>
     </div>

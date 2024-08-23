@@ -1,10 +1,18 @@
 import { formatDate } from "@/config/dateFormat";
 import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
 import { useMovieDetails } from "@/hooks/useMovieDetails";
+import { useMovieTrailer } from "@/hooks/useMovieTrailer";
 import useCrewStore from "@/store/useCrewStore";
+import { MovieTrailer } from "@/types";
 import { CircularProgress, Image } from "@nextui-org/react";
+import { MdOndemandVideo } from "react-icons/md";
+import ReactPlayer from "react-player";
+import { useState } from "react";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const MovieDetailCard = (id: { id: string | string[] }) => {
+  const [isTrailerVisible, setTrailerVisible] = useState(false);
+
   const moviesInfo = useMovieDetails(Number(id.id));
   const moviesDetails = moviesInfo.data;
   const userRating = Math.round((moviesDetails?.vote_average ?? 0) * 10);
@@ -13,6 +21,15 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
   );
   const dateData = formatDate(moviesDetails?.release_date ?? "");
   const CrewMember = useCrewStore((state) => state?.crew);
+
+  const movieTrailer = useMovieTrailer(Number(id.id));
+  const movieTrailerData = movieTrailer?.data;
+
+  const trailer = Array.isArray(movieTrailerData)
+    ? movieTrailerData.filter((data) => data.type === "Trailer")[1] ||
+      movieTrailerData.filter((data) => data.type === "Trailer")[0]
+    : undefined;
+
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"
@@ -74,10 +91,43 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               <p className="text-[16px] font-semibold">User Ratings</p>
             </div>
 
-            <button className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark">
+            {/* Play Trailer Button */}
+            <button
+              className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark flex items-center"
+              onClick={() => {
+                if (trailer) {
+                  setTrailerVisible(true);
+                } else {
+                  alert("Trailer not available.");
+                }
+              }}
+            >
+              <MdOndemandVideo className="mr-2" color="white" />
               Play Trailer
             </button>
           </div>
+
+          {/* Trailer Popover */}
+          {isTrailerVisible && trailer && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+              <div className="w-full max-w-4xl p-4">
+                <button
+                  className="absolute top-2 right-2 text-white rounded-full p-1"
+                  onClick={() => setTrailerVisible(false)}
+                  style={{ fontSize: "2rem" }}
+                >
+                  <IoMdCloseCircleOutline />
+                </button>
+                <ReactPlayer
+                  url={`https://www.youtube.com/watch?v=${trailer.key}`}
+                  width="100%"
+                  height="500px"
+                  controls
+                  style={{ outline: "none", borderRadius: "10px" }}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Tagline or Overview */}
           <div className="flex flex-col items-start">

@@ -236,6 +236,25 @@ export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
   return numberedMovies;
 };
 
+export const fetchMoviesTrailer = async (id: number) => {
+  const response = await fetch(
+    `${BASE_URL}/movie/${id}/videos?language=en-US&page=1`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data.results;
+};
 // ============================== details apis ==============================
 
 export const fetchMovieDetails = async (id: number): Promise<MovieDetails> => {

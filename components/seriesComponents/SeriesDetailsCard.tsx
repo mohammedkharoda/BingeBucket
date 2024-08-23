@@ -3,9 +3,8 @@ import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import useSeriesCrewStore from "@/store/useSeriesCrewStore";
 import useSeasonSeries from "@/store/useSeriesSeason";
 import { CircularProgress, Code, Image } from "@nextui-org/react";
-import { set } from "date-fns";
 import React, { useEffect } from "react";
-
+import { MdOndemandVideo } from "react-icons/md";
 const SeriesDetailsCard = (id: { id: string | string[] }) => {
   const moviesInfo = useSeriesDetails(Number(id.id));
   const seriesDetails = moviesInfo.data;
@@ -98,7 +97,8 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
               <p className="text-[16px] font-semibold">User Ratings</p>
             </div>
 
-            <button className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark">
+            <button className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark flex items-center">
+              <MdOndemandVideo className="mr-2" color="white" />
               Play Trailer
             </button>
           </div>
