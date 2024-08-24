@@ -2,14 +2,16 @@ import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
 import { Video } from "@/types";
 import React from "react";
 import ReactPlayer from "react-player";
+import { toast } from "sonner";
 
 const VideosShowCase = ({ id }: { id: string | string[] }) => {
   const { data, isLoading, error } = useSeriesVideoShowcase(Number(id));
   const videoData: Video[] = (data as unknown as Video[]) ?? [];
 
   if (isLoading) return <p>Loading videos...</p>;
-  if (error) return <p>Error loading videos: {error.message}</p>;
-
+  if (error) {
+    return toast.error("Failed to fetch videos. Please try again later! 😭");
+  }
   if (!videoData.length) {
     return (
       <p className="text-[35px] font-bold uppercase bg-crimson-red">

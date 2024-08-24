@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import SearchInput from "./SearchInput";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,8 +32,8 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-dark shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-around h-16 items-center">
           {/* logo */}
           <div className="flex items-center">
             <Link href="/">
@@ -69,12 +70,14 @@ export default function Navbar() {
               </motion.a>
             ))}
           </div>
+          <SearchInput />
 
           {/* buttons */}
           <div className="hidden lg:flex space-x-4 items-center">
             <SignUpBtn />
             <LogInBtn />
           </div>
+
           {/* ====================== MOBILE AREA ================================= */}
           {/* hamburger menu button */}
           <div className="flex items-center lg:hidden">

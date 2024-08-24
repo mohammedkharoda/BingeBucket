@@ -628,3 +628,24 @@ export const fetchMoodSuggestion = async (mood: string): Promise<any> => {
 
   return randomSuggestion;
 };
+
+// ============================== search apis ==============================
+export const fetchMultiSearch = async (query: string) => {
+  const response = await fetch(
+    `${BASE_URL}/search/multi?query=${encodeURIComponent(query)}&language=en-US&page=1`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+  return data.results;
+};

@@ -1,12 +1,19 @@
 import { formatDate } from "@/config/dateFormat";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
+import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
 import useSeriesCrewStore from "@/store/useSeriesCrewStore";
 import useSeasonSeries from "@/store/useSeriesSeason";
+import { Video } from "@/types";
 import { CircularProgress, Code, Image } from "@nextui-org/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOndemandVideo } from "react-icons/md";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import ReactPlayer from "react-player";
+import { toast, Toaster } from "sonner";
+
 const SeriesDetailsCard = (id: { id: string | string[] }) => {
   const moviesInfo = useSeriesDetails(Number(id.id));
+  const [isTrailerVisible, setTrailerVisible] = useState(false);
   const seriesDetails = moviesInfo.data;
   const userRating = Math.round((seriesDetails?.vote_average ?? 0) * 10);
   const dateData = formatDate(seriesDetails?.first_air_date ?? "");
@@ -23,6 +30,16 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
     (state: any) => state.setSeasonSeries
   );
 
+  const { data, isLoading, error } = useSeriesVideoShowcase(Number(id.id));
+  const videoData: Video[] = (data as unknown as Video[]) ?? [];
+  const trailer = Array.isArray(videoData)
+    ? videoData.filter((data) => data.type === "Trailer")[1] ||
+      videoData.filter((data) => data.type === "Trailer")[0]
+    : undefined;
+
+  // console.log("data", data);
+  // console.log("videoData", videoData);
+  // console.log("trailer", trailer);
   useEffect(() => {
     if (seriesDetails?.created_by) {
       setCreatedBy(seriesDetails.created_by);
@@ -97,12 +114,40 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
               <p className="text-[16px] font-semibold">User Ratings</p>
             </div>
 
-            <button className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark flex items-center">
+            <button
+              className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark flex items-center"
+              onClick={() => {
+                if (trailer) {
+                  setTrailerVisible(true);
+                } else {
+                  toast.error("Sorry! No Trailer available. 😭");
+                }
+              }}
+            >
               <MdOndemandVideo className="mr-2" color="white" />
               Play Trailer
             </button>
           </div>
-
+          {isTrailerVisible && trailer && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+              <div className="w-full max-w-4xl p-4">
+                <button
+                  className="absolute top-2 right-2 text-white rounded-full p-1"
+                  onClick={() => setTrailerVisible(false)}
+                  style={{ fontSize: "2rem" }}
+                >
+                  <IoMdCloseCircleOutline />
+                </button>
+                <ReactPlayer
+                  url={`https://www.youtube.com/watch?v=${trailer.key}`}
+                  width="100%"
+                  height="500px"
+                  controls
+                  style={{ outline: "none", borderRadius: "10px" }}
+                />
+              </div>
+            </div>
+          )}
           {/* Tagline or Overview */}
           <div className="flex flex-col items-start">
             <p className="font-bold text-[20px] text-left mb-4 text-off-white">
