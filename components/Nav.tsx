@@ -1,18 +1,25 @@
 "use client";
+
 import { siteConfig } from "@/config/site";
 import BingeLogo from "@/icons/BingeLogo";
 import LogInBtn from "@/shared/LogInBtn";
 import SignUpBtn from "@/shared/SignUpBtn";
+import UserAvatar from "@/shared/UserAvatar";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import SearchInput from "./SearchInput";
 
-export default function Navbar() {
+interface NavbarProps {
+  isUserAuthenticated: boolean;
+}
+
+export default function Navbar({ isUserAuthenticated }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -74,8 +81,14 @@ export default function Navbar() {
 
           {/* buttons */}
           <div className="hidden lg:flex space-x-4 items-center">
-            <SignUpBtn />
-            <LogInBtn />
+            {isUserAuthenticated ? (
+              <UserAvatar />
+            ) : (
+              <>
+                <SignUpBtn />
+                <LogInBtn />
+              </>
+            )}
           </div>
 
           {/* ====================== MOBILE AREA ================================= */}

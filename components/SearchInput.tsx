@@ -1,33 +1,23 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useMultiSearch } from "@/hooks/useMultiSearch";
+import { toast } from "sonner";
 
-const SearchInput = () => {
-  const [value, setValue] = React.useState("");
-  const debouncedValue = useDebounce(value, 500); // Debounce with a 500ms delay
-  const { data, error, isLoading } = useMultiSearch(debouncedValue);
+const SearchInput: React.FC = () => {
+  const [value, setValue] = React.useState<string>("");
+  const debouncedValue = useDebounce(value, 500);
+  const router = useRouter();
 
   const handleSearch = () => {
     if (debouncedValue.trim() === "") {
-      alert("Search box is empty! Please enter a search term.");
+      toast.error("Search box is empty! Please enter a search term.");
       return;
     }
 
-    // Filter only TV and series results
-    const filteredData = data?.filter(
-      (item: { media_type: string }) => item.media_type === "tv"
-    );
-
-    if (filteredData.length === 0) {
-      alert("No TV shows or series found with the current search term.");
-      return;
-    }
-
-    console.log(filteredData);
-    // Add more logic if needed (e.g., redirect to search results page)
+    router.push(`/search?query=${encodeURIComponent(debouncedValue)}`);
   };
 
-  const handleKeyDown = (e: { key: string }) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     }
@@ -41,7 +31,7 @@ const SearchInput = () => {
         className="w-full outline-none bg-gray-dark pl-4 text-sm"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={handleKeyDown} // Trigger search on Enter key press
+        onKeyDown={handleKeyDown}
       />
       <button
         type="button"

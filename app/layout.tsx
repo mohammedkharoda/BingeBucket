@@ -4,8 +4,9 @@ import { siteConfig } from "@/config/site";
 import { Providers } from "./providers";
 import { roboto } from "@/config/fonts";
 import { Metadata } from "next";
-import Nav from "@/components/Nav";
+// import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import NavbarWrapper from "@/shared/NavbarWrapper";
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +35,7 @@ export default function RootLayout({
       >
         <Providers>
           <div className="relative flex flex-col h-screen">
-            <Nav />
+            <NavbarWrapper />
             <main className="container mx-auto max-w-full flex-grow bg-yellow-dark">
               {children}
             </main>

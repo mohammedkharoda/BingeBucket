@@ -1,10 +1,15 @@
-import { SignUpButton } from "@clerk/nextjs";
+"use client";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { Button } from "@nextui-org/button";
 
 const SignUpBtn = () => {
+  const { register } = useKindeAuth();
   return (
-    <Button className="w-full bg-yellow-dark">
-      <p className="text-white hover:text-gray-dark ">Sign Up</p>
+    <Button
+      className="w-full bg-yellow-dark"
+      onClick={(event: React.MouseEvent<HTMLButtonElement>) => register()}
+    >
+      <div className="text-white hover:text-gray-dark">Sign Up</div>
     </Button>
   );
 };
