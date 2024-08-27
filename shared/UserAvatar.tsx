@@ -41,7 +41,7 @@ const UserAvatar = () => {
             className="rounded-full"
           />
           <span className="text-[16px] font-medium">
-            {user?.given_name || "User"}
+            {user?.given_name || "Users"}
           </span>
         </MenuButton>
       </div>
