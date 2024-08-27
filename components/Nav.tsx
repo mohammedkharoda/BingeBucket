@@ -1,28 +1,38 @@
+// components/Nav.tsx
 "use client";
 
 import { siteConfig } from "@/config/site";
 import BingeLogo from "@/icons/BingeLogo";
 import LogInBtn from "@/shared/LogInBtn";
 import SignUpBtn from "@/shared/SignUpBtn";
-import UserAvatar from "@/shared/UserAvatar";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import SearchInput from "./SearchInput";
+import useUserStore from "@/store/userStore";
+import UserAvatar from "@/shared/UserAvatar";
 
-interface NavbarProps {
+export default function Navbar({
+  isUserAuthenticated,
+  user,
+}: {
   isUserAuthenticated: boolean;
-}
-
-export default function Navbar({ isUserAuthenticated }: NavbarProps) {
+  user: any;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      useUserStore.setState({ user });
+    }
+  }, [isUserAuthenticated, user]);
 
   const menuVariants = {
     open: {
