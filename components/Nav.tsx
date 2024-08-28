@@ -1,4 +1,3 @@
-// components/Nav.tsx
 "use client";
 
 import { siteConfig } from "@/config/site";
@@ -13,6 +12,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import SearchInput from "./SearchInput";
 import useUserStore from "@/store/userStore";
 import UserAvatar from "@/shared/UserAvatar";
+import { useWatchlistStore } from "@/store/useWatchlistStore";
 
 export default function Navbar({
   isUserAuthenticated,
@@ -27,10 +27,15 @@ export default function Navbar({
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
+  const setUser = useUserStore.getState().setUser;
+  const checkAuthentication = useWatchlistStore.getState().checkAuthentication;
   useEffect(() => {
     if (isUserAuthenticated) {
       useUserStore.setState({ user });
+      setUser(
+        user as { username?: string; picture?: string; given_name?: string }
+      ); // Update the user in the store
+      checkAuthentication();
     }
   }, [isUserAuthenticated, user]);
 

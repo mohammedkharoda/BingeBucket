@@ -3,12 +3,13 @@ import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
 import { useMovieDetails } from "@/hooks/useMovieDetails";
 import { useMovieTrailer } from "@/hooks/useMovieTrailer";
 import useCrewStore from "@/store/useCrewStore";
-import { MovieTrailer } from "@/types";
+import { useWatchlistStore } from "@/store/useWatchlistStore";
 import { CircularProgress, Image } from "@nextui-org/react";
+import { useState } from "react";
+import { FaSwatchbook } from "react-icons/fa";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOndemandVideo } from "react-icons/md";
 import ReactPlayer from "react-player";
-import { useState } from "react";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const MovieDetailCard = (id: { id: string | string[] }) => {
   const [isTrailerVisible, setTrailerVisible] = useState(false);
@@ -29,6 +30,32 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
     ? movieTrailerData.filter((data) => data.type === "Trailer")[1] ||
       movieTrailerData.filter((data) => data.type === "Trailer")[0]
     : undefined;
+  const {
+    addToWatchlist,
+    removeFromWatchlist,
+    isMovieInWatchlist,
+    isAuthenticated,
+  } = useWatchlistStore();
+
+  const isInWatchlist = isMovieInWatchlist(moviesDetails?.id || 0);
+  console.log(isInWatchlist);
+
+  const handleWatchlistToggle = () => {
+    if (!moviesDetails) return;
+    if (isInWatchlist) {
+      removeFromWatchlist(moviesDetails.id);
+    } else {
+      addToWatchlist({
+        id: moviesDetails.id,
+        title: moviesDetails.title,
+        poster_path: moviesDetails.poster_path,
+        backdrop_path: moviesDetails.backdrop_path,
+        vote_average: moviesDetails.vote_average,
+        release_date: moviesDetails.release_date,
+        media_type: "movie",
+      });
+    }
+  };
 
   return (
     <div
@@ -105,6 +132,18 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               <MdOndemandVideo className="mr-2" color="white" />
               Play Trailer
             </button>
+            {/* add to watchlist  */}
+            {isAuthenticated && (
+              <button
+                onClick={handleWatchlistToggle}
+                className={`px-4 py-2 rounded-md font-semibold flex items-center gap-4 ${
+                  isInWatchlist ? "bg-green-500" : "bg-brown"
+                } hover:bg-yellow-dark`}
+              >
+                <FaSwatchbook size={16} />
+                {isInWatchlist ? "Added to Watchlist" : "Add to Watchlist"}
+              </button>
+            )}
           </div>
 
           {/* Trailer Popover */}
@@ -128,7 +167,7 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               </div>
             </div>
           )}
-
+          <div></div>
           {/* Tagline or Overview */}
           <div className="flex flex-col items-start">
             <p className="font-bold text-[20px] text-left mb-4 text-off-white">

@@ -83,6 +83,7 @@ export interface NowPlaying {
 }
 
 export interface MovieDetails {
+  media_type: any;
   adult: boolean;
   backdrop_path: string | null;
   belongs_to_collection: any | null; // Assuming you don't have a specific type for collection
