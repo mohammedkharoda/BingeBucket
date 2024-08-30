@@ -1,30 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import useUserStore from "@/store/userStore";
 import {
+  Menu,
   MenuButton,
   MenuItem,
   MenuItems,
   Transition,
-  Menu,
 } from "@headlessui/react";
-import { Fragment } from "react";
 import Image from "next/image";
-import useUserStore from "@/store/userStore";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
+import { useRouter } from "next/navigation";
+import { Fragment, useState } from "react";
 import { FaSwatchbook } from "react-icons/fa";
-import { IoLogOutSharp } from "react-icons/io5";
+import LogoutBtn from "./LogoutBtn";
 
 const UserAvatar = () => {
   const user = useUserStore((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-
-  const handleLogout = async () => {
-    <LogoutLink postLogoutRedirectURL="/">Logout</LogoutLink>;
-    router.push("/");
-  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -70,19 +63,7 @@ const UserAvatar = () => {
                 </button>
               )}
             </MenuItem>
-            <MenuItem>
-              {({ focus }) => (
-                <button
-                  onClick={handleLogout}
-                  className={`${
-                    focus ? "bg-crimson-red rounded-md" : ""
-                  } w-full text-left px-4 py-2 text-sm text-gray-700 flex gap-5 items-center`}
-                >
-                  <IoLogOutSharp size={16} />
-                  Logout
-                </button>
-              )}
-            </MenuItem>
+            <LogoutBtn />
           </div>
         </MenuItems>
       </Transition>

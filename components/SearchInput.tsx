@@ -8,19 +8,23 @@ const SearchInput: React.FC = () => {
   const debouncedValue = useDebounce(value, 500);
   const router = useRouter();
 
-  const handleSearch = () => {
-    if (debouncedValue.trim() === "") {
+  const handleSearch = (searchValue: string) => {
+    if (searchValue.trim() === "") {
       toast.error("Search box is empty! Please enter a search term.");
       return;
     }
 
-    router.push(`/search?query=${encodeURIComponent(debouncedValue)}`);
+    router.push(`/search?query=${encodeURIComponent(searchValue)}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSearch();
+      handleSearch(value); // Use the current value directly here
     }
+  };
+
+  const handleClickSearch = () => {
+    handleSearch(debouncedValue); // Use the debounced value when clicking the button
   };
 
   return (
@@ -36,7 +40,7 @@ const SearchInput: React.FC = () => {
       <button
         type="button"
         className="bg-blue-600 hover:bg-blue-700 transition-all text-white text-sm rounded-full px-5 py-2.5"
-        onClick={handleSearch}
+        onClick={handleClickSearch}
       >
         Search
       </button>

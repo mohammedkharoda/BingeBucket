@@ -40,6 +40,8 @@ const SearchPage: React.FC = () => {
                     src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
                     className="w-full h-[600px] object-cover rounded-md"
                     alt={item.title || item.name}
+                    loading="lazy"
+                    isZoomed
                   />
                 </CardBody>
                 <CardFooter className="flex items-center justify-center">

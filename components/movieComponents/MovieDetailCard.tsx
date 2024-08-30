@@ -38,7 +38,6 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
   } = useWatchlistStore();
 
   const isInWatchlist = isMovieInWatchlist(moviesDetails?.id || 0);
-  console.log(isInWatchlist);
 
   const handleWatchlistToggle = () => {
     if (!moviesDetails) return;
@@ -137,11 +136,11 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               <button
                 onClick={handleWatchlistToggle}
                 className={`px-4 py-2 rounded-md font-semibold flex items-center gap-4 ${
-                  isInWatchlist ? "bg-green-500" : "bg-brown"
+                  isInWatchlist ? "bg-dark-green" : "bg-brown"
                 } hover:bg-yellow-dark`}
               >
                 <FaSwatchbook size={16} />
-                {isInWatchlist ? "Added to Watchlist" : "Add to Watchlist"}
+                {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
               </button>
             )}
           </div>

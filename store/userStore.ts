@@ -2,11 +2,13 @@ import { create } from "zustand";
 
 interface UserState {
   user: {
+    id: any;
     username?: string;
     picture?: string;
     given_name?: string;
   } | null;
   setUser: (user: {
+    id: any;
     username?: string;
     picture?: string;
     given_name?: string;

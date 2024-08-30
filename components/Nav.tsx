@@ -27,17 +27,25 @@ export default function Navbar({
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  const setUser = useUserStore.getState().setUser;
+  const loadUserWatchlist = useWatchlistStore(
+    (state) => state.loadUserWatchlist
+  );
   const checkAuthentication = useWatchlistStore.getState().checkAuthentication;
+  const setUser = useUserStore.getState().setUser;
+
   useEffect(() => {
+    // Only update state when the user authentication status actually changes
     if (isUserAuthenticated) {
-      useUserStore.setState({ user });
-      setUser(
-        user as { username?: string; picture?: string; given_name?: string }
-      ); // Update the user in the store
+      setUser(user);
+      loadUserWatchlist();
+      checkAuthentication();
+    } else {
+      // Optional: handle the state when not authenticated if needed
       checkAuthentication();
     }
-  }, [isUserAuthenticated, user]);
+  }, [isUserAuthenticated]);
+
+  console.log("user", isUserAuthenticated);
 
   const menuVariants = {
     open: {

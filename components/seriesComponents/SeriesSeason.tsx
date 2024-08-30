@@ -43,8 +43,8 @@ const SeriesSeason = () => {
                         radius="sm"
                       />
                     ) : (
-                      <div className="w-full h-auto bg-gray-700 flex items-center justify-center text-white text-lg">
-                        Image not available yet
+                      <div className="w-full h-auto bg-gray-700 p-10 flex items-center justify-center text-white text-lg">
+                        Image not available yet &#x1f614;
                       </div>
                     )}
                     <CardHeader className="bg-gray-800 text-white">

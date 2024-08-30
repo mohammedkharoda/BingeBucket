@@ -10,6 +10,8 @@ import { MdOndemandVideo } from "react-icons/md";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import ReactPlayer from "react-player";
 import { toast, Toaster } from "sonner";
+import { useWatchlistStore } from "@/store/useWatchlistStore";
+import { FaSwatchbook } from "react-icons/fa";
 
 const SeriesDetailsCard = (id: { id: string | string[] }) => {
   const moviesInfo = useSeriesDetails(Number(id.id));
@@ -36,10 +38,30 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
     ? videoData.filter((data) => data.type === "Trailer")[1] ||
       videoData.filter((data) => data.type === "Trailer")[0]
     : undefined;
+  const {
+    addToWatchlist,
+    removeFromWatchlist,
+    isMovieInWatchlist,
+    isAuthenticated,
+  } = useWatchlistStore();
+  const isInWatchlist = isMovieInWatchlist(seriesDetails?.id || 0);
+  const handleWatchlistToggle = () => {
+    if (!seriesDetails) return;
+    if (isInWatchlist) {
+      removeFromWatchlist(seriesDetails.id);
+    } else {
+      addToWatchlist({
+        id: seriesDetails.id,
+        title: seriesDetails.name,
+        poster_path: seriesDetails.poster_path,
+        backdrop_path: seriesDetails.backdrop_path,
+        vote_average: seriesDetails.vote_average,
+        release_date: seriesDetails.first_air_date,
+        media_type: "series",
+      });
+    }
+  };
 
-  // console.log("data", data);
-  // console.log("videoData", videoData);
-  // console.log("trailer", trailer);
   useEffect(() => {
     if (seriesDetails?.created_by) {
       setCreatedBy(seriesDetails.created_by);
@@ -55,6 +77,8 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
     }
   }, [seriesDetails, setCreatedBy, setNetworks]);
 
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"
@@ -127,6 +151,17 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
               <MdOndemandVideo className="mr-2" color="white" />
               Play Trailer
             </button>
+            {isAuthenticated && (
+              <button
+                onClick={handleWatchlistToggle}
+                className={`px-4 py-2 rounded-md font-semibold flex items-center gap-4 ${
+                  isInWatchlist ? "bg-dark-green" : "bg-brown"
+                } hover:bg-yellow-dark`}
+              >
+                <FaSwatchbook size={16} />
+                {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+              </button>
+            )}
           </div>
           {isTrailerVisible && trailer && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
