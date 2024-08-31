@@ -211,17 +211,17 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
               </div>
             ))}
             {/* network */}
-            {Networks.map((network) => (
-              <div className="flex flex-col items-start gap-2">
-                <p className="font-semibold text-[20px]">Streaming On</p>
+            <div className="flex flex-col items-start gap-2">
+              <p className="font-semibold text-[20px]">Streaming On</p>
+              {Networks.map((network) => (
                 <Image
                   className="rounded-none"
                   width={130}
                   loading="lazy"
                   src={`https://image.tmdb.org/t/p/original/${network?.logo_path}`}
                 />
-              </div>
-            ))}
+              ))}
+            </div>
             {/* productions */}
             <div className="flex flex-col items-center gap-5">
               <p className="font-semibold text-[20px] capitalize">

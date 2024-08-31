@@ -35,7 +35,6 @@ const MoodSuggestion = () => {
     setSelectedMood(mood);
     refetch(); // Refetch the data whenever a mood is selected
   };
-  console.log(suggestion);
   const handleWatchNow = () => {
     if (suggestion) {
       // Determine whether the suggestion is a movie or series by checking if `title` or `name` is present

@@ -14,8 +14,6 @@ const WatchlistPage = () => {
     );
   }
 
-  console.log(watchlist);
-
   return (
     <div className="px-4 py-6">
       <div className="text-3xl font-bold text-center mb-6">Your Watchlist</div>

@@ -45,8 +45,6 @@ export default function Navbar({
     }
   }, [isUserAuthenticated]);
 
-  console.log("user", isUserAuthenticated);
-
   const menuVariants = {
     open: {
       opacity: 1,
