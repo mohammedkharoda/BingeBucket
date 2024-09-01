@@ -18,17 +18,17 @@ const NewsLetterForm: React.FC<Readonly<ContactFormEmailProps>> = ({
     <h1 style={{ color: "#FFB400" }}>🎬 Welcome to Our Movie Newsletter!</h1>
     <p>
       Hello there! <br />
-      We're thrilled to have you on board. By subscribing to our newsletter,
-      you'll stay updated with the latest movies, series, and entertainment news
-      directly in your inbox.
+      We&rsquo;re thrilled to have you on board. By subscribing to our
+      newsletter, you&rsquo;ll stay updated with the latest movies, series, and
+      entertainment news directly in your inbox.
     </p>
     <p>
-      This is a confirmation that we've successfully received your subscription
-      request from <strong>{email}</strong>.
+      This is a confirmation that we&rsquo;ve successfully received your
+      subscription request from <strong>{email}</strong>.
     </p>
     <p>
-      We'll make sure you're the first to know about the latest blockbusters,
-      upcoming series, and exclusive content.
+      We&rsquo;ll make sure you&rsquo;re the first to know about the latest
+      blockbusters, upcoming series, and exclusive content.
     </p>
     <p style={{ marginTop: "20px", fontWeight: "bold" }}>
       Stay tuned and happy watching! 🍿

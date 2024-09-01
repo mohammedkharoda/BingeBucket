@@ -1,15 +1,17 @@
 "use client";
 
-import { siteConfig } from "@/config/site";
-import BingeLogo from "@/icons/BingeLogo";
-import LogInBtn from "@/shared/LogInBtn";
-import SignUpBtn from "@/shared/SignUpBtn";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+
 import SearchInput from "./SearchInput";
+
+import SignUpBtn from "@/shared/SignUpBtn";
+import LogInBtn from "@/shared/LogInBtn";
+import BingeLogo from "@/icons/BingeLogo";
+import { siteConfig } from "@/config/site";
 import useUserStore from "@/store/userStore";
 import UserAvatar from "@/shared/UserAvatar";
 import { useWatchlistStore } from "@/store/useWatchlistStore";
@@ -73,19 +75,17 @@ export default function Navbar({
             {siteConfig.navItems.map((item, index) => (
               <motion.a
                 key={index}
-                href={item.href}
                 className={`relative ${
                   (item.href === "/" && pathname === item.href) ||
                   (item.href !== "/" && pathname.startsWith(item.href))
                     ? "text-yellow hover:text-yellow"
                     : "text-white"
                 } hover:text-orange-yellow`}
+                href={item.href}
                 whileHover={{ scale: 1.05 }}
               >
                 {item.label}
                 <motion.div
-                  className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
-                  initial={{ width: 0 }}
                   animate={{
                     width:
                       (item.href === "/" && pathname === item.href) ||
@@ -93,6 +93,8 @@ export default function Navbar({
                         ? "100%"
                         : "0%",
                   }}
+                  className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
+                  initial={{ width: 0 }}
                   transition={{ duration: 0.3 }}
                 />
               </motion.a>
@@ -116,9 +118,9 @@ export default function Navbar({
           {/* hamburger menu button */}
           <div className="flex items-center lg:hidden">
             <button
+              className="text-gray-800 hover:text-gray-600 focus:outline-none"
               type="button"
               onClick={toggleMenu}
-              className="text-gray-800 hover:text-gray-600 focus:outline-none"
             >
               {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
@@ -128,31 +130,31 @@ export default function Navbar({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial="closed"
             animate="open"
-            exit="closed"
-            variants={menuVariants}
             className="lg:hidden overflow-hidden"
+            exit="closed"
+            initial="closed"
+            variants={menuVariants}
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {siteConfig.navItems.map((item, index) => (
                 <motion.a
                   key={index}
-                  href={item.href}
                   className={`relative ${
                     pathname === item.href
                       ? "text-yellow hover:text-yellow"
                       : "text-white"
                   } hover:text-orange-yellow block`}
+                  href={item.href}
                   whileHover={{ scale: 1.05 }}
                 >
                   {item.label}
                   <motion.div
-                    className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
-                    initial={{ width: 0 }}
                     animate={{
                       width: pathname === item.href ? "100%" : "0%",
                     }}
+                    className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
+                    initial={{ width: 0 }}
                     transition={{ duration: 0.3 }}
                   />
                 </motion.a>

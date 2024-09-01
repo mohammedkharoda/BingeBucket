@@ -6,8 +6,9 @@ import {
   CircularProgress,
   Image,
 } from "@nextui-org/react";
-import { useSeasonDetails } from "@/hooks/useSeasonDetails";
 import { PiWarningCircleBold } from "react-icons/pi";
+
+import { useSeasonDetails } from "@/hooks/useSeasonDetails";
 
 interface SeasonDetailCardProps {
   id: string | string[];
@@ -38,13 +39,13 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
             {episode.still_path && (
               <CardHeader className="p-0 rounded-none">
                 <Image
-                  src={`https://image.tmdb.org/t/p/original${episode.still_path}`}
-                  alt={`${episode.name} still`}
-                  width="100%"
-                  loading="lazy"
-                  className="rounded-none"
-                  radius="none"
                   isZoomed
+                  alt={`${episode.name} still`}
+                  className="rounded-none"
+                  loading="lazy"
+                  radius="none"
+                  src={`https://image.tmdb.org/t/p/original${episode.still_path}`}
+                  width="100%"
                 />
               </CardHeader>
             )}
@@ -75,9 +76,9 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
                       indicator: `${episode.vote_average * 10 > 70 ? "stroke-green-pastel" : episode.vote_average * 10 >= 40 ? "stroke-yellow-dark" : "stroke-crimson-red"}`,
                       value: "text-[14px] font-semibold text-white",
                     }}
-                    value={episode.vote_average * 10}
-                    strokeWidth={2}
                     showValueLabel={true}
+                    strokeWidth={2}
+                    value={episode.vote_average * 10}
                   />
                 )}
               </div>

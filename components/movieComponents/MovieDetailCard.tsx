@@ -1,15 +1,16 @@
-import { formatDate } from "@/config/dateFormat";
-import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
-import { useMovieDetails } from "@/hooks/useMovieDetails";
-import { useMovieTrailer } from "@/hooks/useMovieTrailer";
-import useCrewStore from "@/store/useCrewStore";
-import { useWatchlistStore } from "@/store/useWatchlistStore";
 import { CircularProgress, Image } from "@nextui-org/react";
 import { useState } from "react";
 import { FaSwatchbook } from "react-icons/fa";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOndemandVideo } from "react-icons/md";
 import ReactPlayer from "react-player";
+
+import { formatDate } from "@/config/dateFormat";
+import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
+import { useMovieDetails } from "@/hooks/useMovieDetails";
+import { useMovieTrailer } from "@/hooks/useMovieTrailer";
+import useCrewStore from "@/store/useCrewStore";
+import { useWatchlistStore } from "@/store/useWatchlistStore";
 
 const MovieDetailCard = (id: { id: string | string[] }) => {
   const [isTrailerVisible, setTrailerVisible] = useState(false);
@@ -64,19 +65,19 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
       }}
     >
       {/* Dark overlay for better readability */}
-      <div className="absolute inset-0 bg-black opacity-85"></div>
+      <div className="absolute inset-0 bg-black opacity-85" />
 
       {/* Main content container */}
       <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#9797974d] bg-opacity-80 rounded-lg text-white m-4">
         {/* Left Section: Movie Poster */}
         <div className="flex justify-center md:justify-start w-full md:w-1/3 mb-8 md:mb-0">
           <Image
-            width={450}
+            alt={`${moviesDetails?.title} Poster`}
+            className="rounded-lg shadow-md"
             height={675}
             loading="lazy"
             src={`https://image.tmdb.org/t/p/original/${moviesDetails?.poster_path}`}
-            alt={`${moviesDetails?.title} Poster`}
-            className="rounded-lg shadow-md"
+            width={450}
           />
         </div>
 
@@ -110,9 +111,9 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
                   indicator: `${userRating > 70 ? "stroke-green-pastel" : userRating >= 40 ? "stroke-yellow-dark" : "stroke-crimson-red"}`,
                   value: "text-[14px] font-semibold text-white",
                 }}
-                value={userRating}
-                strokeWidth={2}
                 showValueLabel={true}
+                strokeWidth={2}
+                value={userRating}
               />
               <p className="text-[16px] font-semibold">User Ratings</p>
             </div>
@@ -134,10 +135,10 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
             {/* add to watchlist  */}
             {isAuthenticated && (
               <button
-                onClick={handleWatchlistToggle}
                 className={`px-4 py-2 rounded-md font-semibold flex items-center gap-4 ${
                   isInWatchlist ? "bg-dark-green" : "bg-brown"
                 } hover:bg-yellow-dark`}
+                onClick={handleWatchlistToggle}
               >
                 <FaSwatchbook size={16} />
                 {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
@@ -151,22 +152,22 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               <div className="w-full max-w-4xl p-4">
                 <button
                   className="absolute top-2 right-2 text-white rounded-full p-1"
-                  onClick={() => setTrailerVisible(false)}
                   style={{ fontSize: "2rem" }}
+                  onClick={() => setTrailerVisible(false)}
                 >
                   <IoMdCloseCircleOutline />
                 </button>
                 <ReactPlayer
+                  controls
+                  height="500px"
+                  style={{ outline: "none", borderRadius: "10px" }}
                   url={`https://www.youtube.com/watch?v=${trailer.key}`}
                   width="100%"
-                  height="500px"
-                  controls
-                  style={{ outline: "none", borderRadius: "10px" }}
                 />
               </div>
             </div>
           )}
-          <div></div>
+          <div />
           {/* Tagline or Overview */}
           <div className="flex flex-col items-start">
             <p className="font-bold text-[20px] text-left mb-4 text-off-white">

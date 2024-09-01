@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 import useUserStore from "./userStore";
 
 interface Movie {
@@ -32,8 +33,10 @@ export const useWatchlistStore = create<WatchlistState>()(
 
         addToWatchlist: (movie) => {
           const currentWatchlist = get().watchlist;
+
           if (!currentWatchlist?.find((m) => m.id === movie.id)) {
             const updatedWatchlist = [...currentWatchlist, movie];
+
             set({ watchlist: updatedWatchlist });
             get().saveUserWatchlist(); // Save the updated watchlist
           }
@@ -43,6 +46,7 @@ export const useWatchlistStore = create<WatchlistState>()(
           const updatedWatchlist = get().watchlist?.filter(
             (movie) => movie.id !== movieId
           );
+
           set({ watchlist: updatedWatchlist });
           get().saveUserWatchlist(); // Save the updated watchlist
         },
@@ -53,6 +57,7 @@ export const useWatchlistStore = create<WatchlistState>()(
 
         checkAuthentication: () => {
           const user = useUserStore.getState().user;
+
           set({ isAuthenticated: Boolean(user) });
         },
 
@@ -63,10 +68,12 @@ export const useWatchlistStore = create<WatchlistState>()(
         loadUserWatchlist: () => {
           // Load the watchlist specific to the logged-in user
           const user = useUserStore.getState().user;
+
           if (user) {
             const userWatchlist = JSON.parse(
               localStorage.getItem(`watchlist-${user.id}`) ?? "[]"
             );
+
             set({ watchlist: userWatchlist });
           }
         },
@@ -74,6 +81,7 @@ export const useWatchlistStore = create<WatchlistState>()(
         saveUserWatchlist: () => {
           // Save the watchlist specific to the logged-in user
           const user = useUserStore.getState().user;
+
           if (user) {
             localStorage.setItem(
               `watchlist-${user.id}`,

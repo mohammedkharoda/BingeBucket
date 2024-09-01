@@ -1,11 +1,13 @@
-import { useRecommandedMovie } from "@/hooks/useRecommandedMovie";
-import { MovieDetails } from "@/types";
 import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
+
+import { useRecommandedMovie } from "@/hooks/useRecommandedMovie";
+import { MovieDetails } from "@/types";
 
 const RecommandedMovies = (id: { id: string | string[] }) => {
   const recommandedMovie = useRecommandedMovie(Number(id.id));
   const recommandedMovieData: any = recommandedMovie.data;
+
   return (
     <>
       {recommandedMovieData && recommandedMovieData.length > 0 ? (
@@ -42,9 +44,9 @@ const RecommandedMovies = (id: { id: string | string[] }) => {
                           }`,
                           value: "text-[14px] font-semibold text-white",
                         }}
-                        value={Math.round((movie?.vote_average ?? 0) * 10)}
-                        strokeWidth={2}
                         showValueLabel={true}
+                        strokeWidth={2}
+                        value={Math.round((movie?.vote_average ?? 0) * 10)}
                       />
                     </div>
                   </div>

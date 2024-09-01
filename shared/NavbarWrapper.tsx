@@ -1,4 +1,5 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
 import Navbar from "../components/Nav";
 
 export default async function NavbarWrapper() {

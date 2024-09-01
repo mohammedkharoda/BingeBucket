@@ -1,8 +1,9 @@
 "use client";
-import { sendContactEmail } from "@/app/_actions";
 import { Checkbox } from "@nextui-org/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+import { sendContactEmail } from "@/app/_actions";
 
 type ContactFormInputs = {
   name: string;
@@ -96,9 +97,9 @@ const ContactForm = () => {
             <p className="text-red-500 mt-1">{errors.terms.message}</p>
           )}
           <button
-            type="submit"
-            disabled={isSubmitting}
             className="w-full py-3 bg-brown-dark text-white font-semibold rounded-lg hover:bg-orange-yellow transition-colors hover:text-black"
+            disabled={isSubmitting}
+            type="submit"
           >
             {isSubmitting ? "Submitting..." : "Submit"}
           </button>
@@ -106,9 +107,9 @@ const ContactForm = () => {
       </div>
       <div className="lg:w-1/2 w-full flex justify-center">
         <img
-          src="/image/face.png"
           alt="Contact Illustration"
           className="lg:w-3/4 w-full rounded-lg hidden lg:block"
+          src="/image/face.png"
         />
       </div>
     </div>

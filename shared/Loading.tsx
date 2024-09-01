@@ -7,9 +7,10 @@ import { quantum } from "ldrs";
 const Loading = () => {
   // ldrs loader
   quantum.register();
+
   return (
     <div className="h-full flex items-center justify-center">
-      <l-quantum size="45" speed="1.75" color="black"></l-quantum>
+      <l-quantum color="black" size="45" speed="1.75" />
     </div>
   );
 };

@@ -14,7 +14,7 @@ const DiscoverBestMovie = () => {
         </p>
       </div>
       <div className="lg:w-1/2 w-full mt-6 lg:mt-0 flex flex-col md:items-end items-center">
-        <BingeLogo width={600} height={800} />
+        <BingeLogo height={800} width={600} />
       </div>
     </div>
   );

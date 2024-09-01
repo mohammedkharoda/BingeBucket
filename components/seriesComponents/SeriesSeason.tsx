@@ -1,4 +1,3 @@
-import useSeasonSeries from "@/store/useSeriesSeason";
 import {
   Card,
   CardBody,
@@ -9,6 +8,8 @@ import {
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
+
+import useSeasonSeries from "@/store/useSeriesSeason";
 
 const SeriesSeason = () => {
   const { id } = useParams();
@@ -29,18 +30,18 @@ const SeriesSeason = () => {
               return (
                 <Link
                   key={season.id}
-                  href={`/series/${id}/season/${season.season_number}`}
                   passHref
+                  href={`/series/${id}/season/${season.season_number}`}
                 >
                   <Card className="shadow-lg overflow-hidden cursor-pointer">
                     {season.poster_path ? (
                       <Image
-                        src={`https://image.tmdb.org/t/p/original${season.poster_path}`}
+                        isZoomed
                         alt={`${season.name} poster`}
                         className="w-full h-auto"
-                        isZoomed
                         loading="lazy"
                         radius="sm"
+                        src={`https://image.tmdb.org/t/p/original${season.poster_path}`}
                       />
                     ) : (
                       <div className="w-full h-auto bg-gray-700 p-10 flex items-center justify-center text-white text-lg">
@@ -67,9 +68,9 @@ const SeriesSeason = () => {
                                 }`,
                                 value: "text-[14px] font-semibold text-white",
                               }}
-                              value={season.vote_average * 10}
-                              strokeWidth={2}
                               showValueLabel={true}
+                              strokeWidth={2}
+                              value={season.vote_average * 10}
                             />
                             <p className="text-center mt-2 text-[20px] font-semibold">
                               Overall rating 🍿

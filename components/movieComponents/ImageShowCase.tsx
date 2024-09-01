@@ -1,11 +1,12 @@
-import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
-import { ImageDetails } from "@/types";
 import React from "react";
+
+import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
 
 const ImageShowcase = (id: { id: string | string[] }) => {
   // Assuming useMovieImageShowcase returns an object with data, loading, and error
   const { data, isLoading, error } = useMovieImageShowcase(Number(id.id));
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
+
   // Handle loading state
   if (isLoading) return <p>Loading images...</p>;
 
@@ -13,12 +14,15 @@ const ImageShowcase = (id: { id: string | string[] }) => {
   if (error) return <p>Error loading images: {error.message}</p>;
 
   // Accessing backdrops array from data
-  const images = data?.backdrops ?? [];
+  const images: { file_path: string }[] = (data?.backdrops ?? []).map(
+    (file_path) => ({ file_path })
+  );
 
   // Handle no images case
   if (images.length === 0) {
     return <p>No images available for this movie.</p>;
   }
+
   return (
     <div className="bg-yellow-700 py-10 text-center text-white">
       <h2 className="text-4xl font-bold mb-4">Image Showcase</h2>
@@ -30,9 +34,9 @@ const ImageShowcase = (id: { id: string | string[] }) => {
         <div className="md:col-span-2 row-span-2">
           <img
             // @ts-ignore
-            src={`${IMAGE_BASE_URL}${images[0]?.file_path}`} // Constructing the main image URL
             alt="Main"
             className="w-full h-full object-cover rounded-md shadow-lg"
+            src={`${IMAGE_BASE_URL}${images[0]?.file_path}`} // Constructing the main image URL
           />
         </div>
 
@@ -41,9 +45,9 @@ const ImageShowcase = (id: { id: string | string[] }) => {
           <div key={index} className="col-span-1">
             <img
               // @ts-ignore
-              src={`${IMAGE_BASE_URL}${image?.file_path}`} // Correctly accessing file_path
               alt={`Side ${index + 1}`}
               className="w-full h-full object-cover rounded-md shadow-lg"
+              src={`${IMAGE_BASE_URL}${image?.file_path}`} // Correctly accessing file_path
             />
           </div>
         ))}

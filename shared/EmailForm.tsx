@@ -1,7 +1,8 @@
 "use client";
-import { sendEmail } from "@/app/_actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+import { sendEmail } from "@/app/_actions";
 type EmailFormProps = {
   email: string;
 };
@@ -19,6 +20,7 @@ const EmailForm = () => {
     if (result?.success) {
       toast.success("YAY!🥳 You have Subscribe to our NewsLetter");
       reset();
+
       return;
     }
 
@@ -47,9 +49,9 @@ const EmailForm = () => {
           {" "}
           {/* Centering the button vertically */}
           <button
+            className="px-3 py-2 w-full sm:w-auto bg-orange-yellow text-white rounded-md hover:bg-yellow-600 transition-colors"
             disabled={isSubmitting}
             type="submit"
-            className="px-3 py-2 w-full sm:w-auto bg-orange-yellow text-white rounded-md hover:bg-yellow-600 transition-colors"
           >
             {isSubmitting ? "Sending..." : "SignUp"}
           </button>

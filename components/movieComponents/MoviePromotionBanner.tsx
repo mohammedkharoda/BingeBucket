@@ -1,8 +1,9 @@
 "use client";
-import { PromotionText } from "@/config/data";
-import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { Image } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
+
+import { PromotionText } from "@/config/data";
+import { usePopularMovie } from "@/hooks/usePopularMovie";
 
 const MoviePromotionBanner = () => {
   const popularMovies = usePopularMovie();
@@ -24,12 +25,12 @@ const MoviePromotionBanner = () => {
       <div className="flex lg:gap-[80px] gap-[50px] flex-col-reverse lg:flex-row justify-around">
         {/* image-container */}
         <Image
-          width={450}
+          alt="muzzle-image"
           isBlurred={true}
           loading="lazy"
-          src={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[currentTextIndex]?.poster_path}`}
-          alt="muzzle-image"
           radius="lg"
+          src={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[currentTextIndex]?.poster_path}`}
+          width={450}
         />
         {/* discover, free, top */}
         <div className="min-w-[130px] flex flex-col gap-[40px] relative ">

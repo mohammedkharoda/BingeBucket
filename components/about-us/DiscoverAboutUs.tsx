@@ -22,8 +22,8 @@ const DiscoverAboutUs = () => {
           available.
         </div>
         <Button
-          variant="flat"
           className="mt-4 bg-brown-dark border-none text-white font-bold hover:bg-orange-yellow hover:text-black p-6"
+          variant="flat"
         >
           <Link href="/">BINGE NOW</Link>
         </Button>

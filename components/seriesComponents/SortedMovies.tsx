@@ -5,6 +5,7 @@ import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
 import { Movie } from "../../types";
+
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
@@ -59,22 +60,22 @@ const SortedMovieComponent: React.FC = () => {
           Hot Picks in Theaters and Streaming
         </div>
         <img
-          src="../image/fire.gif"
           alt="Animated fire gif"
+          className="lg:block hidden"
+          src="../image/fire.gif"
           style={{
             width: "80px", // adjust size as needed
             height: "80px",
           }}
-          className="lg:block hidden"
         />
       </div>
       <div className="flex justify-between items-center">
         <div className="text-[18px] capitalize mx-auto font-medium mb-9">
           See the{" "}
           <select
+            className="bg-white text-black rounded-md p-2 shadow-md focus:outline-none focus:ring-2 focus:ring-brown focus:border-yellow"
             value={category}
             onChange={handleSortChange}
-            className="bg-white text-black rounded-md p-2 shadow-md focus:outline-none focus:ring-2 focus:ring-brown focus:border-yellow"
           >
             {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>
@@ -90,22 +91,22 @@ const SortedMovieComponent: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {movies &&
           movies.map((movie: Movie) => (
-            <Link href={`/movies/${movie.id}`} key={movie.id}>
+            <Link key={movie.id} href={`/movies/${movie.id}`}>
               <Card
                 key={movie.id}
+                fullWidth
+                isBlurred
+                isPressable
                 className="bg-white rounded-lg overflow-hidden h-full"
                 shadow="md"
-                isPressable
-                isBlurred
-                fullWidth
               >
                 <CardBody>
                   <Image
                     isZoomed
+                    alt={movie.title}
                     loading="lazy"
                     radius="sm"
                     src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                    alt={movie.title}
                   />
                 </CardBody>
                 <CardHeader className=" flex flex-col p-4">

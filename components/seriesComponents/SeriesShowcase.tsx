@@ -1,8 +1,9 @@
 "use client";
-import { usePopularMovie } from "@/hooks/usePopularMovie";
-import { useAiringTodaySeries } from "@/hooks/useSeriesShowcase";
+
 import { Image } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
+
+import { useAiringTodaySeries } from "@/hooks/useSeriesShowcase";
 
 const SeriesShowcase = () => {
   const seriesData = useAiringTodaySeries();
@@ -33,13 +34,13 @@ const SeriesShowcase = () => {
       {/* Image side */}
       <div className="flex-shrink-0">
         <Image
-          width={450}
+          alt="muzzle-image"
+          className="object-cover"
           height="auto"
           loading="lazy"
-          src={`https://image.tmdb.org/t/p/original/${seriesData?.data?.[rotatingIndex]?.poster_path}`}
-          alt="muzzle-image"
           radius="lg"
-          className="object-cover"
+          src={`https://image.tmdb.org/t/p/original/${seriesData?.data?.[rotatingIndex]?.poster_path}`}
+          width={450}
         />
       </div>
       {/* Text side */}
@@ -47,9 +48,9 @@ const SeriesShowcase = () => {
         <p className="flex gap-8 text-[36px] text-left md:text-[56px] font-bold lg:text-[45px] items-center">
           Discover Captivating Series
           <img
-            src="../image/tv.gif"
             alt="tv"
-            className="h-[100px] hidden lg:block"
+            className="hidden h-[100px] lg:block"
+            src="../image/tv.gif"
           />
         </p>
         <p className="mt-2 text-left text-lg md:text-xl text-gray-600 w-full">
@@ -65,7 +66,7 @@ const SeriesShowcase = () => {
           <span className="font-extrabold underline underline-offset-4 text-black">
             must-watch thrillers &#x1F4A5;
           </span>
-          . Whether you're into{" "}
+          . Whether you&apos;re into{" "}
           <b className="text-black underline">
             gripping mysteries &#x1F52A;, inspiring documentaries &#x1F4F9;, or
             epic adventures &#x1F680;

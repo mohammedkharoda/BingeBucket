@@ -1,16 +1,10 @@
 "use client";
-import { useMoodSuggestion } from "@/hooks/useMoodSuggestion";
-import Loading from "@/shared/Loading";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Image,
-  Spacer,
-} from "@nextui-org/react";
+import { Button, Card, CardHeader, Image, Spacer } from "@nextui-org/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter from Next.js
+
+import Loading from "@/shared/Loading";
+import { useMoodSuggestion } from "@/hooks/useMoodSuggestion";
 
 const moods = [
   { name: "Happy", emoji: "😊" },
@@ -58,12 +52,12 @@ const MoodSuggestion = () => {
           <div key={mood.name}>
             <Button
               size="lg"
-              onPress={() => handleMoodSelect(mood.name)}
               style={{
                 backgroundColor:
                   selectedMood === mood.name ? "#FFC107" : "#333",
                 color: selectedMood === mood.name ? "#000" : "#fff",
               }}
+              onPress={() => handleMoodSelect(mood.name)}
             >
               {mood.emoji} {mood.name}
             </Button>
@@ -79,11 +73,11 @@ const MoodSuggestion = () => {
       {suggestion && (
         <Card className="max-w-4xl mx-auto flex flex-col md:flex-row items-center bg-brown-dark p-5">
           <Image
-            src={`https://image.tmdb.org/t/p/w500${suggestion.poster_path}`}
             alt={suggestion.title || suggestion.name}
-            style={{ borderRadius: "10px" }}
             className="w-fit h-auto"
             loading="lazy"
+            src={`https://image.tmdb.org/t/p/w500${suggestion.poster_path}`}
+            style={{ borderRadius: "10px" }}
           />
           <div className="flex flex-col gap-10 items-center justify-between w-full pl-5 text-center">
             <CardHeader className="flex items-center justify-center">
@@ -94,8 +88,8 @@ const MoodSuggestion = () => {
             <p className="text-white">{suggestion.overview}</p>
             <div className="flex gap-4">
               <Button
-                color="danger"
                 className="text-white"
+                color="danger"
                 variant="solid"
                 onPress={handleWatchNow} // Redirect to the movie/series page
               >
@@ -103,8 +97,8 @@ const MoodSuggestion = () => {
               </Button>
               <Button
                 className="text-white"
-                variant="bordered"
                 color="warning"
+                variant="bordered"
                 onPress={() => refetch()}
               >
                 Show Another

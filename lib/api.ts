@@ -19,10 +19,12 @@ export const fetchUpcomingMovies = async (): Promise<Movie[]> => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const day = String(date.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
 
   const endDate = new Date(currentDate);
+
   endDate.setMonth(currentDate.getMonth() + 2);
 
   // Format the dates
@@ -49,7 +51,6 @@ export const fetchUpcomingMovies = async (): Promise<Movie[]> => {
 
     // Check if the API response contains a 'results' array
     if (!data.results) {
-      console.error("No results found in the response.");
       return [];
     }
 
@@ -57,6 +58,7 @@ export const fetchUpcomingMovies = async (): Promise<Movie[]> => {
     const sortedMovies = data.results.sort((a: any, b: any) => {
       const dateA = new Date(a.release_date);
       const dateB = new Date(b.release_date);
+
       return dateA.getTime() - dateB.getTime(); // Sorting in ascending order
     });
 
@@ -68,7 +70,6 @@ export const fetchUpcomingMovies = async (): Promise<Movie[]> => {
 
     return numberedMovies;
   } catch (error) {
-    console.error("Error fetching upcoming movies:", error);
     return [];
   }
 };
@@ -81,10 +82,12 @@ export const fetchPopularMovie = async (): Promise<PopularMovie[]> => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const day = String(date.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
 
   const endDate = new Date(currentDate);
+
   endDate.setMonth(currentDate.getMonth() + 2);
 
   // Format the dates
@@ -106,8 +109,8 @@ export const fetchPopularMovie = async (): Promise<PopularMovie[]> => {
   }
 
   const data = await response.json();
+
   if (!data.results) {
-    console.error("No results found in the response.");
     return [];
   }
 
@@ -115,6 +118,7 @@ export const fetchPopularMovie = async (): Promise<PopularMovie[]> => {
   const sortedMovies = data.results.sort((a: any, b: any) => {
     const dateA = new Date(a.release_date);
     const dateB = new Date(b.release_date);
+
     return dateB.getTime() - dateA.getTime(); // Sorting in descending order
   });
 
@@ -179,6 +183,7 @@ export const fetchTopRatedMovies = async (): Promise<TopRating[]> => {
   }
 
   const data = await response.json();
+
   return data.results;
 };
 
@@ -190,10 +195,12 @@ export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const day = String(date.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
 
   const endDate = new Date(currentDate);
+
   endDate.setMonth(currentDate.getMonth() + 2);
 
   // Format the dates
@@ -215,8 +222,10 @@ export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
   }
 
   const data = await response.json();
+
   if (!data.results) {
     console.error("No results found in the response.");
+
     return [];
   }
 
@@ -224,6 +233,7 @@ export const fetchNowPlayingMovies = async (): Promise<NowPlaying[]> => {
   const sortedMovies = data.results.sort((a: any, b: any) => {
     const dateA = new Date(a.release_date);
     const dateB = new Date(b.release_date);
+
     return dateB.getTime() - dateA.getTime(); // Sorting in descending order
   });
 
@@ -253,6 +263,7 @@ export const fetchMoviesTrailer = async (id: number) => {
   }
 
   const data = await response.json();
+
   return data.results;
 };
 // ============================== details apis ==============================
@@ -271,6 +282,7 @@ export const fetchMovieDetails = async (id: number): Promise<MovieDetails> => {
   }
 
   const data = await response.json();
+
   return data;
 };
 
@@ -291,6 +303,7 @@ export const fetchMovieCast = async (id: number) => {
   }
 
   const data = await response.json();
+
   return data;
 };
 
@@ -308,6 +321,7 @@ export const fetchMovieImages = async (id: number) => {
   }
 
   const data = await response.json();
+
   return data;
 };
 
@@ -329,6 +343,7 @@ export const fetchRecommandedMovies = async (id: number) => {
   }
 
   const data = await response.json();
+
   return data.results;
 };
 
@@ -347,6 +362,7 @@ export const fetchSeriesShowcase = async () => {
   }
 
   const data = await response.json();
+
   return data.results;
 };
 
@@ -402,6 +418,7 @@ export const fetchTopRatedSeries = async () => {
   }
 
   const data = await response.json();
+
   return data.results;
 };
 
@@ -413,10 +430,12 @@ export const fetchUpcomingSeries = async () => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
     const day = String(date.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
 
   const endDate = new Date(currentDate);
+
   endDate.setMonth(currentDate.getMonth() + 2);
 
   // Format the dates
@@ -439,8 +458,8 @@ export const fetchUpcomingSeries = async () => {
   }
 
   const data = await response.json();
+
   if (!data.results) {
-    console.error("No results found in the response.");
     return [];
   }
 
@@ -448,6 +467,7 @@ export const fetchUpcomingSeries = async () => {
   const sortedSeries = data.results.sort((a: any, b: any) => {
     const dateA = new Date(a.first_air_date);
     const dateB = new Date(b.first_air_date);
+
     return dateB.getTime() - dateA.getTime(); // Sorting in descending order
   });
 
@@ -477,8 +497,10 @@ export const fetchOnAirTodaySeries = async () => {
   }
 
   const data = await response.json();
+
   if (!data.results) {
     console.error("No results found in the response.");
+
     return [];
   }
 
@@ -508,6 +530,7 @@ export const fetchSeriesDetails = async (
   }
 
   const data = await response.json();
+
   return data;
 };
 
@@ -525,6 +548,7 @@ export const fetchSeriesCast = async (id: number) => {
   }
 
   const data = await response.json();
+
   return data;
 };
 
@@ -545,6 +569,7 @@ export const fetchSeriesVideos = async (id: number) => {
   }
 
   const data = await response.json();
+
   return data.results;
 };
 
@@ -569,6 +594,7 @@ export const fetchSeasonDetails = async (
   }
 
   const data = await response.json();
+
   return data; // Ensure this matches SeasonDetails structure
 };
 
@@ -647,5 +673,6 @@ export const fetchMultiSearch = async (query: string) => {
   }
 
   const data = await response.json();
+
   return data.results;
 };

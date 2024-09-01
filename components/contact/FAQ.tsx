@@ -14,9 +14,9 @@ const FAQ = () => {
       </div>
       <Accordion>
         <AccordionItem
-          className="text-left"
           key="signup"
           aria-label="How to sign up?"
+          className="text-left"
           indicator={<FaLink color="white" />}
           title="How to sign up?"
         >
@@ -25,9 +25,9 @@ const FAQ = () => {
           email address or you can use the other platform for sign-up as well.
         </AccordionItem>
         <AccordionItem
-          className="text-left"
           key="search"
           aria-label="How to search for movies and shows?"
+          className="text-left"
           indicator={<FaLink color="white" />}
           title="How to search for movies and shows?"
         >
@@ -37,9 +37,9 @@ const FAQ = () => {
           instantly.
         </AccordionItem>
         <AccordionItem
-          className="text-left"
           key="watch"
           aria-label="How to watch content?"
+          className="text-left"
           indicator={<FaLink color="white" />}
           title="How to watch content?"
         >
@@ -48,9 +48,9 @@ const FAQ = () => {
           see the platforms where it&apos;s accessible.
         </AccordionItem>
         <AccordionItem
-          className="text-left"
           key="create-list"
           aria-label="How to create a watchlist?"
+          className="text-left"
           indicator={<FaLink color="white" />}
           title="How to create a watchlist?"
         >
@@ -59,9 +59,9 @@ const FAQ = () => {
           on any movie or show&apos;s detail page.
         </AccordionItem>
         <AccordionItem
-          className="text-left"
           key="contact"
           aria-label="How to contact us?"
+          className="text-left"
           indicator={<FaLink color="white" />}
           title="How to contact us?"
         >
@@ -70,9 +70,9 @@ const FAQ = () => {
           and our team will get back to you as soon as possible.
         </AccordionItem>
         <AccordionItem
-          className="text-left"
           key="rate"
           aria-label="Can I rate movies and shows?"
+          className="text-left"
           indicator={<FaLink color="white" />}
           title="Can I rate movies and shows?"
         >

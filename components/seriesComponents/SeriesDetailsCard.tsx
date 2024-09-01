@@ -1,17 +1,18 @@
+import { CircularProgress, Code, Image } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { MdOndemandVideo } from "react-icons/md";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import ReactPlayer from "react-player";
+import { toast } from "sonner";
+import { FaSwatchbook } from "react-icons/fa";
+
 import { formatDate } from "@/config/dateFormat";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
 import useSeriesCrewStore from "@/store/useSeriesCrewStore";
 import useSeasonSeries from "@/store/useSeriesSeason";
 import { Video } from "@/types";
-import { CircularProgress, Code, Image } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import { MdOndemandVideo } from "react-icons/md";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import ReactPlayer from "react-player";
-import { toast, Toaster } from "sonner";
 import { useWatchlistStore } from "@/store/useWatchlistStore";
-import { FaSwatchbook } from "react-icons/fa";
 
 const SeriesDetailsCard = (id: { id: string | string[] }) => {
   const moviesInfo = useSeriesDetails(Number(id.id));
@@ -79,6 +80,7 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"
@@ -87,19 +89,19 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
       }}
     >
       {/* Dark overlay for better readability */}
-      <div className="absolute inset-0 bg-black opacity-85"></div>
+      <div className="absolute inset-0 bg-black opacity-85" />
 
       {/* Main content container */}
       <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#9797974d] bg-opacity-80 rounded-lg text-white m-4">
         {/* Left Section: Movie Poster */}
         <div className="flex justify-center md:justify-start w-full md:w-1/3 mb-8 md:mb-0">
           <Image
-            width={450}
+            alt={`${seriesDetails?.name} Poster`}
+            className="rounded-lg shadow-md"
             height={675}
             loading="lazy"
             src={`https://image.tmdb.org/t/p/original/${seriesDetails?.poster_path}`}
-            alt={`${seriesDetails?.name} Poster`}
-            className="rounded-lg shadow-md"
+            width={450}
           />
         </div>
 
@@ -131,9 +133,9 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
                   indicator: `${userRating > 70 ? "stroke-green-pastel" : userRating >= 40 ? "stroke-yellow-dark" : "stroke-crimson-red"}`,
                   value: "text-[14px] font-semibold text-white",
                 }}
-                value={userRating}
-                strokeWidth={2}
                 showValueLabel={true}
+                strokeWidth={2}
+                value={userRating}
               />
               <p className="text-[16px] font-semibold">User Ratings</p>
             </div>
@@ -153,10 +155,10 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
             </button>
             {isAuthenticated && (
               <button
-                onClick={handleWatchlistToggle}
                 className={`px-4 py-2 rounded-md font-semibold flex items-center gap-4 ${
                   isInWatchlist ? "bg-dark-green" : "bg-brown"
                 } hover:bg-yellow-dark`}
+                onClick={handleWatchlistToggle}
               >
                 <FaSwatchbook size={16} />
                 {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
@@ -168,17 +170,17 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
               <div className="w-full max-w-4xl p-4">
                 <button
                   className="absolute top-2 right-2 text-white rounded-full p-1"
-                  onClick={() => setTrailerVisible(false)}
                   style={{ fontSize: "2rem" }}
+                  onClick={() => setTrailerVisible(false)}
                 >
                   <IoMdCloseCircleOutline />
                 </button>
                 <ReactPlayer
+                  controls
+                  height="500px"
+                  style={{ outline: "none", borderRadius: "10px" }}
                   url={`https://www.youtube.com/watch?v=${trailer.key}`}
                   width="100%"
-                  height="500px"
-                  controls
-                  style={{ outline: "none", borderRadius: "10px" }}
                 />
               </div>
             </div>
@@ -201,8 +203,8 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
                   <p className="font-semibold text-[20px]">Created By</p>
                   <Image
                     radius="sm"
-                    width={100}
                     src={`https://image.tmdb.org/t/p/original/${member?.profile_path}`}
+                    width={100}
                   />
                   <p className="font-semibold text-[16px]">
                     {member.original_name}
@@ -217,9 +219,9 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
                 <Image
                   key={network.id}
                   className="rounded-none"
-                  width={130}
                   loading="lazy"
                   src={`https://image.tmdb.org/t/p/original/${network?.logo_path}`}
+                  width={130}
                 />
               ))}
             </div>
@@ -236,9 +238,9 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
                   {company?.logo_path ? (
                     <Image
                       className="rounded-none"
-                      width={100}
                       loading="lazy"
                       src={`https://image.tmdb.org/t/p/original/${company?.logo_path}`}
+                      width={100}
                     />
                   ) : (
                     <p className="font-semibold text-[16px]">{company.name}</p>
@@ -250,11 +252,11 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
             <div className="flex flex-col items-start gap-2">
               <p className="font-semibold text-[20px]">Status</p>
               {seriesDetails?.status === "Returning Series" ? (
-                <Code color="danger" className="font-semibold text-[16px]">
+                <Code className="font-semibold text-[16px]" color="danger">
                   {seriesDetails?.status}
                 </Code>
               ) : (
-                <Code color="success" className="font-semibold text-[16px]">
+                <Code className="font-semibold text-[16px]" color="success">
                   Ended
                 </Code>
               )}

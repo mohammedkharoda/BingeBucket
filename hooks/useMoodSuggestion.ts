@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { fetchMoodSuggestion } from "@/lib/api";
 
 export const useMoodSuggestion = (mood: string) => {

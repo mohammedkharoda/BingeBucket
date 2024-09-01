@@ -1,15 +1,17 @@
 "use client";
-import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
-import { useTrendingSeriesOfDay } from "@/hooks/useTrendingSeriesOfDay";
-import Loading from "@/shared/Loading";
-import { SeriesOfWeek } from "@/types";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+
+import { Card } from "@nextui-org/react";
 import Link from "next/link";
-import React, { use } from "react";
+import React from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
+
+import { SeriesOfWeek } from "@/types";
+import Loading from "@/shared/Loading";
+import { useTrendingSeriesOfDay } from "@/hooks/useTrendingSeriesOfDay";
 
 const TrendingSeriesBanner = () => {
   const { data: series, isLoading, isError, error } = useTrendingSeriesOfDay();
+
   return (
     <div className="py-16">
       <div className="flex gap-5 justify-center">
@@ -28,13 +30,13 @@ const TrendingSeriesBanner = () => {
           Top Series of the Week
         </div>
         <img
-          src="../image/award.gif"
           alt="Animated fire gif"
+          className="lg:block hidden"
+          src="../image/award.gif"
           style={{
             width: "80px", // adjust size as needed
             height: "80px",
           }}
-          className="lg:block hidden"
         />
       </div>
       {isLoading && <Loading />}
@@ -42,18 +44,18 @@ const TrendingSeriesBanner = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {series &&
           series.map((series: SeriesOfWeek) => (
-            <Link href={`/series/${series.id}`} key={series.id}>
+            <Link key={series.id} href={`/series/${series.id}`}>
               <Card
                 key={series.id}
+                isBlurred
+                isPressable
                 className="bg-white rounded-lg overflow-hidden p-3 h-full"
                 shadow="md"
-                isPressable
-                isBlurred
               >
                 <img
-                  src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
                   alt={series.name}
                   className=" w-full h-fit rounded-lg shadow-lg"
+                  src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
                 />
                 <div className="flex flex-col p-4 gap-5">
                   <div

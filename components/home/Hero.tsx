@@ -4,10 +4,10 @@ import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
 import ContentGrid from "@/shared/ContentGrid";
 import GlobalButton from "@/shared/GlobalButton";
 import SkeletonGrid from "@/shared/SkeletonGrid";
-import { Button } from "@nextui-org/button";
 
 const Hero = () => {
   const { isFetching } = useUpcomingMovies();
+
   return (
     <div className="lg:px-[64px] px-[20px] mt-5 lg:mt-0">
       <div className="flex items-center justify-between lg:flex-row gap-8 flex-col">

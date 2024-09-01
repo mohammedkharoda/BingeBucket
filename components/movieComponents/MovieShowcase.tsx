@@ -1,7 +1,8 @@
 "use client";
-import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { Image } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+
+import { usePopularMovie } from "@/hooks/usePopularMovie";
 export default function MovieShowcase() {
   const popularMovies = usePopularMovie();
   const [rotatingIndex, setRotatingIndex] = useState(0);
@@ -33,9 +34,9 @@ export default function MovieShowcase() {
         <p className="flex items-center justify-center font-roboto text-[36px] text-center md:text-[56px] font-bold lg:min-w-max">
           Discover Amazing Movies
           <img
-            src="../image/movie-clap.gif"
             alt="movie-clap"
             className="h-[100px] hidden lg:block"
+            src="../image/movie-clap.gif"
           />
         </p>
         <p className="mt-2 text-lg md:text-xl text-gray-600 w-full">
@@ -62,11 +63,11 @@ export default function MovieShowcase() {
       {/* Image side */}
       <div>
         <Image
-          width={450}
-          loading="lazy"
-          src={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[rotatingIndex]?.poster_path}`}
           alt="muzzle-image"
+          loading="lazy"
           radius="lg"
+          src={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[rotatingIndex]?.poster_path}`}
+          width={450}
         />
       </div>
     </div>

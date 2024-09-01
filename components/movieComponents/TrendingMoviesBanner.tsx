@@ -1,14 +1,16 @@
 "use client";
-import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
-import Loading from "@/shared/Loading";
-import { Movie } from "@/types";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card } from "@nextui-org/react";
 import Link from "next/link";
-import React, { use } from "react";
+import React from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
+
+import { Movie } from "@/types";
+import Loading from "@/shared/Loading";
+import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
 
 const TrendingMoviesBanner = () => {
   const { data: movies, isLoading, isError, error } = useTrendingOfDay();
+
   return (
     <div className="py-16">
       <div className="flex gap-5 justify-center">
@@ -27,13 +29,13 @@ const TrendingMoviesBanner = () => {
           Top Movies of the Week
         </div>
         <img
-          src="../image/award.gif"
           alt="Animated fire gif"
+          className="lg:block hidden"
+          src="../image/award.gif"
           style={{
             width: "80px", // adjust size as needed
             height: "80px",
           }}
-          className="lg:block hidden"
         />
       </div>
       {isLoading && <Loading />}
@@ -41,18 +43,18 @@ const TrendingMoviesBanner = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {movies &&
           movies.map((movie: Movie) => (
-            <Link href={`/movies/${movie.id}`} key={movie.id}>
+            <Link key={movie.id} href={`/movies/${movie.id}`}>
               <Card
                 key={movie.id}
+                isBlurred
+                isPressable
                 className="bg-white rounded-lg overflow-hidden p-3 h-full"
                 shadow="md"
-                isPressable
-                isBlurred
               >
                 <img
-                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                   alt={movie.title}
                   className=" w-full h-fit rounded-lg shadow-lg"
+                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 />
                 <div className="flex flex-col p-4 gap-5">
                   <div

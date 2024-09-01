@@ -1,17 +1,20 @@
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+
 import { useTopBilledSeriesCast } from "@/hooks/useSeriesCredits";
 import useCrewStore from "@/store/useCrewStore";
 import { CastMember } from "@/types";
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
 
 const TopBillingSeriesCast = (id: { id: string | string[] }) => {
   const castInfo = useTopBilledSeriesCast(Number(id.id));
   const [cast, setCast] = useState<CastMember[]>([]);
   // crew store hook of state mangement is common one for the crew members
   const setCrew = useCrewStore((state) => state.setCrew);
+
   useEffect(() => {
     if (castInfo.data) {
       const { cast, crew } = castInfo.data as any;
+
       setCast(cast.slice(0, 6));
       setCrew(
         crew.filter((member: any) =>
@@ -20,6 +23,7 @@ const TopBillingSeriesCast = (id: { id: string | string[] }) => {
       );
     }
   }, [castInfo.data]);
+
   return (
     <div className="lg:py-[50px] lg:px-[64px] px-[64px] py-[20px] font-sans">
       {cast.length > 0 && (
@@ -29,22 +33,22 @@ const TopBillingSeriesCast = (id: { id: string | string[] }) => {
             {cast.map((member) => (
               <Card
                 key={member.id}
-                className="text-center flex-shrink-0"
-                radius="sm"
                 isHoverable
                 isPressable
+                className="text-center flex-shrink-0"
+                radius="sm"
                 style={{ width: "200px" }} // Adjust width for consistency
               >
                 <CardHeader>
                   <Image
                     isZoomed
+                    alt={member.name}
+                    className="w-full h-auto object-cover rounded-lg"
                     src={
                       member.profile_path
                         ? `https://image.tmdb.org/t/p/original${member.profile_path}`
                         : "/image/forbidden.png"
                     }
-                    alt={member.name}
-                    className="w-full h-auto object-cover rounded-lg"
                   />
                 </CardHeader>
                 <CardBody>

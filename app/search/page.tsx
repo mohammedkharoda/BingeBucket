@@ -1,10 +1,11 @@
 "use client";
-import { useMultiSearch } from "@/hooks/useMultiSearch";
-import Loading from "@/shared/Loading";
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+
+import Loading from "@/shared/Loading";
+import { useMultiSearch } from "@/hooks/useMultiSearch";
 
 const SearchPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -34,14 +35,14 @@ const SearchPage: React.FC = () => {
             <Link
               href={`/${item.media_type === "movie" ? "movies" : "series"}/${item.id}`}
             >
-              <Card isPressable isHoverable>
+              <Card isHoverable isPressable>
                 <CardBody className="p-4">
                   <Image
-                    src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
-                    className="w-full h-[600px] object-cover rounded-md"
-                    alt={item.title || item.name}
-                    loading="lazy"
                     isZoomed
+                    alt={item.title || item.name}
+                    className="w-full h-[600px] object-cover rounded-md"
+                    loading="lazy"
+                    src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
                   />
                 </CardBody>
                 <CardFooter className="flex items-center justify-center">

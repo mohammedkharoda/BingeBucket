@@ -1,5 +1,6 @@
-import EmailForm from "@/shared/EmailForm";
 import React from "react";
+
+import EmailForm from "@/shared/EmailForm";
 
 const EmailSubscriptionBanner = () => {
   return (

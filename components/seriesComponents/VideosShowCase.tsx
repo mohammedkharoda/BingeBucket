@@ -1,8 +1,9 @@
-import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
-import { Video } from "@/types";
 import React from "react";
 import ReactPlayer from "react-player";
 import { toast } from "sonner";
+
+import { Video } from "@/types";
+import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
 
 const VideosShowCase = ({ id }: { id: string | string[] }) => {
   const { data, isLoading, error } = useSeriesVideoShowcase(Number(id));
@@ -31,11 +32,11 @@ const VideosShowCase = ({ id }: { id: string | string[] }) => {
           // When there is only one video, center it
           <div className="flex justify-center h-[300px] sm:h-[400px] lg:h-[500px]">
             <ReactPlayer
-              url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
               controls
-              width="100%"
-              height="100%"
               className="rounded-md shadow-lg"
+              height="100%"
+              url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
+              width="100%"
             />
           </div>
         ) : (
@@ -44,22 +45,22 @@ const VideosShowCase = ({ id }: { id: string | string[] }) => {
             {/* Main Video */}
             <div className="col-span-1 sm:col-span-2 lg:col-span-2 row-span-2 h-[300px] sm:h-[400px] lg:h-[500px]">
               <ReactPlayer
-                url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
                 controls
-                width="100%"
-                height="100%"
                 className="rounded-md shadow-lg"
+                height="100%"
+                url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
+                width="100%"
               />
             </div>
             {/* Side Videos */}
             {videoData.slice(1, 5).map((video, index) => (
               <div key={index} className="h-[200px] sm:h-[250px] lg:h-[300px]">
                 <ReactPlayer
+                  controls
+                  className="rounded-md shadow-lg"
+                  height="100%"
                   url={`https://www.youtube.com/watch?v=${video.key}`}
                   width="100%"
-                  height="100%"
-                  className="rounded-md shadow-lg"
-                  controls
                 />
               </div>
             ))}

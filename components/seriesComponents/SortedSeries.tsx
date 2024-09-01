@@ -61,22 +61,22 @@ const SortedSeriesComponent = () => {
           Hot Picks Streaming
         </div>
         <img
-          src="../image/medal.gif"
           alt="Animated Medal gif"
+          className="lg:block hidden"
+          src="../image/medal.gif"
           style={{
             width: "80px", // adjust size as needed
             height: "80px",
           }}
-          className="lg:block hidden"
         />
       </div>
       <div className="flex justify-between items-center">
         <div className="text-[18px] capitalize mx-auto font-medium mb-9">
           See the{" "}
           <select
+            className="bg-white text-black rounded-md p-2 shadow-md focus:outline-none focus:ring-2 focus:ring-brown focus:border-yellow"
             value={category}
             onChange={handleSortChange}
-            className="bg-white text-black rounded-md p-2 shadow-md focus:outline-none focus:ring-2 focus:ring-brown focus:border-yellow"
           >
             {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>
@@ -92,22 +92,22 @@ const SortedSeriesComponent = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {series &&
           series?.map((series: SeriesShowcase) => (
-            <Link href={`/series/${series.id}`} key={series.id}>
+            <Link key={series.id} href={`/series/${series.id}`}>
               <Card
                 key={series.id}
+                fullWidth
+                isBlurred
+                isPressable
                 className="bg-white rounded-lg overflow-hidden"
                 shadow="md"
-                isPressable
-                isBlurred
-                fullWidth
               >
                 <CardBody>
                   <Image
                     isZoomed
-                    radius="none"
-                    className="w-full h-auto rounded-none"
-                    src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
                     alt={series.name}
+                    className="w-full h-auto rounded-none"
+                    radius="none"
+                    src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
                   />
                 </CardBody>
                 <CardHeader className=" flex flex-col p-4">

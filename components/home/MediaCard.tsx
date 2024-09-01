@@ -1,13 +1,13 @@
 "use client";
-import React, { lazy } from "react";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
-import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
+import Image from "next/image";
+import Link from "next/link";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+
 import { truncateSentence } from "@/config/turncate";
 import LoadingCard from "@/shared/LoadingCard";
-import Image from "next/image";
 import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
-import Link from "next/link";
+
 const MediaCard = () => {
   const splideOptions = {
     type: "loop",
@@ -35,6 +35,7 @@ const MediaCard = () => {
   };
   const { data } = useNowPlayingMovies();
   const movieData = data;
+
   return (
     <div className="lg:my-[112px] lg:mx-[64px] my-[64px] mx-[20px]">
       {/* box-1 */}
@@ -60,21 +61,21 @@ const MediaCard = () => {
             movieData?.length > 0 &&
             movieData.map((movie: any) => (
               <SplideSlide key={movie.id}>
-                <Link href={`/movies/${movie.id}`} key={movie.id}>
+                <Link key={movie.id} href={`/movies/${movie.id}`}>
                   <div className="rounded-md">
                     <Image
-                      height={500}
-                      width={500}
-                      src={`https://image.tmdb.org/t/p/original/${
-                        movie?.poster_path
-                      }`}
                       alt={movie.title}
-                      loading="lazy"
-                      className="rounded-lg drop-shadow-md transition-all duration-500 ease-in-out hover:scale-105"
-                      placeholder="blur"
                       blurDataURL={`https://image.tmdb.org/t/p/original/${
                         movie?.poster_path
                       }`}
+                      className="rounded-lg drop-shadow-md transition-all duration-500 ease-in-out hover:scale-105"
+                      height={500}
+                      loading="lazy"
+                      placeholder="blur"
+                      src={`https://image.tmdb.org/t/p/original/${
+                        movie?.poster_path
+                      }`}
+                      width={500}
                     />
                   </div>
                   <div className="flex flex-col gap-4 pt-4">

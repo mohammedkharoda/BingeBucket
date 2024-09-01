@@ -1,12 +1,13 @@
+import React from "react";
+
 import { FooterText } from "@/config/data";
 import BingeLogo from "@/icons/BingeLogo";
-import React from "react";
 
 const Footer = () => {
   return (
     <div className="bg-brown flex flex-col items-center lg:py-[112px] lg:px-[64px] py-[64px] px-[20px] gap-[20px]">
       <div>
-        <BingeLogo width={300} height={200} />
+        <BingeLogo height={200} width={300} />
       </div>
       <div>
         {FooterText.map((text, index) => (
@@ -17,8 +18,8 @@ const Footer = () => {
             {text.links.map((link, index) => (
               <a
                 key={index}
-                href={link.href}
                 className="text-white hover:text-orange-yellow"
+                href={link.href}
               >
                 {link.label}
               </a>
