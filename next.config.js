@@ -1,6 +1,14 @@
 const { hostname } = require("os");
 
 /** @type {import('next').NextConfig} */
+// next.config.js
+module.exports = {
+  webpack: (config) => {
+    config.resolve.symlinks = false;
+    return config;
+  },
+};
+
 const nextConfig = {
   images: {
     remotePatterns: [

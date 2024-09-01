@@ -6,7 +6,6 @@ import { roboto } from "@/config/fonts";
 import { Metadata } from "next";
 import Footer from "@/components/Footer";
 import NavbarWrapper from "@/shared/NavbarWrapper";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: {
@@ -35,9 +34,8 @@ export default function RootLayout({
       >
         <Providers>
           <div className="relative flex flex-col h-screen">
-            <Suspense fallback={<div>Loading...</div>}>
-              <NavbarWrapper />
-            </Suspense>
+            {/* Directly render the NavbarWrapper without Suspense */}
+            <NavbarWrapper />
             <main className="container mx-auto max-w-full flex-grow bg-yellow-dark">
               {children}
             </main>
