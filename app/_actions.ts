@@ -7,7 +7,7 @@ import { Resend } from "resend";
 import { z } from "zod";
 
 type ContactFormInputs = z.infer<typeof NewsLetterFormSchema>;
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_RESEND_API_KEY);
 
 export async function sendEmail(data: ContactFormInputs) {
   const result = NewsLetterFormSchema.safeParse(data);

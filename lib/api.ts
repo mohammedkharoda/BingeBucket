@@ -8,7 +8,7 @@ import {
   TrendingMovie,
 } from "@/types";
 
-const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY; // Replace with your actual API key
+const API_KEY = process.env.NEXT_TMDB_API_KEY; // Replace with your actual API key
 const BASE_URL = "https://api.themoviedb.org/3";
 
 export const fetchUpcomingMovies = async (): Promise<Movie[]> => {
