@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 import SearchInput from "./SearchInput";
@@ -100,7 +100,9 @@ export default function Navbar({
               </motion.a>
             ))}
           </div>
-          <SearchInput />
+          <Suspense fallback={<>Loading...</>}>
+            <SearchInput />
+          </Suspense>
 
           {/* buttons */}
           <div className="hidden lg:flex space-x-4 items-center">

@@ -1,9 +1,10 @@
 "use client";
+import { useParams } from "next/navigation";
+
 import ImageShowcase from "@/components/movieComponents/ImageShowCase";
 import MovieDetailCard from "@/components/movieComponents/MovieDetailCard";
 import RecommandedMovies from "@/components/movieComponents/RecommandedMovies";
 import TopBillingCast from "@/components/movieComponents/TopBillingCast";
-import { useParams } from "next/navigation";
 
 const MoviesDetails = () => {
   const { id } = useParams();
