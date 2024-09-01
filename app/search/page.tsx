@@ -4,7 +4,7 @@ import SearchResults from "@/components/SearchResults";
 
 const Search = () => {
   return (
-    <Suspense>
+    <Suspense fallback={<div>loading...</div>}>
       <SearchResults />
     </Suspense>
   );
