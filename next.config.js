@@ -7,9 +7,6 @@ module.exports = {
     config.resolve.symlinks = false;
     return config;
   },
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
 };
 
 const nextConfig = {

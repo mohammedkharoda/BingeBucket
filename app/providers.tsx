@@ -18,7 +18,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster position="top-left" richColors expand closeButton />
+      <Toaster closeButton expand richColors position="top-left" />
       <NextUIProvider navigate={router.push}>
         <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
       </NextUIProvider>

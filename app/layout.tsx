@@ -1,9 +1,11 @@
 import "@/styles/globals.css";
 import clsx from "clsx";
-import { siteConfig } from "@/config/site";
-import { Providers } from "./providers";
-import { roboto } from "@/config/fonts";
 import { Metadata } from "next";
+
+import { Providers } from "./providers";
+
+import { siteConfig } from "@/config/site";
+import { roboto } from "@/config/fonts";
 import Footer from "@/components/Footer";
 import NavbarWrapper from "@/shared/NavbarWrapper";
 

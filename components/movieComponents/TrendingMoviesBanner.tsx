@@ -1,15 +1,22 @@
 "use client";
 import { Card } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
+import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
 import { Movie } from "@/types";
 import Loading from "@/shared/Loading";
-import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
 
 const TrendingMoviesBanner = () => {
-  const { data: movies, isLoading, isError, error } = useTrendingOfDay();
+  const { data: movies, isLoading } = useTrendingOfDay();
+
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast.error(error.message);
+  //   }
+  // }, [isError, error]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="py-16">
@@ -38,8 +45,7 @@ const TrendingMoviesBanner = () => {
           }}
         />
       </div>
-      {isLoading && <Loading />}
-      {isError && <p className="text-center text-red-500">{error?.message}</p>}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {movies &&
           movies.map((movie: Movie) => (

@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchPopularMovie } from "@/lib/api";
 import { PopularMovie } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const usePopularMovie = () => {
   return useQuery<PopularMovie[], Error>({

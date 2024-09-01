@@ -19,7 +19,6 @@ const ContentGrid = () => {
               <Image
                 key={movie.id}
                 alt={movie.title}
-                height={200}
                 isBlurred={true}
                 isZoomed={true}
                 loading="lazy"
@@ -36,7 +35,6 @@ const ContentGrid = () => {
               <Image
                 key={movie.id}
                 alt={movie.title}
-                height={100}
                 isBlurred={true}
                 isZoomed={true}
                 loading="lazy"

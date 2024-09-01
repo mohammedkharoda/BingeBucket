@@ -1,16 +1,15 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
 import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import Link from "next/link";
+import React, { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
 import { Movie } from "../../types";
 
+import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
-import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
-import Loading from "@/shared/Loading";
 const categories = [
   { label: "Popular", value: "popular" },
   { label: "Top Rated", value: "top_rated" },
@@ -36,7 +35,13 @@ const SortedMovieComponent: React.FC = () => {
           ? nowPlayingMovies
           : popularMovies;
 
-  const { data: movies, isLoading, isError, error } = selectedMovies;
+  const { data: movies, isLoading } = selectedMovies;
+
+  // useEffect(() => {
+  //   if (selectedMovies.isError) {
+  //     toast.error(selectedMovies.error.message);
+  //   }
+  // }, [selectedMovies]);
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
@@ -86,8 +91,6 @@ const SortedMovieComponent: React.FC = () => {
           movies everyone is talking about.
         </div>
       </div>
-      {isLoading && <Loading />}
-      {isError && <p className="text-center text-red-500">{error?.message}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {movies &&
           movies.map((movie: Movie) => (
