@@ -9,7 +9,8 @@ const GetInTouch = () => {
         <h1 className="text-white text-[36px] font-bold">Get in Touch</h1>
       </div>
       <p className="text-white text-[18px] mb-6">
-        We'd love to hear from you. Contact us for any inquiries or feedback.
+        We&apos;d love to hear from you. Contact us for any inquiries or
+        feedback.
       </p>
       <Button className="bg-orange-yellow text-black font-semibold px-[24px] py-[12px] rounded hover:bg-brown-dark hover:text-white text-[16px] ">
         Contact

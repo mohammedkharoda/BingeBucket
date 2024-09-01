@@ -1,15 +1,15 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import { PiWarningCircleBold } from "react-icons/pi";
+
 import { Movie } from "../../types";
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
 import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
-import { PiWarningCircleBold } from "react-icons/pi";
 import Loading from "@/shared/Loading";
-import Link from "next/link";
-
 const categories = [
   { label: "Popular", value: "popular" },
   { label: "Top Rated", value: "top_rated" },
@@ -19,23 +19,23 @@ const categories = [
 const SortedMovieComponent: React.FC = () => {
   const [category, setCategory] = useState("now_playing");
 
-  // Determine which hook to use based on the selected category
-  const useMovies = (category: string) => {
-    switch (category) {
-      case "top_rated":
-        return useTopRatedMovies();
-      case "upcoming":
-        return useUpcomingMovies();
-      case "now_playing":
-        return useNowPlayingMovies();
-      case "popular":
-      default:
-        return usePopularMovie();
-    }
-  };
+  // Call all hooks at the top level
+  const popularMovies = usePopularMovie();
+  const topRatedMovies = useTopRatedMovies();
+  const upcomingMovies = useUpcomingMovies();
+  const nowPlayingMovies = useNowPlayingMovies();
 
-  // Call the selected hook
-  const { data: movies, isLoading, isError, error } = useMovies(category);
+  // Determine which data to display based on the selected category
+  const selectedMovies =
+    category === "top_rated"
+      ? topRatedMovies
+      : category === "upcoming"
+        ? upcomingMovies
+        : category === "now_playing"
+          ? nowPlayingMovies
+          : popularMovies;
+
+  const { data: movies, isLoading, isError, error } = selectedMovies;
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
@@ -110,7 +110,9 @@ const SortedMovieComponent: React.FC = () => {
                 </CardBody>
                 <CardHeader className=" flex flex-col p-4">
                   <div
-                    className={`flex justify-between items-center w-full lg:${movie.vote_average ? "flex-row" : "flex-col gap-5"} flex-col`}
+                    className={`flex justify-between items-center w-full lg:${
+                      movie.vote_average ? "flex-row" : "flex-col gap-5"
+                    } flex-col`}
                   >
                     <h2 className="text-[20px] text-left font-semibold text-black ">
                       {movie.title?.length >= 20

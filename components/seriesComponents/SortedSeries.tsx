@@ -1,14 +1,16 @@
 "use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import { PiWarningCircleBold } from "react-icons/pi";
+
 import { useOnAirSeries } from "@/hooks/useOnAirToday";
 import { useAiringTodaySeries } from "@/hooks/useSeriesShowcase";
 import { useTopRatedSeries } from "@/hooks/useTopRatedSeries";
 import { useUpcomingSeries } from "@/hooks/useUpcomingSeries";
 import Loading from "@/shared/Loading";
 import { SeriesShowcase } from "@/types";
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
-import Link from "next/link";
-import React, { useState } from "react";
-import { PiWarningCircleBold } from "react-icons/pi";
 
 const categories = [
   { label: "Airing Today", value: "air_today" },
@@ -16,26 +18,26 @@ const categories = [
   { label: "On Air", value: "on_air" },
   { label: "Upcoming", value: "upcoming" },
 ];
-const SortedSeriesComponent: React.FC = () => {
+const SortedSeriesComponent = () => {
   const [category, setCategory] = useState("air_today");
 
-  // Determine which hook to use based on the selected category
-  const useSeries = (category: string) => {
-    switch (category) {
-      case "top_rated":
-        return useTopRatedSeries();
-      case "air_today":
-        return useAiringTodaySeries();
-      case "upcoming":
-        return useUpcomingSeries();
-      case "on_air":
-      default:
-        return useOnAirSeries();
-    }
-  };
+  // Call all hooks at the top level
+  const airingTodaySeries = useAiringTodaySeries();
+  const topRatedSeries = useTopRatedSeries();
+  const onAirSeries = useOnAirSeries();
+  const upcomingSeries = useUpcomingSeries();
 
-  // Call the selected hook
-  const { data: series, isLoading, isError, error } = useSeries(category);
+  // Determine which series data to display based on the selected category
+  const selectedSeries =
+    category === "top_rated"
+      ? topRatedSeries
+      : category === "air_today"
+        ? airingTodaySeries
+        : category === "upcoming"
+          ? upcomingSeries
+          : onAirSeries;
+
+  const { data: series, isLoading, isError, error } = selectedSeries;
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
@@ -110,7 +112,9 @@ const SortedSeriesComponent: React.FC = () => {
                 </CardBody>
                 <CardHeader className=" flex flex-col p-4">
                   <div
-                    className={`flex justify-between items-center w-full lg:${series.vote_average ? "flex-row" : "flex-col gap-5"} flex-col`}
+                    className={`flex justify-between items-center w-full lg:${
+                      series.vote_average ? "flex-row" : "flex-col gap-5"
+                    } flex-col`}
                   >
                     <h2 className="text-[20px] text-left font-semibold text-black ">
                       {series.name?.length >= 20

@@ -27,6 +27,7 @@ const ContactForm = () => {
     if (result?.success) {
       toast.success("Your message has been sent successfully!");
       reset();
+
       return;
     }
 
@@ -42,14 +43,14 @@ const ContactForm = () => {
           </h2>
           <h1 className="text-white text-[36px] font-bold mb-6">Contact us</h1>
           <p className="text-white text-[18px] mb-8">
-            Have a question or feedback? We'd love to hear from you.
+            Have a question or feedback? We&apos;d love to hear from you.
           </p>
         </div>
-        <form onSubmit={handleSubmit(processForm)} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(processForm)}>
           <div>
             <input
-              type="text"
               placeholder="Name"
+              type="text"
               {...register("name", { required: "Name is required" })}
               className="w-full p-3 rounded-lg bg-white text-black"
             />
@@ -59,8 +60,8 @@ const ContactForm = () => {
           </div>
           <div>
             <input
-              type="email"
               placeholder="Email"
+              type="email"
               {...register("email", { required: "Email is required" })}
               className="w-full p-3 rounded-lg bg-white text-black"
             />
@@ -73,7 +74,7 @@ const ContactForm = () => {
               placeholder="Enter your message..."
               {...register("message", { required: "Message is required" })}
               className="w-full p-3 rounded-lg bg-white text-black h-32"
-            ></textarea>
+            />
             {errors.message && (
               <p className="text-red-500 mt-1">{errors.message.message}</p>
             )}
@@ -85,8 +86,11 @@ const ContactForm = () => {
               {...register("terms", {
                 required: "You must agree to the terms",
               })}
+              id="terms"
             />
-            <label className="text-white">I agree to the Terms</label>
+            <label className="text-white" htmlFor="terms">
+              I agree to the Terms
+            </label>
           </div>
           {errors.terms && (
             <p className="text-red-500 mt-1">{errors.terms.message}</p>

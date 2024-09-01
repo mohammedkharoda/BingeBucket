@@ -215,6 +215,7 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
               <p className="font-semibold text-[20px]">Streaming On</p>
               {Networks.map((network) => (
                 <Image
+                  key={network.id}
                   className="rounded-none"
                   width={130}
                   loading="lazy"

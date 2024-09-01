@@ -20,9 +20,9 @@ const FAQ = () => {
           indicator={<FaLink color="white" />}
           title="How to sign up?"
         >
-          Signing up is simple! Just click on the "Sign Up" button at the top
-          right corner of the homepage. You&apos;ll need to provide your email
-          address or you can use the other platform for sign-up as well.
+          Signing up is simple! Just click on the &quot;Sign Up&quot; button at
+          the top right corner of the homepage. You&apos;ll need to provide your
+          email address or you can use the other platform for sign-up as well.
         </AccordionItem>
         <AccordionItem
           className="text-left"
@@ -44,8 +44,8 @@ const FAQ = () => {
           title="How to watch content?"
         >
           Once you find a movie or show you&apos;re interested in, click on it
-          to view more details. If it's available for streaming, you&apos;ll see
-          the platforms where it&apos;s accessible.
+          to view more details. If it&apos;s available for streaming you&apos;ll
+          see the platforms where it&apos;s accessible.
         </AccordionItem>
         <AccordionItem
           className="text-left"
@@ -66,8 +66,8 @@ const FAQ = () => {
           title="How to contact us?"
         >
           If you have any questions or need support, you can contact us through
-          the "Contact Us" page. Fill out the form with your inquiry, and our
-          team will get back to you as soon as possible.
+          the &quot;Contact Us&quot; page. Fill out the form with your inquiry,
+          and our team will get back to you as soon as possible.
         </AccordionItem>
         <AccordionItem
           className="text-left"
@@ -76,9 +76,9 @@ const FAQ = () => {
           indicator={<FaLink color="white" />}
           title="Can I rate movies and shows?"
         >
-          At this time, our platform does not support a rating system. However,
-          we are working on adding this feature in the future. Stay tuned for
-          updates!
+          At this time our platform does not support a rating system.
+          However&rdquo; we are working on adding this feature in the future.
+          Stay tuned for updates!
         </AccordionItem>
       </Accordion>
     </div>

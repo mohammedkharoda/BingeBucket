@@ -43,21 +43,20 @@ export default function MovieShowcase() {
           <span className="font-extrabold underline underline-offset-4 text-black">
             acclaimed movies &#x1F3C6;
           </span>
-          ,
           <span className="font-extrabold underline underline-offset-4 text-black">
             blockbusters &#x1F4F7;
           </span>
-          , and{" "}
+          and{" "}
           <span className="font-extrabold underline underline-offset-4 text-black">
             hidden gems &#x1F48E;
           </span>
-          . Whether you're into{" "}
+          .Whether you&apos;re into{" "}
           <b className="text-black underline">
             action-packed thrillers &#x1F4A5;, heartfelt dramas &#x1F622;, or
             captivating documentaries &#x1F4F9;
           </b>
-          , we've got something for everyone. Get ready to dive into a world of
-          cinema and enjoy the best films from around the globe!
+          , we&apos;ve got something for everyone. Get ready to dive into a
+          world of cinema and enjoy the best films from around the globe!
         </p>
       </div>
       {/* Image side */}
