@@ -34,7 +34,7 @@ export default function RootLayout({
       >
         <Providers>
           <div className="relative flex flex-col h-screen">
-            {/* Directly render the NavbarWrapper without Suspense */}
+            {/* Async Server Component */}
             <NavbarWrapper />
             <main className="container mx-auto max-w-full flex-grow bg-yellow-dark">
               {children}
