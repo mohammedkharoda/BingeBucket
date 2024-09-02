@@ -1,6 +1,6 @@
-import React from "react";
-
+/* eslint-disable import/order */
 import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
+import React from "react";
 
 const ImageShowcase = (id: { id: string | string[] }) => {
   // Assuming useMovieImageShowcase returns an object with data, loading, and error
@@ -14,9 +14,7 @@ const ImageShowcase = (id: { id: string | string[] }) => {
   if (error) return <p>Error loading images: {error.message}</p>;
 
   // Accessing backdrops array from data
-  const images: { file_path: string }[] = (data?.backdrops ?? []).map(
-    (file_path) => ({ file_path })
-  );
+  const images: any[] = data?.backdrops ?? [];
 
   // Handle no images case
   if (images.length === 0) {
