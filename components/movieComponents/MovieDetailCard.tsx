@@ -74,10 +74,8 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
           <Image
             alt={`${moviesDetails?.title} Poster`}
             className="rounded-lg shadow-md"
-            height={675}
             loading="lazy"
             src={`https://image.tmdb.org/t/p/original/${moviesDetails?.poster_path}`}
-            width={450}
           />
         </div>
 
