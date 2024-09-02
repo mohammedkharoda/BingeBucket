@@ -32,7 +32,7 @@ const UserAvatar = () => {
             alt="User Avatar"
             className="rounded-full"
             height={40}
-            src={user?.picture || "/image/face.png"}
+            src={user?.picture || "/image/user.png"}
             width={40}
           />
           <span className="text-[16px] font-medium">
