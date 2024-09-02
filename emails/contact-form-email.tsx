@@ -17,10 +17,10 @@ const ContactFormSubmissionEmail: React.FC<
       lineHeight: "1.6",
     }}
   >
-    <h1 style={{ color: "#FFB400" }}>📧 New Contact Form Submission</h1>
+    <h1 style={{ color: "#FFB400" }}>📧 Contact Form Submission</h1>
     <p>
-      <strong>{name}</strong> has reached out to you through the contact form.
-      Here are the details of the message:
+      <strong>{name}</strong> thanks for reached out to us through the contact
+      form. Here are the details of the message:
     </p>
     <div
       style={{
@@ -48,7 +48,7 @@ const ContactFormSubmissionEmail: React.FC<
       </p>
     </div>
     <p style={{ marginTop: "20px" }}>
-      Please respond to{" "}
+      We will respond to{" "}
       <a
         href={`mailto:${email}`}
         style={{ color: "#FFB400", textDecoration: "none" }}
