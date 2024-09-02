@@ -16,7 +16,7 @@ export async function sendEmail(data: ContactFormInputs) {
     const { email } = result.data;
     try {
       const data = await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
+        from: "BingeBucket <bingebucket@resend.dev>",
         to: [email],
         subject: "Contact form submission",
         text: `\nEmail: ${email}`,
@@ -40,7 +40,7 @@ export async function sendContactEmail(data: ContactFormInputs) {
     const { name, email, message } = result.data;
     try {
       const emailData = await resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
+        from: "BingeBucket <bingebucket@resend.dev>",
         to: [email],
         subject: "New Contact Form Submission",
         text: `\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
