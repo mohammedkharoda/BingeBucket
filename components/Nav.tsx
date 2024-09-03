@@ -70,6 +70,7 @@ export default function Navbar({
               <BingeLogo />
             </Link>
           </div>
+
           {/* services */}
           <div className="hidden lg:flex space-x-8 items-center justify-center">
             {siteConfig.navItems.map((item, index) => (
@@ -100,12 +101,13 @@ export default function Navbar({
               </motion.a>
             ))}
           </div>
-          <Suspense fallback={<>Loading...</>}>
+
+          <div className="hidden xl:block">
             <SearchInput />
-          </Suspense>
+          </div>
 
           {/* buttons */}
-          <div className="hidden lg:flex space-x-4 items-center">
+          <div className="hidden xl:flex space-x-4 items-center">
             {isUserAuthenticated ? (
               <UserAvatar />
             ) : (
@@ -115,13 +117,12 @@ export default function Navbar({
               </>
             )}
           </div>
-
           {/* ====================== MOBILE AREA ================================= */}
           {/* hamburger menu button */}
-          <div className="flex items-center lg:hidden">
+          <div className="flex items-center xl:hidden">
             <button
+              aria-label="Open Menu"
               className="text-gray-800 hover:text-gray-600 focus:outline-none"
-              type="button"
               onClick={toggleMenu}
             >
               {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
@@ -133,37 +134,52 @@ export default function Navbar({
         {isOpen && (
           <motion.div
             animate="open"
-            className="lg:hidden overflow-hidden"
+            className="xl:hidden overflow-hidden"
             exit="closed"
             initial="closed"
             variants={menuVariants}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 justify-center items-center flex flex-col gap-4">
               {siteConfig.navItems.map((item, index) => (
-                <motion.a
-                  key={index}
-                  className={`relative ${
-                    pathname === item.href
-                      ? "text-yellow hover:text-yellow"
-                      : "text-white"
-                  } hover:text-orange-yellow block`}
-                  href={item.href}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  {item.label}
-                  <motion.div
-                    animate={{
-                      width: pathname === item.href ? "100%" : "0%",
-                    }}
-                    className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
-                    initial={{ width: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.a>
+                <>
+                  <motion.a
+                    key={index}
+                    className={`relative ${
+                      pathname === item.href
+                        ? "text-yellow hover:text-yellow"
+                        : "text-white"
+                    } hover:text-orange-yellow block`}
+                    href={item.href}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    {item.label}
+                    <motion.div
+                      animate={{
+                        width: pathname === item.href ? "100%" : "0%",
+                      }}
+                      className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
+                      initial={{ width: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.a>
+                </>
               ))}
-              <div className="flex flex-col gap-5 w-full justify-center items-center">
-                <SignUpBtn />
-                <LogInBtn />
+              <div className="lg:flex lg:flex-col-reverse">
+                <div className="xl:hidden block py-5 w-full">
+                  <SearchInput />
+                </div>
+                <div className="flex flex-col gap-5 w-full justify-center items-center relative">
+                  {isUserAuthenticated ? (
+                    <div className="relative z-10 flex justify-center">
+                      <UserAvatar />
+                    </div>
+                  ) : (
+                    <>
+                      <SignUpBtn />
+                      <LogInBtn />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </motion.div>

@@ -23,19 +23,19 @@ const UserAvatar = () => {
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>
+      <div className="flex items-center">
         <MenuButton
           className="flex items-center gap-4 focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
           <Image
             alt="User Avatar"
-            className="rounded-full"
-            height={40}
+            className="rounded-full w-10 h-10 object-cover"
             src={user?.picture || "/image/user.png"}
             width={40}
+            height={40}
           />
-          <span className="text-[16px] font-medium">
+          <span className="text-sm font-medium truncate">
             {user?.given_name || "User"}
           </span>
         </MenuButton>
@@ -50,14 +50,14 @@ const UserAvatar = () => {
         leaveTo="transform opacity-0 scale-95"
         show={isOpen}
       >
-        <MenuItems className="absolute right-0 mt-2 w-full bg-black shadow-lg rounded-md z-20">
+        <MenuItems className="lg:absolute lg:bottom-4 relative right-0 mt-2 w-full max-w-[200px] bg-black shadow-lg rounded-md z-20">
           <div className="p-1">
             <MenuItem>
               {({ focus }) => (
                 <button
                   className={`${
-                    focus ? "bg-brown-dark rounded-md" : ""
-                  } w-full text-left px-4 py-2 text-sm rounded-md flex items-center gap-5`}
+                    focus ? "bg-gray-700" : ""
+                  } w-full text-left px-4 py-2 text-sm flex items-center gap-5 rounded-md`}
                   onClick={() => router.push("/watchlist")}
                 >
                   <FaSwatchbook size={16} />
