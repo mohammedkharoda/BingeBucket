@@ -1,53 +1,77 @@
-# Next.js & NextUI Template
+# 🎬 **Binge Bucket - Movies & Series** 🍿
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+Welcome to **Binge Bucket**, your ultimate destination for exploring the finest collection of movies and series! With a curated selection and a user-friendly interface, Binge Bucket aims to enhance your entertainment experience with ease.
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+## **📌 Overview**
 
-## Technologies Used
+Binge Bucket is designed to offer users an easy and engaging way to discover popular movies and series. The site features a visually appealing layout with vibrant posters, quick access to popular and trending shows, and personalized recommendations.
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+### **✨ Features**
 
-## How to Use
+- **Dynamic Content Discovery**: Easily explore top movies and series with a beautiful grid layout.
+- **Mood-Based Suggestions**: Our "Surprise Me" section curates recommendations based on your mood.
+- **Responsive Design**: Seamless experience across desktop and mobile devices.
+- **Search the Next Big Hit**: Find your favorite movies or series quickly with our intuitive search functionality.
+- **User-Friendly Navigation**: Navigate through Home, Movies, Series, and more with an easy-to-use header menu.
 
-### Use the template with create-next-app
+## **🖥️ Desktop Preview**
 
-To create a new project based on this template using `create-next-app`, run the following command:
+![Desktop Preview](https://i.postimg.cc/63RCPmJD/p1.png)
+
+## **📱 Mobile Preview**
+
+![Mobile Preview](https://i.postimg.cc/sxbd2x0B/i-Phone-12-Front.png)  
+_Experience the best of Binge Bucket on the go with a fully responsive mobile layout._
+
+## **🚀 Getting Started**
+
+### **1. Prerequisites**
+
+Ensure you have the following installed:
+
+- Node.js v16+
+- npm
+
+### **2. Installation**
+
+Clone the repository and install dependencies:
 
 ```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
+git clone https://github.com/mohammedkharoda/BingeBucket.git
+cd binge-bucket
 npm install
 ```
 
-### Run the development server
+### **3. Running the App**
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-### Setup pnpm (optional)
+## **⭐ Key Components**
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+- **Home**: Discover top picks, trending shows, and more.
+- **Movies & Series**: Dive into dedicated sections for movies and TV series.
+- **Surprise Me**: Let us suggest something special based on your mood.
+- **Search**: Find any movie or series instantly with our advanced search bar.
 
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
+## **📚 Tech Stack**
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+- **Framework**: Next.js 14
+- **Styling**: Tailwind CSS for responsive and elegant designs.
+- **State Management**: Zustand for efficient state handling.
+- **Authentication**: Kinde Auth for secure user authentication.
+- **API**: Integrated with TMDB API for fetching movie and series data.
 
-## License
+## **⚙️ Custom Hooks and API Integration**
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+- Custom hooks with React Query for fetching data efficiently.
+- Debounced and validated search input to enhance user experience.
+
+## 🔧 **Future Enhancements**
+
+- **Rating System**: User ratings and reviews to provide feedback.
+- **Watchlist**: Save and organize your favorite movies and series.
+- **Enhanced Mood-Based Suggestions**: Refine recommendations with user data.
