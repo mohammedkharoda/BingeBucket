@@ -20,7 +20,7 @@ Binge Bucket is designed to offer users an easy and engaging way to discover pop
 
 ## **📱 Mobile Preview**
 
-![Mobile Preview](https://i.postimg.cc/sxbd2x0B/i-Phone-12-Front.png)  
+![Mobile Preview](https://i.ibb.co/V3Jf2Dw/i-Phone-12-Front.png)  
 _Experience the best of Binge Bucket on the go with a fully responsive mobile layout._
 
 ## **🚀 Getting Started**
