@@ -49,24 +49,16 @@ export const FooterText = [
   {
     links: [
       {
-        label: "Facebook",
-        href: "https://www.facebook.com",
+        label: 'X',
+        href: 'https://x.com/MOHAMMEDKHAROD',
       },
       {
-        label: "X",
-        href: "https://www.twitter.com",
+        label: 'Threads',
+        href: 'https://www.threads.com/@_._mohammed__',
       },
       {
-        label: "Reddit",
-        href: "https://www.instagram.com",
-      },
-      {
-        label: "Threads",
-        href: "https://www.linkedin.com",
-      },
-      {
-        label: "Instagram",
-        href: "https://www.youtube.com",
+        label: 'Instagram',
+        href: 'https://www.instagram.com/_._mohammed__/',
       },
     ],
   },

@@ -2,12 +2,15 @@
 
 import { Image } from "@nextui-org/react";
 
+import Loading from "./Loading";
+
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 
 const ContentGrid = () => {
-  const { data: movies, error } = usePopularMovie();
+  const { data: movies, error, isLoading } = usePopularMovie();
 
   if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <>

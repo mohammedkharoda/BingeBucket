@@ -1,6 +1,7 @@
 "use client";
-import { Image } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Skeleton from "react-loading-skeleton";
 
 import { PromotionText } from "@/config/data";
 import { usePopularMovie } from "@/hooks/usePopularMovie";
@@ -8,6 +9,7 @@ import { usePopularMovie } from "@/hooks/usePopularMovie";
 const MoviePromotionBanner = () => {
   const popularMovies = usePopularMovie();
   const [currentTextIndex, setCurrentTextIndex] = useState(1); // Start from index 1 initially
+  const isFetching = popularMovies.isLoading;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,15 +22,27 @@ const MoviePromotionBanner = () => {
   }, []);
 
   return (
-    // MoviePromotionBanner-overall container
     <div className="lg:my-[112px] lg:mx-[64px] my-[64px] mx-[20px]">
       <div className="flex lg:gap-[80px] gap-[50px] flex-col-reverse lg:flex-row justify-around">
-        {/* image-container */}
+        {isFetching ? (
+          <>
+            <Skeleton
+              baseColor="#1c1c1c"
+              height={675}
+              highlightColor="#ffd700"
+              width={400}
+            />
+          </>
+        ) : (
+          <></>
+        )}
         <Image
-          alt="muzzle-image"
-          isBlurred={true}
+          alt={`${popularMovies?.data?.[currentTextIndex]?.title}`}
+          blurDataURL={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[currentTextIndex]?.poster_path}`}
+          className="rounded-lg"
+          height={675}
           loading="lazy"
-          radius="lg"
+          placeholder="blur"
           src={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[currentTextIndex]?.poster_path}`}
           width={450}
         />
