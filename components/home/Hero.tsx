@@ -67,12 +67,12 @@ export default function Hero() {
     >
 
       {/* ── Parallax floating genre badges ──────────────────────── */}
-      <Floating sensitivity={-0.4} easingFactor={0.04}>
+      <Floating easingFactor={0.04} sensitivity={-0.4}>
         {FLOATING_BADGES.map(({ label, depth, top, left, right, rotate }) => (
           <FloatingElement
             key={label}
-            depth={depth}
             className="hidden lg:block"
+            depth={depth}
             style={{
               top,
               ...(left  ? { left }  : {}),
@@ -160,16 +160,16 @@ export default function Hero() {
                 <LayoutGroup>
                   <motion.span layout className="inline-flex overflow-hidden">
                     <TextRotate
-                      texts={GENRE_WORDS}
-                      rotationInterval={2800}
-                      staggerDuration={0.025}
-                      staggerFrom="first"
-                      splitBy="characters"
-                      transition={{ type: "spring", damping: 28, stiffness: 350 }}
-                      initial={{ y: "110%", opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: "-110%", opacity: 0 }}
+                      initial={{ y: "110%", opacity: 0 }}
                       mainClassName="text-[var(--color-off-white)]"
+                      rotationInterval={2800}
+                      splitBy="characters"
+                      staggerDuration={0.025}
+                      staggerFrom="first"
+                      texts={GENRE_WORDS}
+                      transition={{ type: "spring", damping: 28, stiffness: 350 }}
                     />
                   </motion.span>
                 </LayoutGroup>
@@ -187,13 +187,13 @@ export default function Hero() {
 
             {/* CTA buttons */}
             <motion.div {...fadeUp(0.24)} className="mt-8 flex flex-wrap gap-3">
-              <Link href="/movies" className="btn-primary text-base px-8 py-3.5">
+              <Link className="btn-primary text-base px-8 py-3.5" href="/movies">
                 <RiPlayCircleLine size={18} />
                 Explore Movies
               </Link>
               <Link
-                href="/series"
                 className="inline-flex items-center gap-2 rounded-badge border px-8 py-3.5 text-base font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
+                href="/series"
                 style={{
                   borderColor: "var(--color-surface-4)",
                   color: "var(--color-white)",
@@ -213,7 +213,7 @@ export default function Hero() {
               {STATS.map(({ icon: Icon, value, label }) => (
                 <div key={label} className="flex items-center gap-2.5">
                   <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 border border-primary/20">
-                    <Icon size={16} className="text-primary" />
+                    <Icon className="text-primary" size={16} />
                   </div>
                   <div>
                     <p className="font-display text-sm font-bold leading-none text-[var(--color-white)]">{value}</p>
@@ -233,7 +233,7 @@ export default function Hero() {
                 >
                   <span className="relative inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/15">
                     <span className="absolute h-2.5 w-2.5 rounded-full bg-primary/35 animate-ping" />
-                    <RiPulseLine size={12} className="relative text-primary" />
+                    <RiPulseLine className="relative text-primary" size={12} />
                   </span>
                   <span className="text-[11px] font-bold text-[var(--color-muted)]">Live now</span>
                 </div>
@@ -246,11 +246,11 @@ export default function Hero() {
             {/* Surprise me */}
             <motion.div {...fadeUp(0.38)} className="mt-6">
               <Link
-                href="/suprise-me"
                 className="inline-flex items-center gap-3 group transition-opacity duration-200 hover:opacity-80"
+                href="/suprise-me"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 border border-accent/25 group-hover:bg-accent/20 transition-colors duration-200">
-                  <RiShuffleLine size={17} className="text-accent" />
+                  <RiShuffleLine className="text-accent" size={17} />
                 </div>
                 <div>
                   <p className="font-display text-sm font-bold leading-tight text-[var(--color-white)]">
@@ -266,10 +266,10 @@ export default function Hero() {
 
           {/* ── RIGHT: Stacked draggable movie posters ──────────── */}
           <motion.div
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
             className="relative order-1 lg:order-2 hidden sm:flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             {!isLoading && movies.length > 0 && (
               <ImgStack

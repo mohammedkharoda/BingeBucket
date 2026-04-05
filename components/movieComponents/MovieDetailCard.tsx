@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import CircularProgress from "@/components/ui/CircularProgress";
 import { IoMdClose } from "react-icons/io";
 import { MdOndemandVideo } from "react-icons/md";
-import { RiBookmarkFill, RiBookmarkLine, RiKeyboardLine, RiPlayLine } from "react-icons/ri";
+import { RiBookmarkFill, RiBookmarkLine, RiKeyboardLine } from "react-icons/ri";
 import ReactPlayer from "react-player";
 import { toast } from "sonner";
 
+import CircularProgress from "@/components/ui/CircularProgress";
 import { formatDate } from "@/config/dateFormat";
 import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
 import { useMovieDetails } from "@/hooks/useMovieDetails";
@@ -60,7 +60,9 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") setTrailerVisible(false);
     };
+
     window.addEventListener("keydown", handler);
+
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
@@ -143,10 +145,10 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex flex-col items-center gap-1">
               <CircularProgress
-                size={64}
-                strokeWidth={4}
                 showValueLabel
                 classNames={{ value: "text-[14px] font-bold text-off-white" }}
+                size={64}
+                strokeWidth={4}
                 value={userRating}
               />
               <p className="text-[10px] font-semibold uppercase tracking-wide text-off-white/65 dark:text-subtle">
@@ -213,23 +215,23 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
       <AnimatePresence>
         {isTrailerVisible && trailer && (
           <motion.div
-            animate={{ opacity: 1 }}
-            initial={{ opacity: 0 }}
             key="trailer-backdrop"
-            exit={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
             style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
-            onClick={() => setTrailerVisible(false)}
             transition={{ duration: 0.25 }}
+            onClick={() => setTrailerVisible(false)}
           >
             <motion.div
+              key="trailer-panel"
               animate={{ opacity: 1, scale: 1, y: 0 }}
               className="relative mx-4 w-full max-w-4xl"
-              initial={{ opacity: 0, scale: 0.94, y: 20 }}
-              key="trailer-panel"
               exit={{ opacity: 0, scale: 0.94, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-4 px-1">
                 <div>
@@ -242,8 +244,8 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
                 </div>
                 <button
                   className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
-                  onClick={() => setTrailerVisible(false)}
                   style={{ width: "40px", height: "40px" }}
+                  onClick={() => setTrailerVisible(false)}
                 >
                   <IoMdClose size={18} />
                 </button>
@@ -259,11 +261,11 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
               >
                 <ReactPlayer
                   controls
-                  height="500px"
                   playing
+                  height="500px"
+                  style={{ display: "block" }}
                   url={`https://www.youtube.com/watch?v=${trailer.key}`}
                   width="100%"
-                  style={{ display: "block" }}
                 />
               </div>
 

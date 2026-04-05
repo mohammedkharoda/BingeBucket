@@ -24,12 +24,12 @@ const TrendingSeriesBanner = () => {
           </div>
           <h2 className="text-3xl lg:text-4xl font-extrabold text-white flex items-center gap-3">
             Top Series
-            <RiFlashlightFill size={28} className="text-gold" />
+            <RiFlashlightFill className="text-gold" size={28} />
           </h2>
         </div>
         <Link
-          href="/series"
           className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-gold transition-colors duration-200"
+          href="/series"
         >
           See all <RiArrowRightLine size={14} />
         </Link>
@@ -44,19 +44,19 @@ const TrendingSeriesBanner = () => {
           series.map((item: SeriesOfWeek, idx: number) => (
             <Link key={item.id} href={`/series/${item.id}`}>
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.05, ease: "easeOut" }}
                 className="group bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 card-hover h-full flex flex-col"
+                initial={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.4, delay: idx * 0.05, ease: "easeOut" }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
               >
                 {/* Poster */}
                 <div className="relative overflow-hidden">
                   <img
                     alt={item.name}
                     className="w-full aspect-[2/3] object-cover transition-transform duration-500 group-hover:scale-105"
-                    src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                     loading="lazy"
+                    src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                   />
                   {/* Rank badge */}
                   <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-gold flex items-center justify-center">
@@ -72,7 +72,7 @@ const TrendingSeriesBanner = () => {
                     </h3>
                     {item.vote_average ? (
                       <div className="flex items-center gap-1 flex-shrink-0">
-                        <RiStarFill size={12} className="text-gold" />
+                        <RiStarFill className="text-gold" size={12} />
                         <span className="text-xs font-bold text-muted">
                           {item.vote_average.toFixed(1)}
                         </span>

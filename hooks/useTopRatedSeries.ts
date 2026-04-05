@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchTopRatedSeries } from "@/lib/api";
 import { SeriesShowcase } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useTopRatedSeries = () => {
   return useQuery<SeriesShowcase[], Error>({

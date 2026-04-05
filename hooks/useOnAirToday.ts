@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchOnAirTodaySeries } from "@/lib/api";
 import { SeriesShowcase } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useOnAirSeries = () => {
   return useQuery<SeriesShowcase[], Error>({

@@ -13,11 +13,13 @@ const FALLBACK_IMAGE =
 
 const splitTitleForSlide = (title: string) => {
   const words = title.trim().split(/\s+/);
+
   if (words.length <= 2) {
     return [title.toUpperCase(), "NOW PLAYING"];
   }
 
   const pivot = Math.ceil(words.length / 2);
+
   return [
     words.slice(0, pivot).join(" ").toUpperCase(),
     words.slice(pivot).join(" ").toUpperCase(),
@@ -73,8 +75,8 @@ const MediaCard = () => {
           </h2>
         </div>
         <Link
-          href="/movies"
           className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-gold transition-colors duration-200"
+          href="/movies"
         >
           View all <RiArrowRightLine size={14} />
         </Link>
@@ -87,18 +89,18 @@ const MediaCard = () => {
           className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4"
         >
         {railMovies.map((movie: any) => (
-          <Link key={movie.id} href={`/movies/${movie.id}`} className="flex-shrink-0 snap-start">
+          <Link key={movie.id} className="flex-shrink-0 snap-start" href={`/movies/${movie.id}`}>
             <div
               className="group overflow-hidden rounded-2xl border border-surface-4 bg-surface transition-all duration-300 hover:border-gold/30 hover:shadow-card-hover"
               style={{ width: "170px" }}
             >
               <div className="relative overflow-hidden" style={{ height: "255px" }}>
                 <Image
-                  alt={movie.title}
                   fill
+                  alt={movie.title}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                   sizes="170px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   src={movie.poster_path
                     ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
                     : FALLBACK_IMAGE}
@@ -111,7 +113,7 @@ const MediaCard = () => {
                       border: "1px solid rgba(255,255,255,0.15)",
                     }}
                   >
-                    <RiStarFill size={9} color="#D4AF37" />
+                    <RiStarFill color="#D4AF37" size={9} />
                     <span style={{ fontSize: "10px", fontWeight: 700, color: "#ffffff" }}>
                       {(movie.vote_average ?? 0).toFixed(1)}
                     </span>

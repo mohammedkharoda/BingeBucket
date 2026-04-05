@@ -1,6 +1,7 @@
-import { fetchTopRatedMovies } from "@/lib/api";
-import { PopularMovie, TopRating } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+
+import { fetchTopRatedMovies } from "@/lib/api";
+import { TopRating } from "@/types";
 
 export const useTopRatedMovies = () => {
   return useQuery<TopRating[], Error>({

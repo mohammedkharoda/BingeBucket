@@ -32,7 +32,7 @@ const ImageShowcase = (id: { id: string | string[] }) => {
           <div className="w-1 h-5 rounded-full bg-gold" />
           <h2 className="text-2xl lg:text-3xl font-extrabold text-off-white flex items-center gap-3">
             Image Showcase
-            <RiImageLine size={24} className="text-gold" />
+            <RiImageLine className="text-gold" size={24} />
           </h2>
         </div>
 
@@ -40,11 +40,11 @@ const ImageShowcase = (id: { id: string | string[] }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
           {/* Main Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
             className="md:col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-card"
+            initial={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, scale: 1 }}
           >
             <img
               alt="Main backdrop"
@@ -57,11 +57,11 @@ const ImageShowcase = (id: { id: string | string[] }) => {
           {images.slice(1, 3).map((image, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.97 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: (index + 1) * 0.1 }}
               className="rounded-2xl overflow-hidden shadow-card col-span-1"
+              initial={{ opacity: 0, scale: 0.97 }}
+              transition={{ duration: 0.5, delay: (index + 1) * 0.1 }}
+              viewport={{ once: true }}
+              whileInView={{ opacity: 1, scale: 1 }}
             >
               <img
                 alt={`Backdrop ${index + 2}`}

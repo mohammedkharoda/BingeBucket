@@ -9,6 +9,7 @@ export const useMousePositionRef = (
     const updatePosition = (x: number, y: number) => {
       if (containerRef && containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
+
         positionRef.current = { x: x - rect.left, y: y - rect.top };
       } else {
         positionRef.current = { x, y };
@@ -20,11 +21,13 @@ export const useMousePositionRef = (
 
     const handleTouchMove = (ev: TouchEvent) => {
       const touch = ev.touches[0];
+
       updatePosition(touch.clientX, touch.clientY);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("touchmove", handleTouchMove);
+
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);

@@ -1,14 +1,16 @@
 "use client";
-import { Suspense } from "react";
+import { useParams } from "next/navigation";
+
 import SeriesDetailsCard from "@/components/seriesComponents/SeriesDetailsCard";
 import SeriesSeason from "@/components/seriesComponents/SeriesSeason";
 import TopBillingSeriesCast from "@/components/seriesComponents/TopBillingSeriesCast";
 import VideosShowCase from "@/components/seriesComponents/VideosShowCase";
 import LoadingWrapper from "@/components/LoadingWrapper";
-import { useParams } from "next/navigation";
+
 
 const SeriesDetails = () => {
   const { id } = useParams() as { id: string };
+
   return (
     <LoadingWrapper>
       <main className="relative">

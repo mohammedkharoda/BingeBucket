@@ -1,6 +1,7 @@
-import { fetchUpcomingSeries } from "@/lib/api";
-import { PopularMovie, SeriesShowcase } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+
+import { fetchUpcomingSeries } from "@/lib/api";
+import { SeriesShowcase } from "@/types";
 
 export const useUpcomingSeries = () => {
   return useQuery<SeriesShowcase[], Error>({

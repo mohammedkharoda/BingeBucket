@@ -14,6 +14,7 @@ const TopBillingCast = (id: { id: string | string[] }) => {
   useEffect(() => {
     if (castInfo.data) {
       const { cast, crew } = castInfo.data as any;
+
       setCast(cast.slice(0, 6));
       setCrew(
         crew.filter((member: any) =>
@@ -41,22 +42,22 @@ const TopBillingCast = (id: { id: string | string[] }) => {
         {cast.map((member, idx) => (
           <motion.div
             key={member.id}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
             className="group overflow-hidden rounded-2xl border border-surface-4 bg-surface/80 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:shadow-card"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}
           >
             <div className="overflow-hidden">
               <img
                 alt={member.name}
                 className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
                 src={
                   member.profile_path
                     ? `https://image.tmdb.org/t/p/w342${member.profile_path}`
                     : "/image/forbidden.png"
                 }
-                loading="lazy"
               />
             </div>
             <div className="p-3 text-center">

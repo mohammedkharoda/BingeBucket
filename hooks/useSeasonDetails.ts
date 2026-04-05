@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { fetchSeasonDetails } from "@/lib/api";
 
 // Define the shape of a single episode

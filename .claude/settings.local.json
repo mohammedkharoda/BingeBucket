@@ -20,7 +20,8 @@
       "Bash(npx eslint:*)",
       "Bash(awk 'NR==290' components/movieComponents/MovieDetailCard.tsx components/home/MediaCard.tsx components/movieComponents/MoviePromotionBanner.tsx)",
       "Bash(npm run:*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/typescript/package.json'\\).version\\)\")"
     ]
   }
 }

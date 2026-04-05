@@ -17,6 +17,7 @@ export default function MovieShowcase() {
         prev === popularMovies.data.length - 1 ? 1 : prev + 1
       );
     }, 5000);
+
     return () => clearInterval(interval);
   }, [popularMovies]);
 
@@ -25,7 +26,7 @@ export default function MovieShowcase() {
       {/* Text */}
       <div className="flex max-w-xl flex-col gap-4">
         <div className="flex items-center gap-2">
-          <RiFilmLine size={16} className="text-gold flex-shrink-0" />
+          <RiFilmLine className="text-gold flex-shrink-0" size={16} />
           <span className="text-xs font-semibold text-gold uppercase tracking-widest">
             Movie Collection
           </span>
@@ -46,16 +47,16 @@ export default function MovieShowcase() {
         <AnimatePresence mode="wait">
           <motion.div
             key={rotatingIndex}
-            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.4 }}
             className="absolute inset-0"
+            exit={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.4 }}
           >
             {popularMovies?.data?.[rotatingIndex]?.poster_path && (
               <Image
-                alt={popularMovies?.data?.[rotatingIndex]?.title || "Movie"}
                 fill
+                alt={popularMovies?.data?.[rotatingIndex]?.title || "Movie"}
                 className="object-cover rounded-3xl shadow-card-hover ring-1 ring-surface-4"
                 loading="lazy"
                 sizes="280px"

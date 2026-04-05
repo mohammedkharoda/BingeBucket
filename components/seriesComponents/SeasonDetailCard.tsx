@@ -31,19 +31,19 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
         {seasonDetails.episodes.map((episode, idx) => (
           <motion.div
             key={episode.id}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.04, ease: "easeOut" }}
             className="bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card transition-all duration-300"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.4, delay: idx * 0.04, ease: "easeOut" }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, y: 0 }}
           >
             {/* Episode still */}
             {episode.still_path && (
               <div className="overflow-hidden">
                 <img
                   alt={`${episode.name} still`}
-                  loading="lazy"
                   className="w-full aspect-video object-cover"
+                  loading="lazy"
                   src={`https://image.tmdb.org/t/p/w500${episode.still_path}`}
                 />
               </div>
@@ -64,7 +64,7 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
               <div className="flex items-center justify-between pt-1">
                 {episode.runtime && (
                   <div className="flex items-center gap-1.5">
-                    <RiTimeLine size={13} className="text-subtle" />
+                    <RiTimeLine className="text-subtle" size={13} />
                     <span className="text-xs text-subtle">{episode.runtime} min</span>
                   </div>
                 )}
@@ -72,9 +72,6 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
                 {episode.vote_average && episode.vote_average > 0 ? (
                   <div className="flex items-center gap-2">
                     <CircularProgress
-                      value={episode.vote_average * 10}
-                      size={40}
-                      strokeWidth={4}
                       showValueLabel
                       classNames={{
                         indicator: `${
@@ -86,6 +83,9 @@ const SeasonDetailCard = ({ id, seasonId }: SeasonDetailCardProps) => {
                         }`,
                         value: "text-[9px] font-bold text-white",
                       }}
+                      size={40}
+                      strokeWidth={4}
+                      value={episode.vote_average * 10}
                     />
                     <span className="text-xs text-subtle">Rating</span>
                   </div>

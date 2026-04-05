@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchNowPlayingMovies } from "@/lib/api";
 import { PopularMovie } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useNowPlayingMovies = () => {
   return useQuery<PopularMovie[], Error>({

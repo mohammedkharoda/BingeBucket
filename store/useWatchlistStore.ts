@@ -81,6 +81,7 @@ export const useWatchlistStore = create<WatchlistState>()(
                       typeof item.title === "string"
                   )
                 : [];
+
               set({ watchlist: validated });
             } catch {
               set({ watchlist: [] });

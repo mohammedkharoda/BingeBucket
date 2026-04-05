@@ -47,11 +47,11 @@ const ContactForm = () => {
         <div className="flex flex-col lg:flex-row justify-between items-start gap-16">
           {/* Left — copy */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
             className="lg:w-1/2 w-full"
+            initial={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, x: 0 }}
           >
             <div className="flex items-center gap-2 mb-4">
               <div className="w-1 h-5 rounded-full bg-gold" />
@@ -74,7 +74,7 @@ const ContactForm = () => {
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-3">
                   <div className="p-2.5 rounded-full bg-gold/10 border border-gold/20">
-                    <Icon size={16} className="text-gold" />
+                    <Icon className="text-gold" size={16} />
                   </div>
                   <span className="text-sm text-muted">{label}</span>
                 </div>
@@ -92,11 +92,11 @@ const ContactForm = () => {
 
           {/* Right — form */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="lg:w-1/2 w-full"
+            initial={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+            whileInView={{ opacity: 1, x: 0 }}
           >
             <div className="bg-surface border border-surface-4 rounded-3xl p-8 shadow-card">
               <form
@@ -113,8 +113,8 @@ const ContactForm = () => {
                   </label>
                   <div className="relative">
                     <RiUserLine
-                      size={16}
                       className="absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle"
+                      size={16}
                     />
                     <input
                       id="name"
@@ -141,8 +141,8 @@ const ContactForm = () => {
                   </label>
                   <div className="relative">
                     <RiMailLine
-                      size={16}
                       className="absolute left-3.5 top-1/2 -translate-y-1/2 text-subtle"
+                      size={16}
                     />
                     <input
                       id="email"
@@ -185,8 +185,8 @@ const ContactForm = () => {
                 {/* Terms */}
                 <div className="flex items-start gap-3">
                   <input
-                    type="checkbox"
                     id="terms"
+                    type="checkbox"
                     {...register("terms", {
                       required: "You must agree to the terms",
                     })}

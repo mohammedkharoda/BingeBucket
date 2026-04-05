@@ -20,29 +20,29 @@ const Footer = () => {
             {/* Social icons */}
             <div className="flex items-center gap-2 pt-1">
               <a
-                href="https://x.com/MOHAMMEDKHAROD"
-                target="_blank"
-                rel="noopener noreferrer"
                 aria-label="X (Twitter)"
                 className="p-2 rounded-full text-subtle hover:text-gold hover:bg-gold/10 border border-surface-4 hover:border-gold/30 transition-all duration-200"
+                href="https://x.com/MOHAMMEDKHAROD"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <RiTwitterXLine size={15} />
               </a>
               <a
-                href="https://www.threads.com/@_._mohammed__"
-                target="_blank"
-                rel="noopener noreferrer"
                 aria-label="Threads"
                 className="p-2 rounded-full text-subtle hover:text-gold hover:bg-gold/10 border border-surface-4 hover:border-gold/30 transition-all duration-200"
+                href="https://www.threads.com/@_._mohammed__"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <RiThreadsLine size={15} />
               </a>
               <a
-                href="https://www.instagram.com/_._mohammed__/"
-                target="_blank"
-                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="p-2 rounded-full text-subtle hover:text-gold hover:bg-gold/10 border border-surface-4 hover:border-gold/30 transition-all duration-200"
+                href="https://www.instagram.com/_._mohammed__/"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <RiInstagramLine size={15} />
               </a>
@@ -57,8 +57,8 @@ const Footer = () => {
             {siteConfig.navItems.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
                 className="text-sm text-muted hover:text-gold transition-colors duration-200 w-fit"
+                href={item.href}
               >
                 {item.label}
               </Link>
@@ -74,8 +74,8 @@ const Footer = () => {
               Get weekly curated picks delivered to your inbox.
             </p>
             <Link
-              href="/#newsletter"
               className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 hover:bg-gold/20 text-gold border border-gold/20 text-sm font-medium rounded-full transition-all duration-200 w-fit"
+              href="/#newsletter"
             >
               Subscribe free
             </Link>
@@ -85,7 +85,7 @@ const Footer = () => {
         <div className="mt-10 pt-6 border-t border-surface-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-subtle text-xs flex items-center gap-1">
             &copy; {new Date().getFullYear()} BingeBucket. Made with{" "}
-            <RiHeartFill size={11} className="text-red" /> by Mohammed
+            <RiHeartFill className="text-red" size={11} /> by Mohammed
           </p>
           <p className="text-subtle text-xs">
             Powered by <span className="text-gold font-medium">TMDB</span>

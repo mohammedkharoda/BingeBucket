@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { fetchTrendingSeriesOfDay } from "./../lib/api";
 import { SeriesOfWeek } from "./../types/index";
 

@@ -58,7 +58,9 @@ export default function ImgStack({ images }: ImgStackProps) {
         setCards(prevCards => {
             const newCards = [...prevCards];
             const cardToMove = newCards.shift()!;
+
             newCards.push(cardToMove);
+
             return newCards.map((card, index) => ({
                 ...card,
                 zIndex: 50 - (index * 10)
@@ -80,7 +82,13 @@ export default function ImgStack({ images }: ImgStackProps) {
                 return (
                     <motion.div
                         key={card.id}
+                        animate={cardStyles}
                         className="absolute w-64 origin-bottom-center overflow-hidden rounded-xl shadow-xl cursor-grab active:cursor-grabbing"
+                        drag={canDrag}
+                        dragConstraints={{ left: -150, right: 150, top: -150, bottom: 150 }}
+                        dragElastic={0.2}
+                        dragSnapToOrigin={true}
+                        dragTransition={{ bounceStiffness: 600, bounceDamping: 10 }}
                         style={{
                             zIndex: card.zIndex,
                             aspectRatio: '2/3',
@@ -88,18 +96,6 @@ export default function ImgStack({ images }: ImgStackProps) {
                                 ? '0 24px 48px rgba(0,0,0,0.65), 0 0 0 2px rgba(232,117,106,0.5)'
                                 : '0 12px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.08)',
                         }}
-                        animate={cardStyles}
-                        drag={canDrag}
-                        dragElastic={0.2}
-                        dragConstraints={{ left: -150, right: 150, top: -150, bottom: 150 }}
-                        dragSnapToOrigin={true}
-                        dragTransition={{ bounceStiffness: 600, bounceDamping: 10 }}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                        whileHover={isTopCard ? {
-                            scale: 1.05,
-                            transition: { duration: 0.2 }
-                        } : {}}
                         whileDrag={{
                             scale: 1.1,
                             rotate: 0,
@@ -107,14 +103,20 @@ export default function ImgStack({ images }: ImgStackProps) {
                             boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.45)",
                             transition: { duration: 0.1 }
                         }}
+                        whileHover={isTopCard ? {
+                            scale: 1.05,
+                            transition: { duration: 0.2 }
+                        } : {}}
+                        onDragEnd={handleDragEnd}
+                        onDragStart={handleDragStart}
                     >
                         <Image
-                            src={card.src}
-                            alt={`Movie poster ${card.id + 1}`}
                             fill
+                            alt={`Movie poster ${card.id + 1}`}
                             className="object-cover rounded-xl pointer-events-none"
-                            sizes="(max-width: 768px) 100vw, 256px"
                             draggable={false}
+                            sizes="(max-width: 768px) 100vw, 256px"
+                            src={card.src}
                         />
                     </motion.div>
                 );

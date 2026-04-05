@@ -1,6 +1,6 @@
-import CircularProgress from "@/components/ui/CircularProgress";
 import Link from "next/link";
 
+import CircularProgress from "@/components/ui/CircularProgress";
 import { useRecommandedMovie } from "@/hooks/useRecommandedMovie";
 import { MovieDetails } from "@/types";
 

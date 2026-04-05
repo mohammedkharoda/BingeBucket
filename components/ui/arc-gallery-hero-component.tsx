@@ -42,6 +42,7 @@ export const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
+
       if (width < 640) {
         setDimensions({ radius: radiusSm, cardWidth: cardWidthSm, cardHeight: cardHeightSm });
       } else if (width < 1024) {
@@ -50,8 +51,10 @@ export const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
         setDimensions({ radius: radiusLg, cardWidth: cardWidthLg, cardHeight: cardHeightLg });
       }
     };
+
     handleResize();
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize);
   }, [radiusLg, radiusMd, radiusSm, cardWidthLg, cardWidthMd, cardWidthSm, cardHeightLg, cardHeightMd, cardHeightSm]);
 
@@ -113,9 +116,9 @@ export const ArcGalleryHero: React.FC<ArcGalleryHeroProps> = ({
                 }}
               >
                 <img
-                  src={src}
                   alt={`Movie poster ${i + 1}`}
                   draggable={false}
+                  src={src}
                   style={{ display: 'block', width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =

@@ -27,7 +27,7 @@ const SearchResults: React.FC = () => {
     <section className="max-w-site mx-auto px-6 lg:px-16 py-16">
       {/* Header */}
       <div className="flex items-center gap-3 mb-10">
-        <RiSearchLine size={22} className="text-gold" />
+        <RiSearchLine className="text-gold" size={22} />
         <div>
           <p className="text-xs font-bold text-gold uppercase tracking-widest mb-0.5">
             Search Results
@@ -52,11 +52,11 @@ const SearchResults: React.FC = () => {
             href={`/${item.media_type === "movie" ? "movies" : "series"}/${item.id}`}
           >
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
               className="group bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 card-hover"
+              initial={{ opacity: 0, y: 16 }}
+              transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
+              viewport={{ once: true }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
               <div className="relative overflow-hidden">
                 <img
@@ -74,7 +74,7 @@ const SearchResults: React.FC = () => {
                 {/* Rating */}
                 {item.vote_average > 0 && (
                   <div className="absolute top-2 right-2 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface/90 backdrop-blur-sm border border-surface-4/50">
-                    <RiStarFill size={9} className="text-gold" />
+                    <RiStarFill className="text-gold" size={9} />
                     <span className="text-[10px] font-bold text-white">
                       {item.vote_average.toFixed(1)}
                     </span>

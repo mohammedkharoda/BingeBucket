@@ -23,9 +23,9 @@ export default function ThemeSwitch() {
 
   return (
     <button
-      onClick={toggleTheme}
       aria-label="Toggle Theme"
       className="p-2 rounded-full text-muted hover:text-foreground hover:bg-surface-2 transition-all duration-200 cursor-pointer flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-gold/30"
+      onClick={toggleTheme}
     >
       {theme === "light" ? (
         <RiMoonLine size={20} />

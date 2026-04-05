@@ -14,6 +14,7 @@ const SearchInput: React.FC = () => {
   const handleSearch = (searchValue: string) => {
     if (searchValue.trim() === "") {
       toast.error("Please enter a search term.");
+
       return;
     }
     router.push(`/search?query=${encodeURIComponent(searchValue)}`);
@@ -30,8 +31,8 @@ const SearchInput: React.FC = () => {
   return (
     <div className="relative flex items-center w-full">
       <RiSearchLine
-        size={14}
         className="absolute left-3 text-subtle pointer-events-none"
+        size={14}
       />
       <input
         className="w-full pl-9 pr-16 py-2 bg-surface-2 border border-white/10 rounded-lg text-sm text-white placeholder:text-subtle focus:outline-none focus:border-gold/30 focus:bg-surface-3 transition-all duration-200"

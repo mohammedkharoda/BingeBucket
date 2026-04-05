@@ -79,6 +79,7 @@ export default function Component({ slides = DEFAULT_SLIDES, className }: Slides
   useEffect(() => {
     normalizedSlides.forEach((slide, index) => {
       const img = new window.Image();
+
       img.crossOrigin = "anonymous";
       img.src = slide.img;
 
@@ -87,10 +88,12 @@ export default function Component({ slides = DEFAULT_SLIDES, className }: Slides
           const canvas = document.createElement("canvas");
           const sampleWidth = 32;
           const sampleHeight = 18;
+
           canvas.width = sampleWidth;
           canvas.height = sampleHeight;
 
           const ctx = canvas.getContext("2d");
+
           if (!ctx) return;
 
           // Sample mostly from the left-middle region where text sits.
@@ -113,10 +116,12 @@ export default function Component({ slides = DEFAULT_SLIDES, className }: Slides
             const r = pixels[i] / 255;
             const g = pixels[i + 1] / 255;
             const b = pixels[i + 2] / 255;
+
             luminance += 0.2126 * r + 0.7152 * g + 0.0722 * b;
           }
 
           const avgLuma = luminance / (pixels.length / 4);
+
           setIsLightBySlide((prev) => ({ ...prev, [index]: avgLuma > 0.52 }));
         } catch {
           setIsLightBySlide((prev) => ({ ...prev, [index]: false }));

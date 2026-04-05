@@ -4,10 +4,11 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { RiMenu3Line } from "react-icons/ri";
 
-import NavDesktop from "./nav/NavDesktop";
-import NavMobile from "./nav/NavMobile";
 import useUserStore from "@/store/userStore";
 import { useWatchlistStore } from "@/store/useWatchlistStore";
+
+import NavDesktop from "./nav/NavDesktop";
+import NavMobile from "./nav/NavMobile";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
+
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -46,6 +49,7 @@ export default function Navbar() {
   // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
+
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
@@ -72,16 +76,16 @@ export default function Navbar() {
 
           {/* Mobile top bar (logo + hamburger) */}
           <div className="flex lg:hidden items-center justify-between py-3">
-            <a href="/" className="flex-shrink-0">
+            <a className="flex-shrink-0" href="/">
               <span className="font-display font-black text-xl tracking-tight" style={{ color: "#1A1A1A" }}>
                 Binge<span style={{ color: "#E8756A" }}>Bucket</span>
               </span>
             </a>
             <button
               aria-label="Open menu"
-              onClick={() => setIsOpen(true)}
               className="p-2 rounded-full transition-all duration-200 cursor-pointer"
               style={{ color: "#6B7280" }}
+              onClick={() => setIsOpen(true)}
             >
               <RiMenu3Line size={22} />
             </button>
@@ -92,8 +96,8 @@ export default function Navbar() {
       {/* Mobile drawer — rendered outside <header> so it can be fixed full-screen */}
       <NavMobile
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
         isSignedIn={isSignedIn}
+        onClose={() => setIsOpen(false)}
       />
     </>
   );

@@ -1,4 +1,3 @@
-import CircularProgress from "@/components/ui/CircularProgress";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { MdOndemandVideo } from "react-icons/md";
@@ -7,6 +6,7 @@ import { RiBookmarkLine } from "react-icons/ri";
 import ReactPlayer from "react-player";
 import { toast } from "sonner";
 
+import CircularProgress from "@/components/ui/CircularProgress";
 import { formatDate } from "@/config/dateFormat";
 import { useSeriesDetails } from "@/hooks/useSeriesDetails";
 import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
@@ -322,13 +322,13 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
                 {CrewMember.map((member) => (
                   <div key={member.id} className="flex items-center gap-2">
                     <img
+                      alt={member.original_name}
                       className="rounded-full w-9 h-9 object-cover object-top"
                       src={
                         member?.profile_path
                           ? `https://image.tmdb.org/t/p/w92/${member.profile_path}`
                           : "/image/forbidden.png"
                       }
-                      alt={member.original_name}
                     />
                     <p className="text-sm text-muted">{member.original_name}</p>
                   </div>
@@ -354,10 +354,10 @@ const SeriesDetailsCard = (id: { id: string | string[] }) => {
                     <div key={network.id} className="bg-surface-2 rounded-lg p-2">
                       {network?.logo_path ? (
                         <img
+                          alt={network.name || "Network"}
                           className="w-20 h-auto object-contain"
                           loading="lazy"
                           src={`https://image.tmdb.org/t/p/w92/${network.logo_path}`}
-                          alt={network.name || "Network"}
                         />
                       ) : (
                         <p className="text-xs text-muted px-2 py-1">{network.name}</p>

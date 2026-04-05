@@ -26,6 +26,7 @@ export const PhotoGallery = ({
   useEffect(() => {
     const visibilityTimer = setTimeout(() => setIsVisible(true), animationDelay * 1000);
     const animationTimer = setTimeout(() => setIsLoaded(true), (animationDelay + 0.35) * 1000);
+
     return () => {
       clearTimeout(visibilityTimer);
       clearTimeout(animationTimer);
@@ -95,16 +96,16 @@ export const PhotoGallery = ({
       {/* Fan of posters */}
       <div className="relative mb-5 mt-2 h-[350px] w-full items-center justify-center lg:flex">
         <motion.div
+          animate={{ opacity: isVisible ? 1 : 0 }}
           className="relative mx-auto flex w-full max-w-7xl justify-center"
           initial={{ opacity: 0 }}
-          animate={{ opacity: isVisible ? 1 : 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <motion.div
-            className="relative flex w-full justify-center"
-            variants={containerVariants}
-            initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
+            className="relative flex w-full justify-center"
+            initial="hidden"
+            variants={containerVariants}
           >
             {/* Pivot element — poster size 160×240 */}
             <div className="relative" style={{ width: 160, height: 240 }}>
@@ -112,16 +113,16 @@ export const PhotoGallery = ({
                 <motion.div
                   key={photo.id}
                   className="absolute left-0 top-0"
+                  custom={{ x: photo.x, y: photo.y, order: photo.order }}
                   style={{ zIndex: photo.zIndex }}
                   variants={photoVariants}
-                  custom={{ x: photo.x, y: photo.y, order: photo.order }}
                 >
                   <PosterPhoto
-                    src={photo.src}
                     alt={photo.title}
                     direction={photo.direction}
-                    movieId={photo.movieId}
                     isFeatured={photo.order === 2}
+                    movieId={photo.movieId}
+                    src={photo.src}
                   />
                 </motion.div>
               ))}
@@ -133,8 +134,8 @@ export const PhotoGallery = ({
       {/* CTA */}
       <div className="flex w-full justify-center">
         <Link
-          href="/movies#movies-filter"
           className="inline-flex items-center gap-2 rounded-badge border border-surface-4 bg-white/80 px-7 py-3 text-sm font-semibold text-[var(--color-muted)] transition-all duration-200 hover:scale-105 hover:bg-black hover:text-[#6BB5D6] active:scale-95"
+          href="/movies#movies-filter"
           style={{
             boxShadow: "0 6px 20px rgba(24,22,16,0.12)",
           }}
@@ -179,11 +180,13 @@ export const PosterPhoto = ({
 
   useEffect(() => {
     const r = getRandomNumberInRange(1, 4) * (direction === "left" ? -1 : 1);
+
     setRotation(r);
   }, [direction]);
 
   function handleMouse(event: React.MouseEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
+
     x.set(event.clientX - rect.left);
     y.set(event.clientY - rect.top);
   }
@@ -191,12 +194,11 @@ export const PosterPhoto = ({
   const card = (
     <motion.div
       drag
-      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-      whileTap={{ scale: 1.1, zIndex: 40 }}
-      whileHover={{ scale: 1.06, rotateZ: 2 * (direction === "left" ? -1 : 1), zIndex: 40 }}
-      whileDrag={{ scale: 1.08, zIndex: 40 }}
-      initial={{ rotate: 0 }}
       animate={{ rotate: rotation }}
+      className="relative mx-auto shrink-0 cursor-grab active:cursor-grabbing"
+      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      draggable={false}
+      initial={{ rotate: 0 }}
       style={{
         width: 160,
         height: 240,
@@ -207,11 +209,12 @@ export const PosterPhoto = ({
         userSelect: "none",
         touchAction: "none",
       }}
-      className="relative mx-auto shrink-0 cursor-grab active:cursor-grabbing"
-      onMouseMove={handleMouse}
-      onMouseLeave={() => { x.set(80); y.set(120); }}
-      draggable={false}
       tabIndex={0}
+      whileDrag={{ scale: 1.08, zIndex: 40 }}
+      whileHover={{ scale: 1.06, rotateZ: 2 * (direction === "left" ? -1 : 1), zIndex: 40 }}
+      whileTap={{ scale: 1.1, zIndex: 40 }}
+      onMouseLeave={() => { x.set(80); y.set(120); }}
+      onMouseMove={handleMouse}
     >
       <div
         className="relative h-full w-full overflow-hidden"
@@ -223,11 +226,11 @@ export const PosterPhoto = ({
         }}
       >
         <MotionImage
-          className={cn("object-cover")}
           fill
-          src={src}
           alt={alt}
+          className={cn("object-cover")}
           draggable={false}
+          src={src}
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&auto=format&fit=crop";

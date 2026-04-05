@@ -32,11 +32,11 @@ const SeriesSeason = () => {
               href={`/series/${id}/season/${season.season_number}`}
             >
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
                 className="group bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 card-hover cursor-pointer"
+                initial={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
               >
                 {/* Poster */}
                 {season.poster_path ? (
@@ -66,9 +66,6 @@ const SeriesSeason = () => {
                   {season.vote_average > 0 ? (
                     <div className="flex items-center gap-3">
                       <CircularProgress
-                        value={season.vote_average * 10}
-                        size={44}
-                        strokeWidth={4}
                         showValueLabel
                         classNames={{
                           indicator: `${
@@ -80,6 +77,9 @@ const SeriesSeason = () => {
                           }`,
                           value: "text-[10px] font-bold text-off-white",
                         }}
+                        size={44}
+                        strokeWidth={4}
+                        value={season.vote_average * 10}
                       />
                       <span className="text-xs text-off-white">Overall rating</span>
                     </div>

@@ -69,15 +69,15 @@ const FAQ = () => {
           {faqs.map((faq, idx) => (
             <motion.div
               key={faq.key}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: idx * 0.05 }}
               className="bg-surface border border-surface-4 rounded-2xl overflow-hidden"
+              initial={{ opacity: 0, y: 12 }}
+              transition={{ duration: 0.35, delay: idx * 0.05 }}
+              viewport={{ once: true }}
+              whileInView={{ opacity: 1, y: 0 }}
             >
               <button
-                onClick={() => setOpenKey(openKey === faq.key ? null : faq.key)}
                 className="w-full flex items-center justify-between px-5 py-4 text-left cursor-pointer hover:bg-surface-2 transition-colors duration-200"
+                onClick={() => setOpenKey(openKey === faq.key ? null : faq.key)}
               >
                 <span className="text-sm font-semibold text-white">
                   {faq.question}
@@ -94,11 +94,11 @@ const FAQ = () => {
               <AnimatePresence initial={false}>
                 {openKey === faq.key && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25, ease: "easeInOut" }}
                     className="overflow-hidden"
+                    exit={{ height: 0, opacity: 0 }}
+                    initial={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
                   >
                     <p className="px-5 pb-4 text-sm text-muted leading-relaxed border-t border-surface-4 pt-3">
                       {faq.answer}

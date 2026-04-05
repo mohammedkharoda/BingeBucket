@@ -4,12 +4,13 @@ import { ClerkProvider } from "@clerk/nextjs";
 import clsx from "clsx";
 import { Metadata } from "next";
 
-import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { poppins, inter, signika, assistant, robotoSlab } from "@/config/fonts";
 import Footer from "@/components/Footer";
 import NavbarWrapper from "@/shared/NavbarWrapper";
+
+import { Providers } from "./providers";
 
 
 export const metadata: Metadata = {

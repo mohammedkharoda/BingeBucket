@@ -45,30 +45,30 @@ export default function NavMobile({ isOpen, onClose, isSignedIn }: NavMobileProp
           {/* Backdrop */}
           <motion.div
             key="mobile-backdrop"
-            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
           />
 
           {/* Drawer */}
           <motion.div
             key="mobile-drawer"
-            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
             className="fixed top-0 right-0 z-50 h-full w-[300px] bg-surface border-l border-surface-4 flex flex-col lg:hidden"
+            exit={{ x: "100%" }}
+            initial={{ x: "100%" }}
+            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
           >
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 py-5 border-b border-surface-4">
               <span className="font-display font-bold text-white text-lg">Menu</span>
               <button
-                onClick={onClose}
                 aria-label="Close menu"
                 className="p-2 rounded-full text-muted hover:text-white hover:bg-surface-2 transition-all duration-200 cursor-pointer"
+                onClick={onClose}
               >
                 <RiCloseLine size={20} />
               </button>
@@ -82,18 +82,19 @@ export default function NavMobile({ isOpen, onClose, isSignedIn }: NavMobileProp
                   item.href === "/"
                     ? pathname === item.href
                     : pathname.startsWith(item.href);
+
                 return (
                   <Link
                     key={item.href}
-                    href={item.href}
-                    onClick={onClose}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                       isActive
                         ? "text-accent bg-accent/10 border border-accent/20"
                         : "text-muted hover:text-white hover:bg-surface-2"
                     }`}
+                    href={item.href}
+                    onClick={onClose}
                   >
-                    <Icon size={18} className={isActive ? "text-accent" : "text-subtle"} />
+                    <Icon className={isActive ? "text-accent" : "text-subtle"} size={18} />
                     {item.label}
                   </Link>
                 );

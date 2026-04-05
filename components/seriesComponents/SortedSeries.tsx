@@ -80,23 +80,23 @@ const SortedSeriesComponent = () => {
           series?.map((item: SeriesShowcase, idx: number) => (
             <Link key={item.id} href={`/series/${item.id}`}>
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
                 className="group bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 card-hover h-full flex flex-col"
+                initial={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
               >
                 {/* Poster */}
                 <div className="relative overflow-hidden">
                   <img
                     alt={item.name}
-                    loading="lazy"
                     className="w-full aspect-[2/3] object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
                     src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                   />
                   {item.vote_average > 0 && (
                     <div className="absolute tZop-2.5 right-2.5 flex items-center gap-1 px-2 py-1 rounded-full bg-surface/90 backdrop-blur-sm border border-surface-4/50">
-                      <RiStarFill size={10} className="text-gold" />
+                      <RiStarFill className="text-gold" size={10} />
                       <div className="text-[11px] bg-off-white text-off-white">
                         {item.vote_average.toFixed(1)}
                       </div>
@@ -111,7 +111,7 @@ const SortedSeriesComponent = () => {
                   </h3>
                   {item.first_air_date ? (
                     <div className="flex items-center gap-1.5">
-                      <RiCalendarLine size={11} className="text-subtle" />
+                      <RiCalendarLine className="text-subtle" size={11} />
                       <span className="text-[11px] text-subtle">
                         {new Date(item.first_air_date).toLocaleDateString("en-US", { year: "numeric", month: "short" })}
                       </span>

@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchMovieImages } from "@/lib/api";
 import { ImageDetails } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useMovieImageShowcase = (id: number) => {
   return useQuery<ImageDetails, Error>({

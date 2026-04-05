@@ -29,7 +29,7 @@ export default function Loading() {
           border: "1px solid #E5E0D8",
         }}
       >
-        <Image src="/logo.png" width={60} height={60} alt="BingeBucket" priority />
+        <Image priority alt="BingeBucket" height={60} src="/logo.png" width={60} />
       </div>
 
       {/* Spinner */}

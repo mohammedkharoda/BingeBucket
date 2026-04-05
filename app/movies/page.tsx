@@ -42,8 +42,8 @@ export default function Movies() {
 
               <div className="flex flex-wrap gap-2">
                 <Link
-                  href="#movies-filter"
                   className="inline-flex items-center gap-2 rounded-full border border-surface-4 bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)] transition hover:bg-black hover:text-[#6BB5D6]"
+                  href="#movies-filter"
                 >
                   Browse Picks
                   <RiArrowRightUpLine size={13} />
@@ -54,19 +54,19 @@ export default function Movies() {
             <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
               <div className="rounded-xl border border-surface-4 bg-white/60 px-4 py-3 text-sm font-semibold text-muted">
                 <div className="inline-flex items-center gap-2">
-                  <RiFireLine size={13} className="text-gold" />
+                  <RiFireLine className="text-gold" size={13} />
                   Daily Trending
                 </div>
               </div>
               <div className="rounded-xl border border-surface-4 bg-white/60 px-4 py-3 text-sm font-semibold text-muted">
                 <div className="inline-flex items-center gap-2">
-                  <RiMovie2Line size={13} className="text-gold" />
+                  <RiMovie2Line className="text-gold" size={13} />
                   Curated Collections
                 </div>
               </div>
               <div className="rounded-xl border border-surface-4 bg-white/60 px-4 py-3 text-sm font-semibold text-muted">
                 <div className="inline-flex items-center gap-2">
-                  <RiClapperboardLine size={13} className="text-gold" />
+                  <RiClapperboardLine className="text-gold" size={13} />
                   Fresh Releases
                 </div>
               </div>
@@ -82,7 +82,7 @@ export default function Movies() {
           <TrendingMoviesBanner />
         </section>
 
-        <section id="movies-filter" className="relative pb-16">
+        <section className="relative pb-16" id="movies-filter">
           <SortedMovieComponent />
         </section>
       </main>

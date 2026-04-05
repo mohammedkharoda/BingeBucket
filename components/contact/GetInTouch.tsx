@@ -6,7 +6,7 @@ const GetInTouch = () => {
   return (
     <div className="py-16 px-6 text-center flex flex-col items-center justify-center gap-5">
       <div className="p-4 rounded-full bg-gold/10 border border-gold/20">
-        <RiMailLine size={28} className="text-gold" />
+        <RiMailLine className="text-gold" size={28} />
       </div>
       <div>
         <p className="text-xs font-bold text-gold uppercase tracking-widest mb-2">
@@ -19,8 +19,8 @@ const GetInTouch = () => {
         </p>
       </div>
       <Link
-        href="/contact-us"
         className="inline-flex items-center gap-2 px-6 py-3 bg-gold hover:bg-gold-dim text-white text-sm font-semibold rounded-full shadow-card transition-all duration-200"
+        href="/contact-us"
       >
         Contact
       </Link>

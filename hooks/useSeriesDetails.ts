@@ -1,6 +1,7 @@
-import { fetchMovieDetails, fetchSeriesDetails } from "@/lib/api";
-import { MovieDetails, SeriesDetails } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+
+import { fetchSeriesDetails } from "@/lib/api";
+import { SeriesDetails } from "@/types";
 
 export const useSeriesDetails = (id: number) => {
   return useQuery<SeriesDetails, Error>({

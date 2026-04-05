@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchSeriesVideos } from "@/lib/api";
 import { SeriesVideo } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useSeriesVideoShowcase = (id: number) => {
   return useQuery<SeriesVideo, Error>({

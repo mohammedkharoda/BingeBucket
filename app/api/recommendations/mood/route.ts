@@ -49,6 +49,7 @@ const safeJsonFromText = <T>(text: string): T | null => {
     return JSON.parse(text) as T;
   } catch {
     const fenced = text.match(/```json\s*([\s\S]*?)```/i);
+
     if (fenced?.[1]) {
       try {
         return JSON.parse(fenced[1]) as T;
@@ -56,6 +57,7 @@ const safeJsonFromText = <T>(text: string): T | null => {
         return null;
       }
     }
+
     return null;
   }
 };
@@ -97,11 +99,13 @@ const fallbackPick = (candidates: Candidate[], mood: string): { pick: Candidate;
       const freshness = c.media_type === "movie" ? 0.05 : 0.08;
       const random = Math.random() * 0.12;
       const score = rating * 0.5 + pop * 0.35 + freshness + bias * 0.1 + random;
+
       return { candidate: c, score };
     })
     .sort((a, b) => b.score - a.score);
 
   const pick = scored[0]?.candidate ?? candidates[0];
+
   return {
     pick,
     reason:
@@ -193,7 +197,9 @@ const getGeminiPick = async (
         .join("\n") || "";
 
     const parsed = safeJsonFromText<GeminiPick>(text);
+
     if (!parsed || !parsed.id || !parsed.media_type) return null;
+
     return parsed;
   } catch {
     return null;
@@ -241,7 +247,9 @@ const getGeminiIdea = async (
         .join("\n") || "";
 
     const parsed = safeJsonFromText<GeminiIdea>(text);
+
     if (!parsed || !parsed.title || !parsed.overview || !parsed.reason) return null;
+
     return parsed;
   } catch {
     return null;
@@ -250,6 +258,7 @@ const getGeminiIdea = async (
 
 const localIdeaFallback = (mood: string, contentType: ContentType) => {
   const media = contentType === "both" ? "movie" : contentType;
+
   return {
     media_type: media as "movie" | "tv",
     title: `${mood} Night Pick`,
@@ -275,6 +284,7 @@ export async function POST(request: NextRequest) {
 
     if (geminiKey && candidates.length) {
       const geminiPick = await getGeminiPick(geminiKey, mood, preferences, candidates);
+
       if (geminiPick) {
         pick =
           candidates.find(
@@ -289,6 +299,7 @@ export async function POST(request: NextRequest) {
 
     if (!pick && candidates.length) {
       const fallback = fallbackPick(candidates, mood);
+
       pick = fallback.pick;
       reason = fallback.reason;
       source = "fallback";
@@ -296,6 +307,7 @@ export async function POST(request: NextRequest) {
 
     if (!pick && geminiKey) {
       const idea = await getGeminiIdea(geminiKey, mood, preferences, contentType);
+
       if (idea) {
         return NextResponse.json({
           recommendation: {
@@ -314,6 +326,7 @@ export async function POST(request: NextRequest) {
 
     if (!pick) {
       const idea = localIdeaFallback(mood, contentType);
+
       return NextResponse.json({
         recommendation: {
           id: 0,
@@ -347,6 +360,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("[mood-recommendation-error]", error);
+
     return NextResponse.json(
       { error: "Failed to generate recommendation. Try again." },
       { status: 500 }

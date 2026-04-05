@@ -17,18 +17,18 @@ const ContentGrid = () => {
         {movies?.slice(0, 2).map((movie, i) => (
           <motion.div
             key={movie.id}
-            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 + 0.3, duration: 0.5, ease: "easeOut" }}
             className="relative overflow-hidden rounded-2xl ring-1 ring-surface-4 shadow-card hover:ring-gold/30 hover:shadow-card-hover transition-all duration-300"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ delay: i * 0.1 + 0.3, duration: 0.5, ease: "easeOut" }}
           >
             <Image
               alt={movie.title}
-              loading="lazy"
-              width={195}
-              height={290}
               className="object-cover"
+              height={290}
+              loading="lazy"
               src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
+              width={195}
             />
           </motion.div>
         ))}
@@ -39,18 +39,18 @@ const ContentGrid = () => {
         {movies?.slice(3, 6).map((movie, i) => (
           <motion.div
             key={movie.id}
-            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 + 0.5, duration: 0.5, ease: "easeOut" }}
             className="relative overflow-hidden rounded-2xl ring-1 ring-surface-4 shadow-card hover:ring-gold/30 hover:shadow-card-hover transition-all duration-300"
+            initial={{ opacity: 0, y: 16 }}
+            transition={{ delay: i * 0.1 + 0.5, duration: 0.5, ease: "easeOut" }}
           >
             <Image
               alt={movie.title}
-              loading="lazy"
-              width={150}
-              height={220}
               className="object-cover"
+              height={220}
+              loading="lazy"
               src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
+              width={150}
             />
           </motion.div>
         ))}

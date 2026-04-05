@@ -26,12 +26,14 @@ const CircularProgress = ({
 
   // Count-up
   const [display, setDisplay] = useState(0);
+
   useEffect(() => {
     const ctrl = animate(0, progress, {
       duration: 1.4,
       ease: "easeOut",
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
+
     return ctrl.stop;
   }, [progress]);
 
@@ -66,21 +68,21 @@ const CircularProgress = ({
       }}
     >
       <svg
-        width={size}
         height={size}
         viewBox={`0 0 ${vbSize} ${vbSize}`}
+        width={size}
         style={{ display: "block" }}   /* no overflow: visible */
       >
         <defs>
-          <filter id={`glow-${uid}`} x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
+          <filter height="180%" id={`glow-${uid}`} width="180%" x="-40%" y="-40%">
+            <feGaussianBlur result="blur" stdDeviation="2" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          <filter id={`dot-glow-${uid}`} x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur stdDeviation="2.5" result="blur" />
+          <filter height="260%" id={`dot-glow-${uid}`} width="260%" x="-80%" y="-80%">
+            <feGaussianBlur result="blur" stdDeviation="2.5" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -92,41 +94,41 @@ const CircularProgress = ({
         <circle
           cx={cx}
           cy={cy}
-          r={r}
           fill="none"
+          r={r}
           stroke="rgba(255,255,255,0.10)"
-          strokeWidth={strokeWidth}
           strokeDasharray={`${circumference / 24} ${circumference / 24}`}
+          strokeWidth={strokeWidth}
           transform={`rotate(-90 ${cx} ${cy})`}
         />
 
         {/* Animated progress arc */}
         <motion.circle
+          animate={{ strokeDashoffset: circumference * (1 - progress / 100) }}
           cx={cx}
           cy={cy}
-          r={r}
           fill="none"
-          stroke={scoreColor}
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          transform={`rotate(-90 ${cx} ${cy})`}
           filter={`url(#glow-${uid})`}
           initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset: circumference * (1 - progress / 100) }}
+          r={r}
+          stroke={scoreColor}
+          strokeDasharray={circumference}
+          strokeLinecap="round"
+          strokeWidth={strokeWidth}
+          transform={`rotate(-90 ${cx} ${cy})`}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
         />
 
         {/* Tip dot */}
         {progress > 1 && (
           <motion.circle
+            animate={{ opacity: 1, scale: 1 }}
             cx={tipX}
             cy={tipY}
-            r={strokeWidth * 0.9}
             fill={scoreColor}
             filter={`url(#dot-glow-${uid})`}
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
+            r={strokeWidth * 0.9}
             transition={{ delay: 1.2, duration: 0.35, ease: "backOut" }}
           />
         )}
@@ -135,14 +137,14 @@ const CircularProgress = ({
         {showValueLabel && (
           <text
             className={classNames.value ?? "text-off-white"}
-            x={cx}
-            y={cy + fontSize * 0.38}
-            textAnchor="middle"
             dominantBaseline="middle"
             fill="currentColor"
+            fontFamily="inherit"
             fontSize={fontSize}
             fontWeight="800"
-            fontFamily="inherit"
+            textAnchor="middle"
+            x={cx}
+            y={cy + fontSize * 0.38}
           >
             {display}
           </text>

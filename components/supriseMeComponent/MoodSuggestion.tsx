@@ -62,6 +62,7 @@ const MoodSuggestion = () => {
       if (!suggestion.id || suggestion.isIdeaOnly) return;
       const isMovie = suggestion.media_type === "movie" || "title" in suggestion;
       const route = isMovie ? `/movies/${suggestion.id}` : `/series/${suggestion.id}`;
+
       router.push(route);
     }
   };
@@ -79,13 +80,13 @@ const MoodSuggestion = () => {
 
       <div className="max-w-site mx-auto px-6 lg:px-16 py-16 flex flex-col gap-10">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-center relative z-10"
+        initial={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-surface-4 bg-white/70 mb-4 backdrop-blur-md">
-          <RiSparklingFill size={12} className="text-gold animate-pulse" />
+          <RiSparklingFill className="text-gold animate-pulse" size={12} />
           <span className="text-xs font-bold text-gold uppercase tracking-widest">
             AI Mood Engine
           </span>
@@ -106,16 +107,16 @@ const MoodSuggestion = () => {
             {moods.map((mood, idx) => (
               <motion.button
                 key={mood.name}
-                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.25, delay: idx * 0.04 }}
-                onClick={() => handleMoodSelect(mood.name)}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold transition-all duration-200 cursor-pointer ${
                   selectedMood === mood.name
                     ? "bg-gold/15 border-gold/30 text-off-white shadow-card"
                     : "bg-surface border-surface-4 text-muted hover:bg-surface-2"
                 }`}
+                initial={{ opacity: 0, scale: 0.9 }}
                 title={mood.desc}
+                transition={{ duration: 0.25, delay: idx * 0.04 }}
+                onClick={() => handleMoodSelect(mood.name)}
               >
                 <span>{mood.emoji}</span>
                 {mood.name}
@@ -127,21 +128,21 @@ const MoodSuggestion = () => {
         <div className="rounded-3xl border border-surface-4 bg-white/60 p-5 backdrop-blur-md">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-subtle mb-3">Extra Preferences</p>
           <textarea
+            className="w-full min-h-[96px] rounded-2xl border border-surface-4 bg-white/80 px-4 py-3 text-sm text-off-white placeholder:text-subtle outline-none focus:ring-2 focus:ring-gold/30"
+            placeholder="Example: no horror, strong female lead, under 2 hours, plot twists"
             value={preferences}
             onChange={(e) => setPreferences(e.target.value)}
-            placeholder="Example: no horror, strong female lead, under 2 hours, plot twists"
-            className="w-full min-h-[96px] rounded-2xl border border-surface-4 bg-white/80 px-4 py-3 text-sm text-off-white placeholder:text-subtle outline-none focus:ring-2 focus:ring-gold/30"
           />
           <div className="mt-3 flex items-center gap-2">
             {["both", "movie", "tv"].map((type) => (
               <button
                 key={type}
-                onClick={() => setContentType(type as ContentType)}
                 className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition ${
                   contentType === type
                     ? "bg-gold/15 border-gold/30 text-off-white"
                     : "bg-white/70 border-surface-4 text-muted"
                 }`}
+                onClick={() => setContentType(type as ContentType)}
               >
                 {type === "movie" && <RiMovie2Line size={13} />}
                 {type === "tv" && <RiTv2Line size={13} />}
@@ -155,8 +156,8 @@ const MoodSuggestion = () => {
 
       <div className="flex items-center justify-center">
           <button
-            onClick={() => refetch()}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-surface-4 bg-white/70 text-off-white font-semibold shadow-card hover:bg-white/90 transition"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-surface-4 bg-white/70 text-off-white font-semibold shadow-card hover:bg-white/90 transition"
+          onClick={() => refetch()}
         >
           <RiRefreshLine size={15} />
           Re-roll Recommendation
@@ -169,11 +170,11 @@ const MoodSuggestion = () => {
         {suggestion && suggestion.poster_path && (
           <motion.div
             key={`${suggestion.media_type}-${suggestion.id}-${suggestion.title || suggestion.name}`}
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -24, scale: 0.97 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
             className="max-w-4xl mx-auto w-full relative z-10"
+            exit={{ opacity: 0, y: -24, scale: 0.97 }}
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <div className="bg-white/72 border border-surface-4 rounded-3xl overflow-hidden shadow-card-hover flex flex-col md:flex-row backdrop-blur-xl">
               <div className="md:w-64 flex-shrink-0">
@@ -223,8 +224,8 @@ const MoodSuggestion = () => {
                 <div className="flex gap-3 flex-wrap">
                   {!suggestion.isIdeaOnly ? (
                     <button
-                      onClick={handleWatchNow}
                       className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold hover:bg-gold-dim text-off-white text-sm font-semibold rounded-full shadow-card transition-all duration-200 cursor-pointer"
+                      onClick={handleWatchNow}
                     >
                       Open Details <RiArrowRightLine size={15} />
                     </button>
@@ -234,8 +235,8 @@ const MoodSuggestion = () => {
                     </span>
                   )}
                   <button
-                    onClick={() => refetch()}
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/70 hover:bg-white text-off-white text-sm font-medium rounded-full border border-surface-4 transition-all duration-200 cursor-pointer"
+                    onClick={() => refetch()}
                   >
                     <RiRefreshLine size={15} /> Pick Another
                   </button>

@@ -25,14 +25,14 @@ const UserAvatar = () => {
         <Image
           alt={user?.firstName || "User"}
           className="rounded-full object-cover ring-2 ring-surface-4"
+          height={30}
           src={user?.imageUrl || "/image/user.png"}
           width={30}
-          height={30}
         />
         <span className="text-sm font-medium text-white hidden sm:block">
           {user?.firstName || "User"}
         </span>
-        <RiArrowDownSLine size={14} className="text-subtle" />
+        <RiArrowDownSLine className="text-subtle" size={14} />
       </MenuButton>
 
       <Transition

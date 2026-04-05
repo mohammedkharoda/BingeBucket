@@ -670,6 +670,7 @@ export const fetchAiMoodSuggestion = async (params: {
 
   if (!response.ok) {
     const errorBody = await response.json().catch(() => ({}));
+
     throw new Error(errorBody?.error || "Failed to fetch AI recommendation");
   }
 

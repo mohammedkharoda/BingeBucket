@@ -1,5 +1,6 @@
-import { fetchMultiSearch } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+
+import { fetchMultiSearch } from "@/lib/api";
 
 export const useMultiSearch = (query: string) => {
   return useQuery({

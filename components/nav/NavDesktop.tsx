@@ -29,7 +29,7 @@ export default function NavDesktop({
   return (
     <div className="flex items-center justify-between py-2 gap-6">
       {/* Logo */}
-      <Link href="/" className="flex-shrink-0">
+      <Link className="flex-shrink-0" href="/">
         <BingeLogo />
       </Link>
 
@@ -40,11 +40,12 @@ export default function NavDesktop({
             item.href === "/"
               ? pathname === item.href
               : pathname.startsWith(item.href);
+
           return (
             <Link
               key={item.href}
-              href={item.href}
               className="relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200"
+              href={item.href}
               style={{
                 color: isActive ? "#E8756A" : "#374151",
                 fontWeight: isActive ? 600 : 500,
@@ -52,8 +53,8 @@ export default function NavDesktop({
             >
               {isActive && (
                 <motion.span
-                  layoutId="nav-active-pill"
                   className="absolute inset-0 rounded-full"
+                  layoutId="nav-active-pill"
                   style={{ background: "rgba(232,117,106,0.10)", border: "1px solid rgba(232,117,106,0.25)" }}
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
@@ -72,21 +73,21 @@ export default function NavDesktop({
             {searchOpen && (
               <motion.div
                 key="search-box"
-                initial={{ opacity: 0, width: 0 }}
                 animate={{ opacity: 1, width: 220 }}
-                exit={{ opacity: 0, width: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
                 className="overflow-hidden"
+                exit={{ opacity: 0, width: 0 }}
+                initial={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
               >
                 <SearchInput />
               </motion.div>
             )}
           </AnimatePresence>
           <button
-            onClick={onSearchToggle}
             aria-label="Toggle search"
             className="p-2 rounded-full transition-all duration-200 cursor-pointer"
             style={{ color: "#6B7280" }}
+            onClick={onSearchToggle}
           >
             <RiSearchLine size={18} />
           </button>

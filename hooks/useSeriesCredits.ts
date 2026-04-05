@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchSeriesCast } from "@/lib/api";
 import { Cast } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useTopBilledSeriesCast = (id: number) => {
   return useQuery<Cast[], Error>({

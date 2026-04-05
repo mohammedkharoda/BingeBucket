@@ -5,11 +5,12 @@ import { motion } from "framer-motion";
 import { RiStarFill, RiCalendarLine, RiArrowRightUpLine } from "react-icons/ri";
 import { PiWarningCircleBold } from "react-icons/pi";
 
-import { Movie } from "../../types";
 import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
+
+import { Movie } from "../../types";
 
 const categories = [
   { label: "Popular", value: "popular" },
@@ -77,11 +78,11 @@ const SortedMovieComponent: React.FC = () => {
           movies.map((movie: Movie, idx: number) => (
             <Link key={movie.id} href={`/movies/${movie.id}`}>
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
                 className="group relative h-full overflow-hidden rounded-[1.35rem] border border-surface-4 bg-surface transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-card-hover"
+                initial={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
               >
                 <div
                   className="pointer-events-none absolute -left-2 top-[68%] h-4 w-4 rounded-full border"
@@ -112,8 +113,8 @@ const SortedMovieComponent: React.FC = () => {
                 <div className="relative overflow-hidden">
                   <img
                     alt={movie.title}
-                    loading="lazy"
                     className="aspect-[2/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    loading="lazy"
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   />
                   <div
@@ -127,7 +128,7 @@ const SortedMovieComponent: React.FC = () => {
                   {/* Rating badge */}
                   {(movie.vote_average ?? 0) > 0 && (
                     <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-full border px-2.5 py-1 bg-black"        >
-                      <RiStarFill size={11} className="text-gold" />
+                      <RiStarFill className="text-gold" size={11} />
                       <span className="text-[11px] text-off-white">
                         {(movie.vote_average ?? 0).toFixed(1)}
                       </span>
@@ -160,7 +161,7 @@ const SortedMovieComponent: React.FC = () => {
                         background: "var(--color-surface-2)",
                       }}
                     >
-                      <RiCalendarLine size={11} className="text-subtle" />
+                      <RiCalendarLine className="text-subtle" size={11} />
                       <span className="text-[11px] text-subtle">
                         {new Date(movie.release_date).toLocaleDateString("en-US", { year: "numeric", month: "short" })}
                       </span>

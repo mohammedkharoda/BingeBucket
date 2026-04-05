@@ -1,6 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchMoviesTrailer } from "@/lib/api";
 import { MovieTrailer } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 
 export const useMovieTrailer = (id: number) => {
   return useQuery<MovieTrailer, Error>({

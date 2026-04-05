@@ -1,33 +1,34 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import EmailForm from "@/shared/EmailForm";
 import { RiMailSendLine } from "react-icons/ri";
+
+import EmailForm from "@/shared/EmailForm";
 
 /* ── Inline SVG doodles ─────────────────────────────── */
 const DoodleStar = ({ size = 24, color = "currentColor", style = {} }: { size?: number; color?: string; style?: React.CSSProperties }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={style}>
+  <svg fill="none" height={size} style={style} viewBox="0 0 24 24" width={size}>
     <path
       d="M12 2 L13.2 9.2 L20 8 L14.8 13 L17.6 20 L12 16.2 L6.4 20 L9.2 13 L4 8 L10.8 9.2 Z"
-      stroke={color} strokeWidth="1.4" strokeLinejoin="round" fill="none"
+      fill="none" stroke={color} strokeLinejoin="round" strokeWidth="1.4"
     />
   </svg>
 );
 
 const DoodleCircle = ({ size = 40, color = "currentColor", style = {} }: { size?: number; color?: string; style?: React.CSSProperties }) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none" style={style}>
+  <svg fill="none" height={size} style={style} viewBox="0 0 40 40" width={size}>
     <path
       d="M20 4 C28 3 36 10 37 19 C38 29 31 37 21 37 C11 38 3 30 3 20 C2 10 10 3 20 4"
-      stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round"
+      fill="none" stroke={color} strokeLinecap="round" strokeWidth="1.5"
     />
   </svg>
 );
 
 const DoodleWave = ({ style = {} }: { style?: React.CSSProperties }) => (
-  <svg width="80" height="20" viewBox="0 0 80 20" fill="none" style={style}>
+  <svg fill="none" height="20" style={style} viewBox="0 0 80 20" width="80">
     <path
       d="M2 10 C8 4 14 16 20 10 C26 4 32 16 38 10 C44 4 50 16 56 10 C62 4 68 16 74 10 L78 10"
-      stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"
+      fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5"
     />
   </svg>
 );
@@ -36,8 +37,8 @@ const DoodleWave = ({ style = {} }: { style?: React.CSSProperties }) => (
 const EmailSubscriptionBanner = () => {
   return (
     <section
-      id="newsletter"
       className="relative overflow-hidden border-y border-surface-4 px-6 py-14 lg:px-16 lg:py-16"
+      id="newsletter"
       style={{
         background:
           "radial-gradient(circle at 15% 14%, rgba(245,200,66,0.2) 0%, rgba(245,200,66,0) 40%), radial-gradient(circle at 80% 20%, rgba(107,181,214,0.16) 0%, rgba(107,181,214,0) 42%), linear-gradient(180deg, #fbf8f2 0%, #f7efe2 100%)",
@@ -68,40 +69,40 @@ const EmailSubscriptionBanner = () => {
 
       {/* Popcorn accents */}
       <div className="pointer-events-none absolute left-8 top-6 hidden lg:block opacity-70">
-        <Image src="/popcron-tub.png" alt="" width={138} height={138} className="rotate-[-12deg]" />
+        <Image alt="" className="rotate-[-12deg]" height={138} src="/popcron-tub.png" width={138} />
       </div>
       <div className="pointer-events-none absolute bottom-6 right-10 hidden lg:block opacity-65">
-        <Image src="/popcron-tub.png" alt="" width={122} height={122} className="rotate-[14deg]" />
+        <Image alt="" className="rotate-[14deg]" height={122} src="/popcron-tub.png" width={122} />
       </div>
 
       {/* ── Main content — centered poster-board layout ── */}
       <div className="relative z-10 mx-auto max-w-[920px]">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
+          initial={{ opacity: 0, scale: 0.8 }}
           style={{
             background: "rgba(245,200,66,0.14)",
             border: "1.5px solid rgba(245,200,66,0.45)",
             boxShadow: "0 0 28px rgba(245,200,66,0.2)",
           }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          whileInView={{ opacity: 1, scale: 1 }}
         >
           <RiMailSendLine size={20} style={{ color: "var(--color-gold)" }} />
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           className="rounded-[1.6rem] border px-6 py-6 text-center sm:px-10 sm:py-7"
+          initial={{ opacity: 0, y: 18 }}
           style={{
             borderColor: "rgba(245,200,66,0.35)",
             background: "rgba(255,255,255,0.78)",
             boxShadow: "0 22px 45px rgba(40,28,8,0.13)",
           }}
+          transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          whileInView={{ opacity: 1, y: 0 }}
         >
           <div className="mx-auto inline-flex w-fit items-center justify-center gap-1.5 rounded-full px-4 py-1.5"
             style={{
@@ -160,7 +161,7 @@ const EmailSubscriptionBanner = () => {
             >
               <div className="text-left">
                 <p style={{ fontSize: "11px", color: "var(--color-muted)", lineHeight: 1.4 }}>
-                  "Actually useful picks every week."
+                  &ldquo;Actually useful picks every week.&rdquo;
                 </p>
                 <p style={{ fontSize: "10px", color: "var(--color-subtle)", marginTop: 2 }}>
                   Join <span style={{ color: "var(--color-gold)", fontWeight: 700 }}>2,000+</span> movie lovers · Unsubscribe anytime
@@ -175,7 +176,7 @@ const EmailSubscriptionBanner = () => {
           <p style={{ fontSize: "12px", letterSpacing: "0.3px" }}>
             Delivered every Friday morning
           </p>
-          <DoodleCircle size={18} color="rgba(245,200,66,0.55)" />
+          <DoodleCircle color="rgba(245,200,66,0.55)" size={18} />
         </div>
       </div>
     </section>

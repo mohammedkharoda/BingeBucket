@@ -18,9 +18,11 @@ const EmailForm = () => {
 
   const processForm: SubmitHandler<EmailFormProps> = async (data) => {
     const result = await sendEmail(data);
+
     if (result?.success) {
       toast.success("Subscribed! Welcome to BingeBucket.");
       reset();
+
       return;
     }
     toast.error("Please enter a valid email address.");

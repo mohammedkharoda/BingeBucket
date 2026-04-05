@@ -79,23 +79,28 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
     const splitIntoCharacters = (text: string): string[] => {
       if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
         const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
+
         return Array.from(
           segmenter.segment(text),
           ({ segment }) => segment
         );
       }
+
       return Array.from(text);
     };
 
     const elements = useMemo(() => {
       const currentText = texts[currentTextIndex];
+
       if (splitBy === "characters") {
         const words = currentText.split(" ");
+
         return words.map((word, i) => ({
           characters: splitIntoCharacters(word),
           needsSpace: i !== words.length - 1,
         }));
       }
+
       return splitBy === "words"
         ? currentText.split(" ")
         : splitBy === "lines"
@@ -106,17 +111,21 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
     const getStaggerDelay = useCallback(
       (index: number, totalChars: number) => {
         const total = totalChars;
+
         if (staggerFrom === "first") return index * staggerDuration;
         if (staggerFrom === "last")
           return (total - 1 - index) * staggerDuration;
         if (staggerFrom === "center") {
           const center = Math.floor(total / 2);
+
           return Math.abs(center - index) * staggerDuration;
         }
         if (staggerFrom === "random") {
           const randomIndex = Math.floor(Math.random() * total);
+
           return Math.abs(randomIndex - index) * staggerDuration;
         }
+
         return Math.abs(staggerFrom - index) * staggerDuration;
       },
       [staggerFrom, staggerDuration]
@@ -137,6 +146,7 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
             ? 0
             : currentTextIndex
           : currentTextIndex + 1;
+
       if (nextIndex !== currentTextIndex) handleIndexChange(nextIndex);
     }, [currentTextIndex, texts.length, loop, handleIndexChange]);
 
@@ -147,12 +157,14 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
             ? texts.length - 1
             : currentTextIndex
           : currentTextIndex - 1;
+
       if (prevIndex !== currentTextIndex) handleIndexChange(prevIndex);
     }, [currentTextIndex, texts.length, loop, handleIndexChange]);
 
     const jumpTo = useCallback(
       (index: number) => {
         const validIndex = Math.max(0, Math.min(index, texts.length - 1));
+
         if (validIndex !== currentTextIndex) handleIndexChange(validIndex);
       },
       [texts.length, currentTextIndex, handleIndexChange]
@@ -172,6 +184,7 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
     useEffect(() => {
       if (!auto) return;
       const intervalId = setInterval(next, rotationInterval);
+
       return () => clearInterval(intervalId);
     }, [next, rotationInterval, auto]);
 
@@ -185,17 +198,17 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
         <span className="sr-only">{texts[currentTextIndex]}</span>
 
         <AnimatePresence
-          mode={animatePresenceMode}
           initial={animatePresenceInitial}
+          mode={animatePresenceMode}
         >
           <motion.div
             key={currentTextIndex}
+            layout
+            aria-hidden="true"
             className={cn(
               "flex flex-wrap",
               splitBy === "lines" && "flex-col w-full"
             )}
-            layout
-            aria-hidden="true"
           >
             {(splitBy === "characters"
               ? (elements as WordObject[])
@@ -215,10 +228,11 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
                 >
                   {wordObj.characters.map((char, charIndex) => (
                     <motion.span
-                      initial={initial}
-                      animate={animate}
-                      exit={exit}
                       key={charIndex}
+                      animate={animate}
+                      className={cn("inline-block", elementLevelClassName)}
+                      exit={exit}
+                      initial={initial}
                       transition={{
                         ...transition,
                         delay: getStaggerDelay(
@@ -229,7 +243,6 @@ const TextRotate = forwardRef<TextRotateRef, TextRotateProps>(
                           )
                         ),
                       }}
-                      className={cn("inline-block", elementLevelClassName)}
                     >
                       {char}
                     </motion.span>

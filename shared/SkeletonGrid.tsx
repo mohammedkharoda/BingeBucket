@@ -9,14 +9,14 @@ const SkeletonGrid = () => {
       <div className="flex gap-3">
         {/* Left column — 2 tall posters */}
         <div className="flex flex-col gap-3">
-          <Skeleton height={195} width={195} borderRadius={12} />
-          <Skeleton height={195} width={195} borderRadius={12} />
+          <Skeleton borderRadius={12} height={195} width={195} />
+          <Skeleton borderRadius={12} height={195} width={195} />
         </div>
         {/* Right column — 3 smaller, offset */}
         <div className="flex flex-col gap-3 mt-10">
-          <Skeleton height={120} width={150} borderRadius={12} />
-          <Skeleton height={120} width={150} borderRadius={12} />
-          <Skeleton height={120} width={150} borderRadius={12} />
+          <Skeleton borderRadius={12} height={120} width={150} />
+          <Skeleton borderRadius={12} height={120} width={150} />
+          <Skeleton borderRadius={12} height={120} width={150} />
         </div>
       </div>
     </SkeletonTheme>

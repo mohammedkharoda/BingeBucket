@@ -1,6 +1,8 @@
-import { Movie } from "./../types/index";
 import { useQuery } from "@tanstack/react-query";
+
 import { fetchUpcomingMovies } from "../lib/api";
+
+import { Movie } from "./../types/index";
 
 export const useUpcomingMovies = () => {
   return useQuery<Movie[], Error>({

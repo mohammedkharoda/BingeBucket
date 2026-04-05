@@ -19,6 +19,7 @@ const MoviePromotionBanner = () => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % PromotionText.length);
     }, 5000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -63,7 +64,7 @@ const MoviePromotionBanner = () => {
               {PromotionText.map((item, index) => (
                 <button
                   key={item.title}
-                  onClick={() => setCurrentIndex(index)}
+                  aria-label={`Jump to feature ${index + 1}`}
                   className="rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-300"
                   style={{
                     color:
@@ -79,7 +80,7 @@ const MoviePromotionBanner = () => {
                         ? "rgba(232,117,106,0.55)"
                         : "var(--color-surface-4)",
                   }}
-                  aria-label={`Jump to feature ${index + 1}`}
+                  onClick={() => setCurrentIndex(index)}
                 >
                   0{index + 1} {item.title}
                 </button>
@@ -100,15 +101,13 @@ const MoviePromotionBanner = () => {
               {isFetching ? (
                 <Skeleton
                   baseColor="var(--color-surface-2)"
-                  highlightColor="var(--color-surface-3)"
-                  height={420}
-                  width={268}
                   borderRadius={18}
+                  height={420}
+                  highlightColor="var(--color-surface-3)"
+                  width={268}
                 />
               ) : (
                 <motion.div
-                  whileHover={{ rotate: 0.8, y: -3 }}
-                  transition={{ type: "spring", stiffness: 180, damping: 16 }}
                   className="relative mx-auto w-[268px] rotate-[-1.2deg] rounded-[1.6rem] p-3 pb-5"
                   style={{
                     background: "#f5efe3",
@@ -116,23 +115,25 @@ const MoviePromotionBanner = () => {
                     boxShadow:
                       "0 18px 30px rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.12)",
                   }}
+                  transition={{ type: "spring", stiffness: 180, damping: 16 }}
+                  whileHover={{ rotate: 0.8, y: -3 }}
                 >
                   <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[1.15rem] border border-black/10">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={movieIndex}
-                        initial={{ opacity: 0, scale: 1.04 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
                         className="absolute inset-0"
+                        exit={{ opacity: 0 }}
+                        initial={{ opacity: 0, scale: 1.04 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
                       >
                         {popularMovies?.data?.[movieIndex]?.poster_path && (
                           <Image
-                            alt={popularMovies?.data?.[movieIndex]?.title || "Movie"}
                             fill
-                            loading="lazy"
+                            alt={popularMovies?.data?.[movieIndex]?.title || "Movie"}
                             className="object-cover"
+                            loading="lazy"
                             sizes="(max-width: 640px) 268px, 268px"
                             src={`https://image.tmdb.org/t/p/w342${popularMovies?.data?.[movieIndex]?.poster_path}`}
                           />
@@ -167,10 +168,7 @@ const MoviePromotionBanner = () => {
             return (
               <motion.button
                 key={index}
-                onClick={() => setCurrentIndex(index)}
-                whileHover={{ y: -4 }}
                 animate={{ opacity: isActive ? 1 : 0.72 }}
-                transition={{ duration: 0.3 }}
                 className="group relative flex w-full cursor-pointer flex-col gap-5 overflow-hidden rounded-3xl border p-6 text-left transition-all duration-300"
                 style={{
                   background: isActive
@@ -181,6 +179,9 @@ const MoviePromotionBanner = () => {
                     : "var(--color-surface-4)",
                   boxShadow: isActive ? "var(--shadow-card)" : "none",
                 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ y: -4 }}
+                onClick={() => setCurrentIndex(index)}
               >
                 <div
                   className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full blur-2xl"
@@ -239,14 +240,14 @@ const MoviePromotionBanner = () => {
 
                 <div className="mt-auto h-1 w-full overflow-hidden rounded-full bg-surface-3">
                   <motion.div
-                    className="h-full rounded-full"
                     animate={{ width: isActive ? "100%" : "26%" }}
-                    transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                    className="h-full rounded-full"
                     style={{
                       background: isActive
                         ? "linear-gradient(90deg, #E8756A 0%, #F5C842 100%)"
                         : "var(--color-surface-4)",
                     }}
+                    transition={{ type: "spring", stiffness: 260, damping: 28 }}
                   />
                 </div>
               </motion.button>
@@ -258,13 +259,13 @@ const MoviePromotionBanner = () => {
           {PromotionText.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrentIndex(i)}
+              aria-label={`Feature ${i + 1}`}
               className="h-1.5 rounded-full transition-all duration-300"
               style={{
                 width: i === currentIndex ? "24px" : "6px",
                 background: i === currentIndex ? "var(--color-gold)" : "var(--color-surface-4)",
               }}
-              aria-label={`Feature ${i + 1}`}
+              onClick={() => setCurrentIndex(i)}
             />
           ))}
         </div>

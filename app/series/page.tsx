@@ -1,6 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
 import Link from "next/link";
 import { RiArrowRightUpLine, RiClapperboardLine, RiFireLine, RiMovie2Line } from "react-icons/ri";
 
@@ -45,8 +44,8 @@ export default function Series() {
 
             <div className="flex flex-wrap gap-2">
               <Link
-                href="#series-filter"
                 className="inline-flex items-center gap-2 rounded-full border border-surface-4 bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)] transition hover:bg-black hover:text-[#6BB5D6]"
+                href="#series-filter"
               >
                 Browse Shows
                 <RiArrowRightUpLine size={13} />
@@ -57,19 +56,19 @@ export default function Series() {
           <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
             <div className="rounded-xl border border-surface-4 bg-white/60 px-4 py-3 text-sm font-semibold text-muted">
               <div className="inline-flex items-center gap-2">
-                <RiFireLine size={13} className="text-gold" />
+                <RiFireLine className="text-gold" size={13} />
                 Daily Trending
               </div>
             </div>
             <div className="rounded-xl border border-surface-4 bg-white/60 px-4 py-3 text-sm font-semibold text-muted">
               <div className="inline-flex items-center gap-2">
-                <RiMovie2Line size={13} className="text-gold" />
+                <RiMovie2Line className="text-gold" size={13} />
                 Curated Collections
               </div>
             </div>
             <div className="rounded-xl border border-surface-4 bg-white/60 px-4 py-3 text-sm font-semibold text-muted">
               <div className="inline-flex items-center gap-2">
-                <RiClapperboardLine size={13} className="text-gold" />
+                <RiClapperboardLine className="text-gold" size={13} />
                 Fresh Releases
               </div>
             </div>
@@ -85,7 +84,7 @@ export default function Series() {
         <TrendingSeriesBanner />
       </section>
 
-      <section id="series-filter" className="relative pb-16">
+      <section className="relative pb-16" id="series-filter">
         <SortedSeries />
       </section>
     </main>

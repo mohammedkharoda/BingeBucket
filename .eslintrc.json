@@ -6,6 +6,8 @@
     "node": true
   },
   "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended"
@@ -33,6 +35,11 @@
   },
   "rules": {
     "no-console": "warn",
+    "@next/next/no-html-link-for-pages": "warn",
+    "@next/next/no-img-element": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/triple-slash-reference": "off",
+    "jsx-a11y/alt-text": "warn",
     "react/prop-types": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",

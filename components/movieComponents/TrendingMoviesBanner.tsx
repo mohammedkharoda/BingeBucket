@@ -35,7 +35,7 @@ const TrendingMoviesBanner = () => {
   return (
     <section className="py-14 px-6 lg:px-16 max-w-site mx-auto">
       {/* Photo gallery fan */}
-      <PhotoGallery movies={galleryMovies} animationDelay={0.2} />
+      <PhotoGallery animationDelay={0.2} movies={galleryMovies} />
 
       {/* Header */}
       <div className="flex items-end justify-between mb-8">
@@ -48,12 +48,12 @@ const TrendingMoviesBanner = () => {
           </div>
           <h2 className="text-2xl lg:text-3xl font-extrabold text-white flex items-center gap-2.5">
             Trending
-            <RiFlashlightFill size={22} className="text-gold" />
+            <RiFlashlightFill className="text-gold" size={22} />
           </h2>
         </div>
         <Link
-          href="/movies"
           className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-gold transition-colors duration-200"
+          href="/movies"
         >
           See all <RiArrowRightLine size={14} />
         </Link>
@@ -75,8 +75,8 @@ const TrendingMoviesBanner = () => {
                 <img
                   alt={movie.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  src={movie.poster_path ? `https://image.tmdb.org/t/p/w185${movie.poster_path}` : GALLERY_FALLBACK}
                   loading="lazy"
+                  src={movie.poster_path ? `https://image.tmdb.org/t/p/w185${movie.poster_path}` : GALLERY_FALLBACK}
                   style={{ height: "72px" }}
                 />
               </div>
@@ -96,7 +96,7 @@ const TrendingMoviesBanner = () => {
                 </div>
                 {movie.vote_average ? (
                   <div className="flex items-center gap-1 mt-2">
-                    <RiStarFill size={10} className="text-gold" />
+                    <RiStarFill className="text-gold" size={10} />
                     <span className="text-xs font-semibold text-muted">
                       {movie.vote_average.toFixed(1)}
                     </span>
