@@ -2,9 +2,10 @@
 import { NextUIProvider } from "@nextui-org/system";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { ThemeProviderProps } from "next-themes/dist/types";
+import type { ThemeProviderProps } from "next-themes";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useState } from "react";
 import { Toaster } from "sonner";
 
 export interface ProvidersProps {
@@ -14,7 +15,7 @@ export interface ProvidersProps {
 
 export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>

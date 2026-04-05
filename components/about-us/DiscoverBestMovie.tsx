@@ -1,4 +1,4 @@
-import BingeLogo from "@/icons/BingeLogo";
+import Image from "next/image";
 
 const DiscoverBestMovie = () => {
   return (
@@ -14,7 +14,13 @@ const DiscoverBestMovie = () => {
         </p>
       </div>
       <div className="lg:w-1/2 w-full mt-6 lg:mt-0 flex flex-col md:items-end items-center">
-        <BingeLogo height={800} width={600} />
+        <Image
+          priority
+          alt="Popcorn movie illustration"
+          height={220}
+          src="/popcron-movie.png"
+          width={450}
+        />
       </div>
     </div>
   );

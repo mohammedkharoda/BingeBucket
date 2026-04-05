@@ -1,16 +1,19 @@
-import { LoginLink } from "@kinde-oss/kinde-auth-nextjs";
-import { Button } from "@nextui-org/button";
+import { SignInButton } from "@clerk/nextjs";
 
 const LogInBtn = () => {
   return (
-    <Button
-      className="w-full hover:border-yellow-dark border-white"
-      variant="bordered"
-    >
-      <div className="text-white bg-yellow-500 hover:bg-yellow-400 px-4 py-2 rounded-md">
-        <LoginLink postLoginRedirectURL="/">Log In</LoginLink>
-      </div>
-    </Button>
+    <SignInButton>
+      <button
+        className="px-5 py-2 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+        style={{
+          color: "#374151",
+          border: "1.5px solid #D1D5DB",
+          background: "transparent",
+        }}
+      >
+        Sign In
+      </button>
+    </SignInButton>
   );
 };
 

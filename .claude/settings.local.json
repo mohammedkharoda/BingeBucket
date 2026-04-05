@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git rm:*)",
+      "Bash(npm install:*)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && python3 \"C:/Users/kharo/.claude/plugins/cache/ui-ux-pro-max-skill/ui-ux-pro-max/2.5.0/src/ui-ux-pro-max/scripts/search.py\" \"entertainment movie series discovery dark cinematic minimal\" --design-system -p \"BingeBucket\" -f markdown 2>&1)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && npx tsc --noEmit 2>&1 | head -50)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && npx tsc --noEmit 2>&1 | grep -v \"app/_actions\\\\|app/movies/\\\\[id\\\\]\\\\|app/series/\\\\|store/useWatchlistStore\" | head -20)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && npm run build 2>&1 | tail -30)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && npm run build 2>&1 | tail -25)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && npm run build 2>&1 | tail -20)",
+      "Bash(cd \"D:\\\\Codes\\\\BingeBucket\" && npm run build 2>&1 | tail -15)",
+      "Bash(grep -r \"border-white/5\\\\|border-white/8\\\\|border-white/10\\\\|bg-white/5\\\\|hover:bg-white/5\\\\|hover:text-white\\\\|text-gray-300\\\\|text-gray-500\\\\|bg-yellow-700\\\\|bg-crimson-red\\\\|bg-brown\\\\|bg-white text-black\\\\|text-black \" --include=*.tsx -l)",
+      "Bash(grep -rn \"ring-white/10\\\\|ring-1 ring-white\\\\|text-white\\\\|bg-black\\\\|bg-background\" --include=*.tsx -l)",
+      "mcp__claude_ai_Figma__get_design_context",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"require\\('./tailwind.config.js'\\)\")",
+      "Bash(npx next:*)",
+      "Bash(awk 'NR>=287 && NR<=295' components/home/Hero.tsx)",
+      "Bash(npx eslint:*)",
+      "Bash(awk 'NR==290' components/movieComponents/MovieDetailCard.tsx components/home/MediaCard.tsx components/movieComponents/MoviePromotionBanner.tsx)",
+      "Bash(npm run:*)",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}

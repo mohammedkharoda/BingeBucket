@@ -1,31 +1,31 @@
 "use client";
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { RiStarFill, RiCalendarLine, RiArrowRightUpLine } from "react-icons/ri";
 import { PiWarningCircleBold } from "react-icons/pi";
 
 import { Movie } from "../../types";
-
 import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
 import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { useTopRatedMovies } from "@/hooks/useTopRatingMovies";
 import { useUpcomingMovies } from "@/hooks/useUpcomingMovie";
+
 const categories = [
   { label: "Popular", value: "popular" },
   { label: "Top Rated", value: "top_rated" },
   { label: "Upcoming", value: "upcoming" },
-  { label: "Current Playing", value: "now_playing" },
+  { label: "Now Playing", value: "now_playing" },
 ];
+
 const SortedMovieComponent: React.FC = () => {
   const [category, setCategory] = useState("now_playing");
 
-  // Call all hooks at the top level
   const popularMovies = usePopularMovie();
   const topRatedMovies = useTopRatedMovies();
   const upcomingMovies = useUpcomingMovies();
   const nowPlayingMovies = useNowPlayingMovies();
 
-  // Determine which data to display based on the selected category
   const selectedMovies =
     category === "top_rated"
       ? topRatedMovies
@@ -35,50 +35,31 @@ const SortedMovieComponent: React.FC = () => {
           ? nowPlayingMovies
           : popularMovies;
 
-  const { data: movies, isLoading } = selectedMovies;
-
-  // useEffect(() => {
-  //   if (selectedMovies.isError) {
-  //     toast.error(selectedMovies.error.message);
-  //   }
-  // }, [selectedMovies]);
+  const { data: movies } = selectedMovies;
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(event.target.value);
   };
 
   return (
-    <>
-      <div className="flex gap-5 justify-center">
-        <div
-          style={{
-            fontWeight: 800, // equivalent to Tailwind's font-extrabol
-            fontSize: "50px", // equivalent to Tailwind's text-4xl
-            background: "linear-gradient(to right, #1c1c1c, #8b5a00, #f82852)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            color: "transparent",
-            paddingBottom: "30px",
-          }}
-        >
-          Hot Picks in Theaters and Streaming
+    <section className="py-14 px-6 lg:px-16 max-w-site mx-auto">
+      {/* Header */}
+      <div className="mb-8 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1 h-5 rounded-full bg-gold" />
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">Movies</p>
+          </div>
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-white text-gold-gradient">
+            Hot Picks
+          </h2>
         </div>
-        <img
-          alt="Animated fire gif"
-          className="lg:block hidden"
-          src="../image/fire.gif"
-          style={{
-            width: "80px", // adjust size as needed
-            height: "80px",
-          }}
-        />
-      </div>
-      <div className="flex justify-between items-center">
-        <div className="text-[18px] capitalize mx-auto font-medium mb-9">
-          See the{" "}
+
+        {/* Category filter */}
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted font-medium">Filter:</span>
           <select
-            className="bg-white text-black rounded-md p-2 shadow-md focus:outline-none focus:ring-2 focus:ring-brown focus:border-yellow"
+            className="cursor-pointer rounded-full border border-surface-4 bg-surface-2 px-4 py-2 text-sm text-[var(--color-white)] focus:outline-none focus:ring-2 focus:ring-gold/30"
             value={category}
             onChange={handleSortChange}
           >
@@ -87,74 +68,130 @@ const SortedMovieComponent: React.FC = () => {
                 {cat.label}
               </option>
             ))}
-          </select>{" "}
-          movies everyone is talking about.
+          </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {movies &&
-          movies.map((movie: Movie) => (
+          movies.map((movie: Movie, idx: number) => (
             <Link key={movie.id} href={`/movies/${movie.id}`}>
-              <Card
-                key={movie.id}
-                fullWidth
-                isBlurred
-                isPressable
-                className="bg-white rounded-lg overflow-hidden h-full"
-                shadow="md"
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
+                className="group relative h-full overflow-hidden rounded-[1.35rem] border border-surface-4 bg-surface transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-card-hover"
               >
-                <CardBody>
-                  <Image
-                    isZoomed
+                <div
+                  className="pointer-events-none absolute -left-2 top-[68%] h-4 w-4 rounded-full border"
+                  style={{
+                    borderColor: "var(--color-surface-4)",
+                    background: "var(--color-black)",
+                    opacity: 0.7,
+                  }}
+                />
+                <div
+                  className="pointer-events-none absolute -right-2 top-[68%] h-4 w-4 rounded-full border"
+                  style={{
+                    borderColor: "var(--color-surface-4)",
+                    background: "var(--color-black)",
+                    opacity: 0.7,
+                  }}
+                />
+
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background:
+                      "linear-gradient(145deg, rgba(245,200,66,0.14) 0%, rgba(245,200,66,0) 36%, rgba(107,181,214,0.14) 100%)",
+                  }}
+                />
+
+                {/* Poster */}
+                <div className="relative overflow-hidden">
+                  <img
                     alt={movie.title}
                     loading="lazy"
-                    radius="sm"
-                    src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    className="aspect-[2/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   />
-                </CardBody>
-                <CardHeader className=" flex flex-col p-4">
                   <div
-                    className={`flex justify-between items-center w-full lg:${
-                      movie.vote_average ? "flex-row" : "flex-col gap-5"
-                    } flex-col`}
-                  >
-                    <h2 className="text-[20px] text-left font-semibold text-black ">
-                      {movie.title?.length >= 20
-                        ? movie.title.substring(0, 15) + "..."
-                        : movie.title}
-                    </h2>
-                    {movie.vote_average ? (
-                      <p className="text-[15px] font-semibold text-black">
-                        &#11088; {movie.vote_average.toFixed(1)}
-                      </p>
-                    ) : (
-                      <p className=" bg-yellow-dark px-2 min-w-max py-2 rounded-full text-black font-semibold text-[16px] flex items-center gap-2">
-                        <PiWarningCircleBold size={26} />
-                        Yet to be released
-                      </p>
-                    )}
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0) 100%)",
+                    }}
+                  />
+
+                  {/* Rating badge */}
+                  {(movie.vote_average ?? 0) > 0 && (
+                    <div className="absolute right-2.5 top-2.5 z-20 flex items-center gap-1.5 rounded-full border px-2.5 py-1 bg-black"        >
+                      <RiStarFill size={11} className="text-gold" />
+                      <span className="text-[11px] text-off-white">
+                        {(movie.vote_average ?? 0).toFixed(1)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5">
+                    <h3 className="line-clamp-1 text-sm font-bold text-white" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>
+                      {movie.title}
+                    </h3>
                   </div>
-                  {movie.release_date && (
-                    <p className="text-[15px] font-semibold  text-black my-4">
-                      &#128197;:{" "}
-                      {new Date(movie.release_date).toLocaleDateString()}
-                    </p>
-                  )}
-                  {movie.overview ? (
-                    <p className="text-black font-medium">
-                      {movie.overview.substring(0, 130)}...
-                    </p>
+                </div>
+
+                {/* Info */}
+                <div
+                  className="relative flex flex-1 flex-col gap-2.5 p-4"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 100%)",
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-x-4 top-0 h-px"
+                    style={{ background: "linear-gradient(90deg, transparent 0%, rgba(245,200,66,0.4) 50%, transparent 100%)" }}
+                  />
+
+                  {movie.release_date ? (
+                    <div className="inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1"
+                      style={{
+                        borderColor: "var(--color-surface-4)",
+                        background: "var(--color-surface-2)",
+                      }}
+                    >
+                      <RiCalendarLine size={11} className="text-subtle" />
+                      <span className="text-[11px] text-subtle">
+                        {new Date(movie.release_date).toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                      </span>
+                    </div>
                   ) : (
-                    <p className="text-black font-medium">
-                      No overview available
+                    <span className="inline-flex w-fit items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-medium text-orange"
+                      style={{ borderColor: "rgba(255,152,0,0.35)", background: "rgba(255,152,0,0.09)" }}
+                    >
+                      <PiWarningCircleBold size={11} />
+                      Yet to be released
+                    </span>
+                  )}
+                  {movie.overview && (
+                    <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-subtle">
+                      {movie.overview}
                     </p>
                   )}
-                </CardHeader>
-              </Card>
+
+                  <div className="mt-auto flex items-center justify-end pt-1">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[var(--color-muted)] transition-colors duration-200 group-hover:text-[#6BB5D6]">
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#6BB5D6]" />
+                      View Details
+                      <RiArrowRightUpLine size={12} />
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
             </Link>
           ))}
       </div>
-    </>
+    </section>
   );
 };
 

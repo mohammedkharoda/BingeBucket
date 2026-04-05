@@ -1,9 +1,12 @@
-import { CircularProgress, Image } from "@nextui-org/react";
-import { useState } from "react";
-import { FaSwatchbook } from "react-icons/fa";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+"use client";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import CircularProgress from "@/components/ui/CircularProgress";
+import { IoMdClose } from "react-icons/io";
 import { MdOndemandVideo } from "react-icons/md";
+import { RiBookmarkFill, RiBookmarkLine, RiKeyboardLine, RiPlayLine } from "react-icons/ri";
 import ReactPlayer from "react-player";
+import { toast } from "sonner";
 
 import { formatDate } from "@/config/dateFormat";
 import { convertMinutesToHoursAndMinutes } from "@/config/timeConvert";
@@ -16,11 +19,10 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
   const [isTrailerVisible, setTrailerVisible] = useState(false);
 
   const moviesInfo = useMovieDetails(Number(id.id));
+  const isLoading = moviesInfo?.isLoading;
   const moviesDetails = moviesInfo.data;
   const userRating = Math.round((moviesDetails?.vote_average ?? 0) * 10);
-  const runtimeData = convertMinutesToHoursAndMinutes(
-    moviesDetails?.runtime ?? 0
-  );
+  const runtimeData = convertMinutesToHoursAndMinutes(moviesDetails?.runtime ?? 0);
   const dateData = formatDate(moviesDetails?.release_date ?? "");
   const CrewMember = useCrewStore((state) => state?.crew);
 
@@ -31,13 +33,9 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
     ? movieTrailerData.filter((data) => data.type === "Trailer")[1] ||
       movieTrailerData.filter((data) => data.type === "Trailer")[0]
     : undefined;
-  const {
-    addToWatchlist,
-    removeFromWatchlist,
-    isMovieInWatchlist,
-    isAuthenticated,
-  } = useWatchlistStore();
 
+  const { addToWatchlist, removeFromWatchlist, isMovieInWatchlist, isAuthenticated } =
+    useWatchlistStore();
   const isInWatchlist = isMovieInWatchlist(moviesDetails?.id || 0);
 
   const handleWatchlistToggle = () => {
@@ -57,141 +55,230 @@ const MovieDetailCard = (id: { id: string | string[] }) => {
     }
   };
 
+  // Close trailer on ESC
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setTrailerVisible(false);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-black/70 dark:bg-black/80" />
+        <div className="relative z-10 flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-surface-4 border-t-gold" />
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-subtle">Loading</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
+    <>
     <div
-      className="relative w-full min-h-screen bg-cover bg-center flex items-center justify-center"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden py-8"
       style={{
         backgroundImage: `url(https://image.tmdb.org/t/p/original/${moviesDetails?.backdrop_path})`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
       }}
     >
-      {/* Dark overlay for better readability */}
-      <div className="absolute inset-0 bg-black opacity-85" />
+      <div className="absolute inset-0 bg-white/70 backdrop-blur-2xl dark:bg-black/72" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 62% 55% at 70% 50%, rgba(107,181,214,0.2) 0%, rgba(107,181,214,0) 72%), radial-gradient(ellipse 58% 50% at 28% 22%, rgba(232,117,106,0.15) 0%, rgba(232,117,106,0) 70%)",
+        }}
+      />
+      <div className="pointer-events-none absolute -left-16 top-24 h-56 w-56 rounded-full bg-gold/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-20 bottom-10 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
 
-      {/* Main content container */}
-      <div className="relative z-10 flex flex-col md:flex-row max-w-6xl w-full p-8 bg-[#9797974d] bg-opacity-80 rounded-lg text-white m-4">
-        {/* Left Section: Movie Poster */}
-        <div className="flex justify-center md:justify-start w-full md:w-1/3 mb-8 md:mb-0">
-          <Image
+      <div
+        className="relative z-10 m-4 flex w-full max-w-5xl flex-col gap-8 overflow-hidden rounded-3xl border border-white/45 p-8 md:m-8 md:flex-row dark:border-white/20"
+        style={{
+          backdropFilter: "blur(24px) saturate(145%)",
+          background:
+            "linear-gradient(140deg, rgba(255,255,255,0.56) 0%, rgba(255,255,255,0.3) 46%, rgba(255,255,255,0.5) 100%)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.68), 0 28px 54px rgba(10,10,10,0.24)",
+        }}
+      >
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-white/25 dark:bg-white/10" />
+
+        <div className="flex w-full flex-shrink-0 justify-center md:w-[220px] md:justify-start">
+          <img
             alt={`${moviesDetails?.title} Poster`}
-            className="rounded-lg shadow-md"
+            className="h-auto w-full rounded-2xl border border-white/40 object-cover shadow-card dark:border-white/15"
             loading="lazy"
-            src={`https://image.tmdb.org/t/p/original/${moviesDetails?.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500/${moviesDetails?.poster_path}`}
           />
         </div>
 
-        {/* Right Section: Movie Details */}
-        <div className="w-full md:w-2/3 md:pl-8">
-          {/* Title and Release Date */}
-          <div className="flex flex-col items-start gap-2 mb-4">
-            <h1 className="text-4xl font-bold">{moviesDetails?.title} </h1>
-            <p className="text-sm font-medium text-gray-300">
-              {dateData} • {runtimeData}{" "}
+        <div className="flex min-w-0 flex-1 flex-col gap-5">
+          <div>
+            <h1 className="mb-2 text-3xl font-extrabold leading-tight tracking-tight text-off-white lg:text-4xl">
+              {moviesDetails?.title}
+            </h1>
+            <p className="text-sm font-semibold text-off-white/80 dark:text-white/70">
+              {dateData} &nbsp;·&nbsp; {runtimeData}
             </p>
           </div>
-          <div className="flex items-start gap-5">
-            {/* Genres */}
-            {moviesDetails?.genres &&
-              moviesDetails.genres.map((genre) => (
-                <ul key={genre.id}>
-                  <li className="bg-brown rounded-lg px-[5px] py-[2px] capitalize">
-                    {genre.name}
-                  </li>
-                </ul>
-              ))}
-          </div>
 
-          {/* User Score and Buttons */}
-          <div className="flex items-center gap-4 my-4">
-            <div className="flex items-center gap-2">
+          {moviesDetails?.genres && moviesDetails.genres.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {moviesDetails.genres.map((genre) => (
+                <span
+                  key={genre.id}
+                  className="rounded-full border border-surface-4 bg-white/55 px-3.5 py-1 text-xs font-semibold text-off-white dark:border-gold/35 dark:bg-slate-900/60 dark:text-gold"
+                >
+                  {genre.name}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col items-center gap-1">
               <CircularProgress
-                classNames={{
-                  svg: "w-[50px] h-[50px] drop-shadow-md",
-                  indicator: `${userRating > 70 ? "stroke-green-pastel" : userRating >= 40 ? "stroke-yellow-dark" : "stroke-crimson-red"}`,
-                  value: "text-[14px] font-semibold text-white",
-                }}
-                showValueLabel={true}
-                strokeWidth={2}
+                size={64}
+                strokeWidth={4}
+                showValueLabel
+                classNames={{ value: "text-[14px] font-bold text-off-white" }}
                 value={userRating}
               />
-              <p className="text-[16px] font-semibold">User Ratings</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-off-white/65 dark:text-subtle">
+                User Score
+              </p>
             </div>
 
-            {/* Play Trailer Button */}
             <button
-              className="bg-brown px-4 py-2 rounded-md font-semibold hover:bg-yellow-dark flex items-center"
+              className="inline-flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5"
               onClick={() => {
-                if (trailer) {
-                  setTrailerVisible(true);
-                } else {
-                  alert("Trailer not available.");
-                }
+                if (trailer) setTrailerVisible(true);
+                else toast.error("Trailer not available.");
               }}
             >
-              <MdOndemandVideo className="mr-2" color="white" />
-              Play Trailer
+              <span className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-off-white shadow-card transition hover:bg-gold-dim">
+                <MdOndemandVideo className="opacity-90" size={15} />
+                Play Trailer
+              </span>
             </button>
-            {/* add to watchlist  */}
+
             {isAuthenticated && (
               <button
-                className={`px-4 py-2 rounded-md font-semibold flex items-center gap-4 ${
-                  isInWatchlist ? "bg-dark-green" : "bg-brown"
-                } hover:bg-yellow-dark`}
+                className="inline-flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5"
                 onClick={handleWatchlistToggle}
               >
-                <FaSwatchbook size={16} />
-                {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+                <span
+                  className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold ${
+                    isInWatchlist
+                      ? "border-green/35 bg-green/10 text-green"
+                      : "border-surface-4 bg-white/30 text-off-white dark:bg-slate-900/60"
+                  }`}
+                >
+                  {isInWatchlist ? <RiBookmarkFill size={14} /> : <RiBookmarkLine size={14} />}
+                  {isInWatchlist ? "In Watchlist" : "Watchlist"}
+                </span>
               </button>
             )}
           </div>
 
-          {/* Trailer Popover */}
-          {isTrailerVisible && trailer && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-              <div className="w-full max-w-4xl p-4">
-                <button
-                  className="absolute top-2 right-2 text-white rounded-full p-1"
-                  style={{ fontSize: "2rem" }}
-                  onClick={() => setTrailerVisible(false)}
-                >
-                  <IoMdCloseCircleOutline />
-                </button>
-                <ReactPlayer
-                  controls
-                  height="500px"
-                  style={{ outline: "none", borderRadius: "10px" }}
-                  url={`https://www.youtube.com/watch?v=${trailer.key}`}
-                  width="100%"
-                />
-              </div>
-            </div>
-          )}
-          <div />
-          {/* Tagline or Overview */}
-          <div className="flex flex-col items-start">
-            <p className="font-bold text-[20px] text-left mb-4 text-off-white">
-              {(moviesDetails?.tagline && moviesDetails?.tagline) || "Overview"}
-            </p>
-            <p className="text-off-white text-left text-[18px] mb-4">
+          <div>
+            {moviesDetails?.tagline && (
+              <p className="mb-2 text-base font-bold italic text-off-white/90">
+                &quot;{moviesDetails.tagline}&quot;
+              </p>
+            )}
+            <p className="text-sm leading-7 text-off-white/90 dark:text-muted">
               {moviesDetails?.overview}
             </p>
           </div>
 
-          {/* Crew Members */}
           {CrewMember.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:min-w-max gap-6 mt-5">
+            <div className="grid grid-cols-2 gap-4 border-t border-surface-4 pt-4 md:grid-cols-3">
               {CrewMember.map((member) => (
-                <div key={member?.id} className="flex gap-4">
-                  <div className="flex flex-col items-start">
-                    <p className="font-semibold text-[16px]">{member?.name}</p>
-                    <p className="text-gray-300 font-light">{member?.job}</p>
-                  </div>
+                <div key={`${member?.id}-${member?.job}`}>
+                  <p className="text-sm font-bold text-off-white">{member?.name}</p>
+                  <p className="text-xs text-off-white/60 dark:text-subtle">{member?.job}</p>
                 </div>
               ))}
             </div>
           )}
         </div>
       </div>
+
+      <AnimatePresence>
+        {isTrailerVisible && trailer && (
+          <motion.div
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            key="trailer-backdrop"
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(10px)" }}
+            onClick={() => setTrailerVisible(false)}
+            transition={{ duration: 0.25 }}
+          >
+            <motion.div
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              className="relative mx-4 w-full max-w-4xl"
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              key="trailer-panel"
+              exit={{ opacity: 0, scale: 0.94, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="flex items-center justify-between mb-4 px-1">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">
+                    Official Trailer
+                  </p>
+                  <p className="text-xl font-extrabold leading-tight text-white">
+                    {moviesDetails?.title}
+                  </p>
+                </div>
+                <button
+                  className="flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110"
+                  onClick={() => setTrailerVisible(false)}
+                  style={{ width: "40px", height: "40px" }}
+                >
+                  <IoMdClose size={18} />
+                </button>
+              </div>
+
+              <div
+                style={{
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  borderRadius: "16px",
+                  boxShadow: "0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(124,111,205,0.2)",
+                  overflow: "hidden",
+                }}
+              >
+                <ReactPlayer
+                  controls
+                  height="500px"
+                  playing
+                  url={`https://www.youtube.com/watch?v=${trailer.key}`}
+                  width="100%"
+                  style={{ display: "block" }}
+                />
+              </div>
+
+              <div className="flex items-center justify-center gap-2 mt-4 opacity-40">
+                <RiKeyboardLine color="#fff" size={13} />
+                <span className="text-[11px] font-medium text-white">
+                  Press ESC or click outside to close
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
+    </>
   );
 };
 

@@ -1,56 +1,78 @@
 /* eslint-disable import/order */
 import { useMovieImageShowcase } from "@/hooks/useMovieImageShowcase";
 import React from "react";
+import { motion } from "framer-motion";
+import { RiImageLine } from "react-icons/ri";
 
 const ImageShowcase = (id: { id: string | string[] }) => {
-  // Assuming useMovieImageShowcase returns an object with data, loading, and error
   const { data, isLoading, error } = useMovieImageShowcase(Number(id.id));
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
-  // Handle loading state
-  if (isLoading) return <p>Loading images...</p>;
+  if (isLoading)
+    return (
+      <div className="py-12 text-center text-muted text-sm">Loading images...</div>
+    );
 
-  // Handle error state
-  if (error) return <p>Error loading images: {error.message}</p>;
+  if (error)
+    return (
+      <div className="py-12 text-center text-red text-sm">
+        Error loading images: {error.message}
+      </div>
+    );
 
-  // Accessing backdrops array from data
   const images: any[] = data?.backdrops ?? [];
 
-  // Handle no images case
-  if (images.length === 0) {
-    return <p>No images available for this movie.</p>;
-  }
+  if (images.length === 0) return null;
 
   return (
-    <div className="bg-yellow-700 py-10 text-center text-white">
-      <h2 className="text-4xl font-bold mb-4">Image Showcase</h2>
-      <p className="text-lg mb-8">
-        Explore the captivating images and videos of the movie.
-      </p>
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
-        {/* Main Image */}
-        <div className="md:col-span-2 row-span-2">
-          <img
-            // @ts-ignore
-            alt="Main"
-            className="w-full h-full object-cover rounded-md shadow-lg"
-            src={`${IMAGE_BASE_URL}${images[0]?.file_path}`} // Constructing the main image URL
-          />
+    <section className="py-16 px-6 lg:px-16 section-pastel-peach border-y border-surface-4">
+      <div className="max-w-site mx-auto">
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-8">
+          <div className="w-1 h-5 rounded-full bg-gold" />
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-off-white flex items-center gap-3">
+            Image Showcase
+            <RiImageLine size={24} className="text-gold" />
+          </h2>
         </div>
 
-        {/* Side Images */}
-        {images.slice(1, 6).map((image, index) => (
-          <div key={index} className="col-span-1">
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          {/* Main Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="md:col-span-2 row-span-2 rounded-2xl overflow-hidden shadow-card"
+          >
             <img
-              // @ts-ignore
-              alt={`Side ${index + 1}`}
-              className="w-full h-full object-cover rounded-md shadow-lg"
-              src={`${IMAGE_BASE_URL}${image?.file_path}`} // Correctly accessing file_path
+              alt="Main backdrop"
+              className="w-full h-full object-cover"
+              src={`${IMAGE_BASE_URL}${images[0]?.file_path}`}
             />
-          </div>
-        ))}
+          </motion.div>
+
+          {/* Side Images */}
+          {images.slice(1, 3).map((image, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: (index + 1) * 0.1 }}
+              className="rounded-2xl overflow-hidden shadow-card col-span-1"
+            >
+              <img
+                alt={`Backdrop ${index + 2}`}
+                className="w-full h-full object-cover"
+                src={`${IMAGE_BASE_URL}${image?.file_path}`}
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

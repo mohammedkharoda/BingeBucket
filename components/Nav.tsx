@@ -1,190 +1,100 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useEffect, Suspense } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
+import { RiMenu3Line } from "react-icons/ri";
 
-import SearchInput from "./SearchInput";
-
-import SignUpBtn from "@/shared/SignUpBtn";
-import LogInBtn from "@/shared/LogInBtn";
-import BingeLogo from "@/icons/BingeLogo";
-import { siteConfig } from "@/config/site";
+import NavDesktop from "./nav/NavDesktop";
+import NavMobile from "./nav/NavMobile";
 import useUserStore from "@/store/userStore";
-import UserAvatar from "@/shared/UserAvatar";
 import { useWatchlistStore } from "@/store/useWatchlistStore";
 
-export default function Navbar({
-  isUserAuthenticated,
-  user,
-}: {
-  isUserAuthenticated: boolean;
-  user: any;
-}) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-  const loadUserWatchlist = useWatchlistStore(
-    (state) => state.loadUserWatchlist
-  );
+  const { isSignedIn, userId } = useAuth();
+  const { user } = useUser();
+  const loadUserWatchlist = useWatchlistStore((state) => state.loadUserWatchlist);
   const checkAuthentication = useWatchlistStore.getState().checkAuthentication;
   const setUser = useUserStore.getState().setUser;
+  const clearUser = useUserStore.getState().clearUser;
 
   useEffect(() => {
-    // Only update state when the user authentication status actually changes
-    if (isUserAuthenticated) {
-      setUser(user);
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isSignedIn && user) {
+      setUser({
+        id: userId!,
+        username: user.username || undefined,
+        picture: user.imageUrl,
+        given_name: user.firstName || undefined,
+      });
       loadUserWatchlist();
       checkAuthentication();
-    } else {
-      // Optional: handle the state when not authenticated if needed
+    } else if (isSignedIn === false) {
+      clearUser();
       checkAuthentication();
     }
-  }, [isUserAuthenticated]);
+  }, [isSignedIn, user]);
 
-  const menuVariants = {
-    open: {
-      opacity: 1,
-      height: "auto",
-      transition: { duration: 0.3 },
-    },
-    closed: {
-      opacity: 0,
-      height: 0,
-      transition: { duration: 0.3 },
-    },
-  };
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
 
   return (
-    <nav className="bg-gray-dark shadow-md">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-around h-16 items-center">
-          {/* logo */}
-          <div className="flex items-center">
-            <Link href="/">
-              <BingeLogo />
-            </Link>
+    <>
+      <header
+        className="sticky top-0 z-50"
+        style={{
+          background: "#FFFFFF",
+          borderBottom: "1px solid #F0EDE8",
+          boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.08)" : "none",
+          transition: "box-shadow 0.3s ease",
+        }}
+      >
+        <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
+          {/* Desktop navbar — hidden on mobile to avoid double logo */}
+          <div className="hidden lg:block">
+            <NavDesktop
+              isSignedIn={isSignedIn}
+              searchOpen={searchOpen}
+              onSearchToggle={() => setSearchOpen((prev) => !prev)}
+            />
           </div>
 
-          {/* services */}
-          <div className="hidden lg:flex space-x-8 items-center justify-center">
-            {siteConfig.navItems.map((item, index) => (
-              <motion.a
-                key={index}
-                className={`relative ${
-                  (item.href === "/" && pathname === item.href) ||
-                  (item.href !== "/" && pathname.startsWith(item.href))
-                    ? "text-yellow hover:text-yellow"
-                    : "text-white"
-                } hover:text-orange-yellow`}
-                href={item.href}
-                whileHover={{ scale: 1.05 }}
-              >
-                {item.label}
-                <motion.div
-                  animate={{
-                    width:
-                      (item.href === "/" && pathname === item.href) ||
-                      (item.href !== "/" && pathname.startsWith(item.href))
-                        ? "100%"
-                        : "0%",
-                  }}
-                  className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
-                  initial={{ width: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.a>
-            ))}
-          </div>
-
-          <div className="hidden xl:block">
-            <SearchInput />
-          </div>
-
-          {/* buttons */}
-          <div className="hidden xl:flex space-x-4 items-center">
-            {isUserAuthenticated ? (
-              <UserAvatar />
-            ) : (
-              <>
-                <SignUpBtn />
-                <LogInBtn />
-              </>
-            )}
-          </div>
-          {/* ====================== MOBILE AREA ================================= */}
-          {/* hamburger menu button */}
-          <div className="flex items-center xl:hidden">
+          {/* Mobile top bar (logo + hamburger) */}
+          <div className="flex lg:hidden items-center justify-between py-3">
+            <a href="/" className="flex-shrink-0">
+              <span className="font-display font-black text-xl tracking-tight" style={{ color: "#1A1A1A" }}>
+                Binge<span style={{ color: "#E8756A" }}>Bucket</span>
+              </span>
+            </a>
             <button
-              aria-label="Open Menu"
-              className="text-gray-800 hover:text-gray-600 focus:outline-none"
-              onClick={toggleMenu}
+              aria-label="Open menu"
+              onClick={() => setIsOpen(true)}
+              className="p-2 rounded-full transition-all duration-200 cursor-pointer"
+              style={{ color: "#6B7280" }}
             >
-              {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+              <RiMenu3Line size={22} />
             </button>
           </div>
         </div>
-      </div>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            animate="open"
-            className="xl:hidden overflow-hidden"
-            exit="closed"
-            initial="closed"
-            variants={menuVariants}
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 justify-center items-center flex flex-col gap-4">
-              {siteConfig.navItems.map((item, index) => (
-                <>
-                  <motion.a
-                    key={index}
-                    className={`relative ${
-                      pathname === item.href
-                        ? "text-yellow hover:text-yellow"
-                        : "text-white"
-                    } hover:text-orange-yellow block`}
-                    href={item.href}
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    {item.label}
-                    <motion.div
-                      animate={{
-                        width: pathname === item.href ? "100%" : "0%",
-                      }}
-                      className="absolute left-0 bottom-0 w-full h-[2px] bg-red-600"
-                      initial={{ width: 0 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </motion.a>
-                </>
-              ))}
-              <div className="lg:flex lg:flex-col-reverse">
-                <div className="xl:hidden block py-5 w-full">
-                  <SearchInput />
-                </div>
-                <div className="flex flex-col gap-5 w-full justify-center items-center relative">
-                  {isUserAuthenticated ? (
-                    <div className="relative z-10 flex justify-center">
-                      <UserAvatar />
-                    </div>
-                  ) : (
-                    <>
-                      <SignUpBtn />
-                      <LogInBtn />
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+      </header>
+
+      {/* Mobile drawer — rendered outside <header> so it can be fixed full-screen */}
+      <NavMobile
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        isSignedIn={isSignedIn}
+      />
+    </>
   );
 }

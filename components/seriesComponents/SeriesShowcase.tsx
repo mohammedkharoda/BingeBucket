@@ -1,7 +1,10 @@
 "use client";
 
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { RiArrowRightLine } from "react-icons/ri";
+import Link from "next/link";
 
 import { useAiringTodaySeries } from "@/hooks/useSeriesShowcase";
 
@@ -10,73 +13,83 @@ const SeriesShowcase = () => {
   const [rotatingIndex, setRotatingIndex] = useState(0);
 
   useEffect(() => {
-    // Check if there are any movies to rotate through
-    if (!seriesData?.data?.length) {
-      return;
-    }
-
+    if (!seriesData?.data?.length) return;
     const interval = setInterval(() => {
       setRotatingIndex((prevIndex) => {
-        // If the current index reaches the last movie, start from 1
-        if (prevIndex === seriesData.data.length - 1) {
-          return 1;
-        } else {
-          return prevIndex + 1;
-        }
+        if (prevIndex === seriesData.data.length - 1) return 1;
+        return prevIndex + 1;
       });
     }, 5000);
-
     return () => clearInterval(interval);
   }, [seriesData]);
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      {/* Image side */}
-      <div className="flex-shrink-0">
-        <Image
-          alt="muzzle-image"
-          className="object-cover"
-          height="auto"
-          loading="lazy"
-          radius="lg"
-          src={`https://image.tmdb.org/t/p/original/${seriesData?.data?.[rotatingIndex]?.poster_path}`}
-          width={450}
-        />
+    <section className="py-20 px-6 lg:px-16 max-w-site mx-auto">
+      <div className="flex items-center justify-between gap-12 flex-col-reverse lg:flex-row">
+        {/* Rotating poster */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative w-[260px] h-[390px] flex-shrink-0"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={rotatingIndex}
+              initial={{ opacity: 0, scale: 0.96, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: -8 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0"
+            >
+              {seriesData?.data?.[rotatingIndex]?.poster_path && (
+                <Image
+                  alt={seriesData?.data?.[rotatingIndex]?.name || "Series"}
+                  fill
+                  className="object-cover rounded-3xl shadow-card-hover ring-1 ring-surface-4"
+                  loading="lazy"
+                  sizes="260px"
+                  src={`https://image.tmdb.org/t/p/w500${seriesData?.data?.[rotatingIndex]?.poster_path}`}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Text */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          className="flex flex-col gap-6 max-w-xl"
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-5 rounded-full bg-gold" />
+            <span className="text-xs font-bold text-gold uppercase tracking-widest">
+              Series Collection
+            </span>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+            Discover Captivating{" "}
+            <span className="text-gold-gradient">Series</span>
+          </h2>
+          <p className="text-muted text-base leading-relaxed">
+            Explore a diverse range of critically acclaimed series, binge-worthy
+            dramas, and must-watch thrillers. Whether you are into gripping
+            mysteries, inspiring documentaries, or epic adventures — there is
+            something that will keep you hooked.
+          </p>
+          <Link
+            href="/series"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-gold-dim transition-colors w-fit"
+          >
+            Browse all series <RiArrowRightLine size={16} />
+          </Link>
+        </motion.div>
       </div>
-      {/* Text side */}
-      <div className="flex flex-col justify-center lg:px-[112px] lg:py-[64px] px-[20px] py-[64px]">
-        <p className="flex gap-8 text-[36px] text-left md:text-[56px] font-bold lg:text-[45px] items-center">
-          Discover Captivating Series
-          <img
-            alt="tv"
-            className="hidden h-[100px] lg:block"
-            src="../image/tv.gif"
-          />
-        </p>
-        <p className="mt-2 text-left text-lg md:text-xl text-gray-600 w-full">
-          Explore a diverse range of{" "}
-          <span className="font-extrabold underline underline-offset-4 text-black">
-            critically acclaimed series &#x1F3C6;
-          </span>
-          ,{" "}
-          <span className="font-extrabold underline underline-offset-4 text-black">
-            binge-worthy dramas &#x1F622;
-          </span>
-          , and{" "}
-          <span className="font-extrabold underline underline-offset-4 text-black">
-            must-watch thrillers &#x1F4A5;
-          </span>
-          . Whether you&apos;re into{" "}
-          <b className="text-black underline">
-            gripping mysteries &#x1F52A;, inspiring documentaries &#x1F4F9;, or
-            epic adventures &#x1F680;
-          </b>
-          , we’ve got something that will keep you hooked. Get ready to embark
-          on an unforgettable journey through the world of series and experience
-          the best storytelling from around the globe!
-        </p>
-      </div>
-    </div>
+    </section>
   );
 };
 

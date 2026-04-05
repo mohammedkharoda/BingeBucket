@@ -1,112 +1,259 @@
 "use client";
-import { Button, Card, CardHeader, Image, Spacer } from "@nextui-org/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter from Next.js
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  RiRefreshLine,
+  RiArrowRightLine,
+  RiSparklingFill,
+  RiRobot2Line,
+  RiMovie2Line,
+  RiTv2Line,
+} from "react-icons/ri";
 
-import Loading from "@/shared/Loading";
 import { useMoodSuggestion } from "@/hooks/useMoodSuggestion";
 
 const moods = [
-  { name: "Happy", emoji: "😊" },
-  { name: "Sad", emoji: "😢" },
-  { name: "Excited", emoji: "🤩" },
-  { name: "Relaxed", emoji: "😌" },
-  { name: "Adventurous", emoji: "🧗" },
+  { name: "Happy", emoji: "😊", desc: "Light, fun, uplifting" },
+  { name: "Sad", emoji: "😢", desc: "Emotional, healing stories" },
+  { name: "Excited", emoji: "🤩", desc: "Fast and thrilling" },
+  { name: "Relaxed", emoji: "😌", desc: "Calm, cozy vibes" },
+  { name: "Adventurous", emoji: "🧗", desc: "Epic journeys" },
+  { name: "Curious", emoji: "🧠", desc: "Mystery and sci-fi" },
+  { name: "Nostalgic", emoji: "📼", desc: "Warm throwback energy" },
 ];
+
+type ContentType = "both" | "movie" | "tv";
+
+type RecommendationItem = {
+  id: number;
+  media_type: "movie" | "tv";
+  title?: string;
+  name?: string;
+  overview?: string;
+  poster_path?: string;
+  vote_average?: number;
+  aiReason?: string;
+  aiSource?: "gemini" | "fallback" | "gemini-idea";
+  isIdeaOnly?: boolean;
+};
 
 const MoodSuggestion = () => {
   const [selectedMood, setSelectedMood] = useState<string>("Happy");
-  const {
-    data: suggestion,
-    error,
-    isLoading,
-    refetch,
-  } = useMoodSuggestion(selectedMood);
+  const [preferences, setPreferences] = useState("");
+  const [contentType, setContentType] = useState<ContentType>("both");
 
-  const router = useRouter(); // Initialize useRouter for navigation
+  const { data, error, isLoading, refetch } = useMoodSuggestion(
+    selectedMood,
+    preferences,
+    contentType
+  );
+
+  const suggestion: RecommendationItem | null = data?.recommendation ?? null;
+  const router = useRouter();
 
   const handleMoodSelect = (mood: string) => {
     setSelectedMood(mood);
-    refetch(); // Refetch the data whenever a mood is selected
+    refetch();
   };
+
   const handleWatchNow = () => {
     if (suggestion) {
-      // Determine whether the suggestion is a movie or series by checking if `title` or `name` is present
-      const isMovie = suggestion.hasOwnProperty("title");
-      const route = isMovie
-        ? `/movies/${suggestion.id}`
-        : `/series/${suggestion.id}`;
-
-      router.push(route); // Redirect to the appropriate page
+      if (!suggestion.id || suggestion.isIdeaOnly) return;
+      const isMovie = suggestion.media_type === "movie" || "title" in suggestion;
+      const route = isMovie ? `/movies/${suggestion.id}` : `/series/${suggestion.id}`;
+      router.push(route);
     }
   };
 
   return (
-    <div className="p-6 flex flex-col gap-3">
-      <h2 className="text-center text-[45px] font-extrabold bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-clip-text text-transparent animate-wiggle">
-        &#128578; How Are You Feeling Today ?
-      </h2>
-      <Spacer y={1} />
-      <div className="flex gap-4 items-center justify-center md:flex-row flex-col">
-        {moods.map((mood) => (
-          <div key={mood.name}>
-            <Button
-              size="lg"
-              style={{
-                backgroundColor:
-                  selectedMood === mood.name ? "#FFC107" : "#333",
-                color: selectedMood === mood.name ? "#000" : "#fff",
-              }}
-              onPress={() => handleMoodSelect(mood.name)}
-            >
-              {mood.emoji} {mood.name}
-            </Button>
+    <div
+      className="relative overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(circle at 9% 0%, rgba(107,181,214,0.18) 0%, rgba(107,181,214,0) 34%), radial-gradient(circle at 92% 12%, rgba(232,117,106,0.16) 0%, rgba(232,117,106,0) 38%), linear-gradient(180deg, #f9f4ec 0%, #f7f2ea 38%, #f9f6f1 100%)",
+      }}
+    >
+      <div className="pointer-events-none absolute -left-14 top-12 h-48 w-48 rounded-full blur-3xl" style={{ background: "rgba(245,200,66,0.2)" }} />
+      <div className="pointer-events-none absolute -right-20 top-36 h-60 w-60 rounded-full blur-3xl" style={{ background: "rgba(107,181,214,0.2)" }} />
+
+      <div className="max-w-site mx-auto px-6 lg:px-16 py-16 flex flex-col gap-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="text-center relative z-10"
+      >
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-surface-4 bg-white/70 mb-4 backdrop-blur-md">
+          <RiSparklingFill size={12} className="text-gold animate-pulse" />
+          <span className="text-xs font-bold text-gold uppercase tracking-widest">
+            AI Mood Engine
+          </span>
+        </div>
+        <h1 className="text-3xl lg:text-5xl font-extrabold text-off-white leading-tight mb-3">
+          Tell Us Your Mood,
+          <span className="text-gold-gradient"> We Pick Your Next Obsession</span>
+        </h1>
+        <p className="text-muted text-base max-w-2xl mx-auto">
+          Powered by Gemini + TMDB. Describe your vibe and get a precise recommendation with an explanation.
+        </p>
+      </motion.div>
+
+      <div className="grid gap-4 md:grid-cols-2 relative z-10">
+        <div className="rounded-3xl border border-surface-4 bg-white/60 p-5 backdrop-blur-md">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-subtle mb-3">Mood</p>
+          <div className="flex gap-2.5 items-center justify-start flex-wrap">
+            {moods.map((mood, idx) => (
+              <motion.button
+                key={mood.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25, delay: idx * 0.04 }}
+                onClick={() => handleMoodSelect(mood.name)}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                  selectedMood === mood.name
+                    ? "bg-gold/15 border-gold/30 text-off-white shadow-card"
+                    : "bg-surface border-surface-4 text-muted hover:bg-surface-2"
+                }`}
+                title={mood.desc}
+              >
+                <span>{mood.emoji}</span>
+                {mood.name}
+              </motion.button>
+            ))}
           </div>
-        ))}
+        </div>
+
+        <div className="rounded-3xl border border-surface-4 bg-white/60 p-5 backdrop-blur-md">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-subtle mb-3">Extra Preferences</p>
+          <textarea
+            value={preferences}
+            onChange={(e) => setPreferences(e.target.value)}
+            placeholder="Example: no horror, strong female lead, under 2 hours, plot twists"
+            className="w-full min-h-[96px] rounded-2xl border border-surface-4 bg-white/80 px-4 py-3 text-sm text-off-white placeholder:text-subtle outline-none focus:ring-2 focus:ring-gold/30"
+          />
+          <div className="mt-3 flex items-center gap-2">
+            {["both", "movie", "tv"].map((type) => (
+              <button
+                key={type}
+                onClick={() => setContentType(type as ContentType)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition ${
+                  contentType === type
+                    ? "bg-gold/15 border-gold/30 text-off-white"
+                    : "bg-white/70 border-surface-4 text-muted"
+                }`}
+              >
+                {type === "movie" && <RiMovie2Line size={13} />}
+                {type === "tv" && <RiTv2Line size={13} />}
+                {type === "both" && <RiSparklingFill size={13} />}
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <Spacer y={2} />
+      <div className="flex items-center justify-center">
+          <button
+            onClick={() => refetch()}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-surface-4 bg-white/70 text-off-white font-semibold shadow-card hover:bg-white/90 transition"
+        >
+          <RiRefreshLine size={15} />
+          Re-roll Recommendation
+        </button>
+      </div>
 
-      {isLoading && <Loading />}
-      {error && error.message}
+      {error && <p className="text-center text-red text-sm">{error.message}</p>}
 
-      {suggestion && (
-        <Card className="max-w-4xl mx-auto flex flex-col md:flex-row items-center bg-brown-dark p-5">
-          <Image
-            alt={suggestion.title || suggestion.name}
-            className="w-fit h-auto"
-            loading="lazy"
-            src={`https://image.tmdb.org/t/p/w500${suggestion.poster_path}`}
-            style={{ borderRadius: "10px" }}
-          />
-          <div className="flex flex-col gap-10 items-center justify-between w-full pl-5 text-center">
-            <CardHeader className="flex items-center justify-center">
-              <h3 className="font-bold text-white text-[28px] text-center">
-                {suggestion.title || suggestion.name}
-              </h3>
-            </CardHeader>
-            <p className="text-white">{suggestion.overview}</p>
-            <div className="flex gap-4">
-              <Button
-                className="text-white"
-                color="danger"
-                variant="solid"
-                onPress={handleWatchNow} // Redirect to the movie/series page
-              >
-                Know More
-              </Button>
-              <Button
-                className="text-white"
-                color="warning"
-                variant="bordered"
-                onPress={() => refetch()}
-              >
-                Show Another
-              </Button>
+      <AnimatePresence mode="wait">
+        {suggestion && suggestion.poster_path && (
+          <motion.div
+            key={`${suggestion.media_type}-${suggestion.id}-${suggestion.title || suggestion.name}`}
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -24, scale: 0.97 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="max-w-4xl mx-auto w-full relative z-10"
+          >
+            <div className="bg-white/72 border border-surface-4 rounded-3xl overflow-hidden shadow-card-hover flex flex-col md:flex-row backdrop-blur-xl">
+              <div className="md:w-64 flex-shrink-0">
+                <img
+                  alt={suggestion.title || suggestion.name}
+                  className="w-full h-full object-cover md:aspect-auto aspect-[2/3]"
+                  loading="lazy"
+                  src={
+                    suggestion.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${suggestion.poster_path}`
+                      : "/image/forbidden.png"
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col gap-5 p-6 flex-1 justify-between">
+                <div>
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-surface-4 bg-white/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-subtle">
+                      <RiRobot2Line size={12} />
+                      {suggestion.aiSource === "gemini"
+                        ? "AI Match"
+                        : suggestion.aiSource === "gemini-idea"
+                          ? "AI Idea"
+                          : "Smart Fallback"}
+                    </span>
+                    <span className="inline-flex rounded-full border border-surface-4 bg-white/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-subtle">
+                      {suggestion.media_type === "movie" ? "Movie" : "Series"}
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-extrabold text-off-white mb-2">
+                    {suggestion.title || suggestion.name}
+                  </h3>
+
+                  {suggestion.aiReason && (
+                    <p className="text-sm text-off-white/90 leading-relaxed mb-3">
+                      {suggestion.aiReason}
+                    </p>
+                  )}
+
+                  <p className="text-sm text-muted leading-relaxed line-clamp-4">
+                    {suggestion.overview || "No overview available for this recommendation."}
+                  </p>
+                </div>
+
+                <div className="flex gap-3 flex-wrap">
+                  {!suggestion.isIdeaOnly ? (
+                    <button
+                      onClick={handleWatchNow}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold hover:bg-gold-dim text-off-white text-sm font-semibold rounded-full shadow-card transition-all duration-200 cursor-pointer"
+                    >
+                      Open Details <RiArrowRightLine size={15} />
+                    </button>
+                  ) : (
+                    <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/70 text-off-white text-sm font-semibold rounded-full border border-surface-4">
+                      Idea Mode (No TMDB match)
+                    </span>
+                  )}
+                  <button
+                    onClick={() => refetch()}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/70 hover:bg-white text-off-white text-sm font-medium rounded-full border border-surface-4 transition-all duration-200 cursor-pointer"
+                  >
+                    <RiRefreshLine size={15} /> Pick Another
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {(!suggestion || !suggestion.poster_path) && !isLoading && !error && (
+        <p className="text-center text-muted text-sm">Choose your mood and hit re-roll to get a recommendation.</p>
       )}
+
+      {isLoading && (
+        <div className="mx-auto h-10 w-10 rounded-full border-4 border-surface-4 border-t-gold animate-spin" />
+      )}
+      </div>
     </div>
   );
 };

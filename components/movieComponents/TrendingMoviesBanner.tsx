@@ -1,100 +1,115 @@
 "use client";
-import { Card } from "@nextui-org/react";
 import Link from "next/link";
-import { PiWarningCircleBold } from "react-icons/pi";
+import { RiArrowRightLine, RiFlashlightFill, RiStarFill } from "react-icons/ri";
 
-import { useTrendingOfDay } from "@/hooks/useTrendingOfDay";
+import { useNowPlayingMovies } from "@/hooks/useNowPlayingMovies";
+import { usePopularMovie } from "@/hooks/usePopularMovie";
 import { Movie } from "@/types";
-import Loading from "@/shared/Loading";
+import { truncateSentence } from "@/config/turncate";
+import { PhotoGallery } from "@/components/ui/gallery";
+
+const GALLERY_FALLBACK = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80";
 
 const TrendingMoviesBanner = () => {
-  const { data: movies, isLoading } = useTrendingOfDay();
+  const nowPlayingQuery = useNowPlayingMovies();
+  const popularQuery = usePopularMovie();
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error(error.message);
-  //   }
-  // }, [isError, error]);
 
-  if (isLoading) return <Loading />;
+  const mergedMovies = [
+    ...(nowPlayingQuery.data ?? []),
+    ...(popularQuery.data ?? []),
+  ].filter(
+    (movie, index, arr) =>
+      movie?.id && arr.findIndex((m) => m.id === movie.id) === index,
+  ) as Movie[];
+
+
+  const galleryMovies = mergedMovies.slice(0, 5).map((m: Movie) => ({
+    id: m.id,
+    src: m.poster_path
+      ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+      : GALLERY_FALLBACK,
+    title: m.title,
+  }));
 
   return (
-    <div className="py-16">
-      <div className="flex gap-5 justify-center">
-        <div
-          style={{
-            fontWeight: 800, // equivalent to Tailwind's font-extrabol
-            fontSize: "50px", // equivalent to Tailwind's text-4xl
-            background: "linear-gradient(to left, #003049, #c1121f, #000000)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            color: "transparent",
-            paddingBottom: "30px",
-          }}
-        >
-          Top Movies of the Week
+    <section className="py-14 px-6 lg:px-16 max-w-site mx-auto">
+      {/* Photo gallery fan */}
+      <PhotoGallery movies={galleryMovies} animationDelay={0.2} />
+
+      {/* Header */}
+      <div className="flex items-end justify-between mb-8">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-5 rounded-full bg-gold" />
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">
+              Latest Buzz
+            </p>
+          </div>
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-white flex items-center gap-2.5">
+            Trending
+            <RiFlashlightFill size={22} className="text-gold" />
+          </h2>
         </div>
-        <img
-          alt="Animated fire gif"
-          className="lg:block hidden"
-          src="../image/award.gif"
-          style={{
-            width: "80px", // adjust size as needed
-            height: "80px",
-          }}
-        />
+        <Link
+          href="/movies"
+          className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-gold transition-colors duration-200"
+        >
+          See all <RiArrowRightLine size={14} />
+        </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-        {movies &&
-          movies.map((movie: Movie) => (
-            <Link key={movie.id} href={`/movies/${movie.id}`}>
-              <Card
-                key={movie.id}
-                isBlurred
-                isPressable
-                className="bg-white rounded-lg overflow-hidden p-3 h-full"
-                shadow="md"
-              >
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {mergedMovies.slice(0, 6).map((movie: Movie, idx: number) => (
+          <Link key={movie.id} href={`/movies/${movie.id}`}>
+            <div className="group flex gap-4 p-4 rounded-2xl bg-surface border border-surface-4 hover:border-gold/30 hover:bg-surface-2 hover:shadow-card transition-all duration-200 cursor-pointer">
+              {/* Rank number */}
+              <div className="flex-shrink-0 w-6 flex items-start pt-1">
+                <span className="text-xs font-bold text-subtle tabular-nums">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+              </div>
+
+              {/* Thumbnail */}
+              <div className="relative w-12 h-18 flex-shrink-0 rounded-xl overflow-hidden">
                 <img
                   alt={movie.title}
-                  className=" w-full h-fit rounded-lg shadow-lg"
-                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  src={movie.poster_path ? `https://image.tmdb.org/t/p/w185${movie.poster_path}` : GALLERY_FALLBACK}
+                  loading="lazy"
+                  style={{ height: "72px" }}
                 />
-                <div className="flex flex-col p-4 gap-5">
-                  <div
-                    className={`flex justify-around items-center w-full ${movie.vote_average ? "lg:flex-row" : "lg:flex-col gap-5"} flex-col`}
-                  >
-                    <h2 className="text-[20px] text-left font-semibold text-black">
-                      {movie.title?.length >= 40
-                        ? movie.title.substring(0, 35) + "..."
-                        : movie.title}
-                    </h2>
-                    {movie.vote_average ? (
-                      <p className="text-[15px] font-semibold text-black">
-                        &#11088; {movie.vote_average.toFixed(1)}
-                      </p>
-                    ) : (
-                      <p className="bg-yellow-dark px-2 min-w-max py-2 rounded-full text-black font-semibold text-[16px] flex items-center gap-2">
-                        <PiWarningCircleBold size={26} />
-                        Yet to be released
-                      </p>
+              </div>
+
+              {/* Info */}
+              <div className="flex flex-col justify-between flex-1 min-w-0">
+                <div>
+                  <h3 className="text-sm font-semibold text-white truncate mb-1">
+                    {movie.title}
+                  </h3>
+                  <p className="text-xs text-subtle leading-relaxed line-clamp-2">
+                    {truncateSentence(
+                      movie.overview || "No overview available.",
+                      80
                     )}
-                  </div>
-                  {movie.overview ? (
-                    <p className="text-black font-medium">{movie.overview}</p>
-                  ) : (
-                    <p className="text-black font-medium">
-                      No overview available
-                    </p>
-                  )}
+                  </p>
                 </div>
-              </Card>
-            </Link>
-          ))}
+                {movie.vote_average ? (
+                  <div className="flex items-center gap-1 mt-2">
+                    <RiStarFill size={10} className="text-gold" />
+                    <span className="text-xs font-semibold text-muted">
+                      {movie.vote_average.toFixed(1)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-xs text-subtle mt-2">Coming soon</span>
+                )}
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -655,6 +655,27 @@ export const fetchMoodSuggestion = async (mood: string): Promise<any> => {
   return randomSuggestion;
 };
 
+export const fetchAiMoodSuggestion = async (params: {
+  mood: string;
+  preferences?: string;
+  contentType?: "both" | "movie" | "tv";
+}) => {
+  const response = await fetch("/api/recommendations/mood", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.json().catch(() => ({}));
+    throw new Error(errorBody?.error || "Failed to fetch AI recommendation");
+  }
+
+  return response.json();
+};
+
 // ============================== search apis ==============================
 export const fetchMultiSearch = async (query: string) => {
   const response = await fetch(

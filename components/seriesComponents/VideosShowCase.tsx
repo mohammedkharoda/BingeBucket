@@ -1,6 +1,5 @@
 import React from "react";
 import ReactPlayer from "react-player";
-import { toast } from "sonner";
 
 import { Video } from "@/types";
 import { useSeriesVideoShowcase } from "@/hooks/useSeriesVideoShowcase";
@@ -9,65 +8,92 @@ const VideosShowCase = ({ id }: { id: string | string[] }) => {
   const { data, isLoading, error } = useSeriesVideoShowcase(Number(id));
   const videoData: Video[] = (data as unknown as Video[]) ?? [];
 
-  if (isLoading) return <p>Loading videos...</p>;
+  if (isLoading) {
+    return (
+      <section className="max-w-site mx-auto px-6 lg:px-16 py-10">
+        <p className="text-muted text-sm">Loading videos...</p>
+      </section>
+    );
+  }
   if (error) {
-    return toast.error("Failed to fetch videos. Please try again later! 😭");
+    return (
+      <section className="max-w-site mx-auto px-6 lg:px-16 py-10">
+        <p className="text-red text-sm font-semibold">
+          Failed to fetch videos. Please try again later.
+        </p>
+      </section>
+    );
   }
   if (!videoData.length) {
     return (
-      <p className="text-[35px] font-bold uppercase bg-crimson-red">
-        Sorry No Video Gallery available! 😭
-      </p>
+      <section className="max-w-site mx-auto px-6 lg:px-16 py-10">
+        <div className="rounded-2xl border border-surface-4 bg-surface p-5 text-center">
+          <p className="text-lg font-bold uppercase text-off-white">
+            No video gallery available
+          </p>
+        </div>
+      </section>
     );
   }
 
   return (
-    <div className="bg-yellow-700 py-10 text-center text-white">
-      <h2 className="text-4xl font-bold mb-4">Video Showcase</h2>
-      <p className="text-lg mb-8">
-        Explore the captivating videos of the series.
-      </p>
-      <div className="container mx-auto max-w-4xl px-4">
-        {videoData.length === 1 ? (
-          // When there is only one video, center it
-          <div className="flex justify-center h-[300px] sm:h-[400px] lg:h-[500px]">
-            <ReactPlayer
-              controls
-              className="rounded-md shadow-lg"
-              height="100%"
-              url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
-              width="100%"
-            />
-          </div>
-        ) : (
-          // When there are multiple videos, use the grid layout
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Main Video */}
-            <div className="col-span-1 sm:col-span-2 lg:col-span-2 row-span-2 h-[300px] sm:h-[400px] lg:h-[500px]">
+    <section className="max-w-site mx-auto px-6 lg:px-16 py-10">
+      <div
+        className="rounded-3xl border border-surface-4 px-5 py-6 text-center md:px-8"
+        style={{
+          background: "var(--tw-glass-bg)",
+          borderColor: "var(--tw-glass-border)",
+          backdropFilter: "blur(14px) saturate(130%)",
+          boxShadow: "var(--shadow-card)",
+        }}
+      >
+        <h2 className="mb-3 text-3xl font-extrabold text-off-white md:text-4xl">
+          Video Showcase
+        </h2>
+        <p className="mb-8 text-sm md:text-base text-muted">
+          Explore the captivating videos of the series.
+        </p>
+        <div className="mx-auto max-w-5xl px-1">
+          {videoData.length === 1 ? (
+            <div className="flex h-[260px] justify-center sm:h-[380px] lg:h-[480px]">
               <ReactPlayer
                 controls
-                className="rounded-md shadow-lg"
+                className="rounded-xl shadow-card"
                 height="100%"
                 url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
                 width="100%"
               />
             </div>
-            {/* Side Videos */}
-            {videoData.slice(1, 5).map((video, index) => (
-              <div key={index} className="h-[200px] sm:h-[250px] lg:h-[300px]">
+          ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="col-span-1 row-span-2 h-[280px] sm:col-span-2 sm:h-[380px] lg:col-span-2 lg:h-[480px]">
                 <ReactPlayer
                   controls
-                  className="rounded-md shadow-lg"
+                  className="rounded-xl shadow-card"
                   height="100%"
-                  url={`https://www.youtube.com/watch?v=${video.key}`}
+                  url={`https://www.youtube.com/watch?v=${videoData[0].key}`}
                   width="100%"
                 />
               </div>
-            ))}
-          </div>
-        )}
+              {videoData.slice(1, 5).map((video, index) => (
+                <div
+                  key={`${video.key}-${index}`}
+                  className="h-[190px] sm:h-[230px] lg:h-[240px]"
+                >
+                  <ReactPlayer
+                    controls
+                    className="rounded-xl shadow-card"
+                    height="100%"
+                    url={`https://www.youtube.com/watch?v=${video.key}`}
+                    width="100%"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,17 +1,13 @@
-import { Suspense } from "react";
-
 export default function MovieLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <section className="flex flex-col items-center justify-center gap-4 ">
-        <div className="inline-block text-center justify-center w-full">
-          {children}
-        </div>
-      </section>
-    </Suspense>
+    <section className="flex flex-col items-center justify-center gap-4">
+      <div className="inline-block w-full text-center justify-center">
+        {children}
+      </div>
+    </section>
   );
 }

@@ -2,8 +2,8 @@ import MoodSuggestion from "@/components/supriseMeComponent/MoodSuggestion";
 
 export default function SupriseMe() {
   return (
-    <div>
+    <main className="relative">
       <MoodSuggestion />
-    </div>
+    </main>
   );
 }

@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import React, { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
+import { RiCalendarLine, RiStarFill } from "react-icons/ri";
 
 import { useOnAirSeries } from "@/hooks/useOnAirToday";
 import { useAiringTodaySeries } from "@/hooks/useSeriesShowcase";
 import { useTopRatedSeries } from "@/hooks/useTopRatedSeries";
 import { useUpcomingSeries } from "@/hooks/useUpcomingSeries";
-import Loading from "@/shared/Loading";
 import { SeriesShowcase } from "@/types";
 
 const categories = [
@@ -18,16 +18,15 @@ const categories = [
   { label: "On Air", value: "on_air" },
   { label: "Upcoming", value: "upcoming" },
 ];
+
 const SortedSeriesComponent = () => {
   const [category, setCategory] = useState("air_today");
 
-  // Call all hooks at the top level
   const airingTodaySeries = useAiringTodaySeries();
   const topRatedSeries = useTopRatedSeries();
   const onAirSeries = useOnAirSeries();
   const upcomingSeries = useUpcomingSeries();
 
-  // Determine which series data to display based on the selected category
   const selectedSeries =
     category === "top_rated"
       ? topRatedSeries
@@ -44,37 +43,24 @@ const SortedSeriesComponent = () => {
   };
 
   return (
-    <>
-      <div className="flex gap-5 justify-center">
-        <div
-          style={{
-            fontWeight: 800, // equivalent to Tailwind's font-extrabol
-            fontSize: "50px", // equivalent to Tailwind's text-4xl
-            background: "linear-gradient(to right, #1c1c1c, #8b5a00, #f82852)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            color: "transparent",
-            paddingBottom: "30px",
-          }}
-        >
-          Hot Picks Streaming
+    <section className="py-20 px-6 lg:px-16 max-w-site mx-auto">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-10">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-1 h-5 rounded-full bg-gold" />
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">Series</p>
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white text-gold-gradient">
+            Hot Picks Streaming
+          </h2>
         </div>
-        <img
-          alt="Animated Medal gif"
-          className="lg:block hidden"
-          src="../image/medal.gif"
-          style={{
-            width: "80px", // adjust size as needed
-            height: "80px",
-          }}
-        />
-      </div>
-      <div className="flex justify-between items-center">
-        <div className="text-[18px] capitalize mx-auto font-medium mb-9">
-          See the{" "}
+
+        {/* Category filter */}
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted font-medium">Filter:</span>
           <select
-            className="bg-white text-black rounded-md p-2 shadow-md focus:outline-none focus:ring-2 focus:ring-brown focus:border-yellow"
+            className="bg-surface-2 border border-surface-4 text-white text-sm rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gold/30 cursor-pointer"
             value={category}
             onChange={handleSortChange}
           >
@@ -83,76 +69,70 @@ const SortedSeriesComponent = () => {
                 {cat.label}
               </option>
             ))}
-          </select>{" "}
-          series everyone is talking about.
+          </select>
         </div>
       </div>
-      {isLoading && <Loading />}
-      {isError && <p className="text-center text-red-500">{error?.message}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+      {isError && <p className="text-center text-red">{error?.message}</p>}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {series &&
-          series?.map((series: SeriesShowcase) => (
-            <Link key={series.id} href={`/series/${series.id}`}>
-              <Card
-                key={series.id}
-                fullWidth
-                isBlurred
-                isPressable
-                className="bg-white rounded-lg overflow-hidden"
-                shadow="md"
+          series?.map((item: SeriesShowcase, idx: number) => (
+            <Link key={item.id} href={`/series/${item.id}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: idx * 0.04, ease: "easeOut" }}
+                className="group bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 card-hover h-full flex flex-col"
               >
-                <CardBody>
-                  <Image
-                    isZoomed
-                    alt={series.name}
-                    className="w-full h-auto rounded-none"
-                    radius="none"
-                    src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
+                {/* Poster */}
+                <div className="relative overflow-hidden">
+                  <img
+                    alt={item.name}
+                    loading="lazy"
+                    className="w-full aspect-[2/3] object-cover transition-transform duration-500 group-hover:scale-105"
+                    src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                   />
-                </CardBody>
-                <CardHeader className=" flex flex-col p-4">
-                  <div
-                    className={`flex justify-between items-center w-full lg:${
-                      series.vote_average ? "flex-row" : "flex-col gap-5"
-                    } flex-col`}
-                  >
-                    <h2 className="text-[20px] text-left font-semibold text-black ">
-                      {series.name?.length >= 20
-                        ? series.name.substring(0, 15) + "..."
-                        : series.name}
-                    </h2>
-                    {series.vote_average ? (
-                      <p className="text-[15px] font-semibold text-black">
-                        &#11088; {series.vote_average.toFixed(1)}
-                      </p>
-                    ) : (
-                      <p className=" bg-yellow-dark px-2 min-w-max py-2 rounded-full text-black font-semibold text-[16px] flex items-center gap-2">
-                        <PiWarningCircleBold size={26} />
-                        Yet to be released
-                      </p>
-                    )}
-                  </div>
-                  {series.first_air_date && (
-                    <p className="text-[15px] font-semibold  text-black my-4">
-                      &#128197;:{" "}
-                      {new Date(series.first_air_date).toLocaleDateString()}
-                    </p>
+                  {item.vote_average > 0 && (
+                    <div className="absolute tZop-2.5 right-2.5 flex items-center gap-1 px-2 py-1 rounded-full bg-surface/90 backdrop-blur-sm border border-surface-4/50">
+                      <RiStarFill size={10} className="text-gold" />
+                      <div className="text-[11px] bg-off-white text-off-white">
+                        {item.vote_average.toFixed(1)}
+                      </div>
+                    </div>
                   )}
-                  {series.overview ? (
-                    <p className="text-black font-medium">
-                      {series.overview.substring(0, 130)}...
-                    </p>
+                </div>
+
+                {/* Info */}
+                <div className="p-4 flex flex-col gap-2 flex-1">
+                  <h3 className="text-sm font-bold text-white line-clamp-1">
+                    {item.name}
+                  </h3>
+                  {item.first_air_date ? (
+                    <div className="flex items-center gap-1.5">
+                      <RiCalendarLine size={11} className="text-subtle" />
+                      <span className="text-[11px] text-subtle">
+                        {new Date(item.first_air_date).toLocaleDateString("en-US", { year: "numeric", month: "short" })}
+                      </span>
+                    </div>
                   ) : (
-                    <p className="text-black font-medium">
-                      No overview available
+                    <span className="inline-flex items-center gap-1 text-[10px] text-orange font-medium">
+                      <PiWarningCircleBold size={11} />
+                      Yet to be released
+                    </span>
+                  )}
+                  {item.overview && (
+                    <p className="text-xs text-subtle leading-relaxed line-clamp-3 mt-1">
+                      {item.overview}
                     </p>
                   )}
-                </CardHeader>
-              </Card>
+                </div>
+              </motion.div>
             </Link>
           ))}
       </div>
-    </>
+    </section>
   );
 };
 

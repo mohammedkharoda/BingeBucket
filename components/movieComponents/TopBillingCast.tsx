@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 import { truncateSentence } from "@/config/turncate";
 import { useTopBilledCast } from "@/hooks/useTopBilled";
@@ -14,7 +14,6 @@ const TopBillingCast = (id: { id: string | string[] }) => {
   useEffect(() => {
     if (castInfo.data) {
       const { cast, crew } = castInfo.data as any;
-
       setCast(cast.slice(0, 6));
       setCrew(
         crew.filter((member: any) =>
@@ -24,50 +23,54 @@ const TopBillingCast = (id: { id: string | string[] }) => {
     }
   }, [castInfo.data]);
 
+  if (cast.length === 0) return null;
+
   return (
-    <div className="lg:py-[50px] lg:px-[64px] px-[64px] py-[20px] font-sans">
-      <h2 className="text-[45px] font-bold mb-4">Top Cast</h2>
+    <section className="max-w-site mx-auto px-6 lg:px-16 py-12">
+      <div className="flex items-center gap-2 mb-8">
+        <div className="w-1 h-5 rounded-full bg-gold" />
+        <h2 className="text-2xl lg:text-3xl font-extrabold text-off-white">Top Cast</h2>
+      </div>
       <div
         className={`${
           cast.length === 1
             ? "flex justify-center"
             : "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-        } gap-5 items-center`}
+        } gap-4`}
       >
-        {cast.map((member) => (
-          <Card
+        {cast.map((member, idx) => (
+          <motion.div
             key={member.id}
-            isHoverable
-            isPressable
-            className="text-center"
-            radius="sm"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
+            className="group overflow-hidden rounded-2xl border border-surface-4 bg-surface/80 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:shadow-card"
           >
-            <CardHeader>
-              <Image
-                isZoomed
+            <div className="overflow-hidden">
+              <img
                 alt={member.name}
-                className={`${cast.length === 1 ? "w-[250px] h-fit" : "w-full h-auto object-cover rounded-lg"}`}
+                className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 src={
                   member.profile_path
-                    ? `https://image.tmdb.org/t/p/original${member.profile_path}`
+                    ? `https://image.tmdb.org/t/p/w342${member.profile_path}`
                     : "/image/forbidden.png"
                 }
+                loading="lazy"
               />
-            </CardHeader>
-            <CardBody>
-              <div className="mt-2">
-                <p className="font-bold text-[16px]">
-                  {truncateSentence(member.name, 20)}
-                </p>
-                <p className="text-gray-500 text-[14px]">
-                  {member.character.split("/")[0]}
-                </p>
-              </div>
-            </CardBody>
-          </Card>
+            </div>
+            <div className="p-3 text-center">
+              <p className="text-sm font-semibold text-off-white truncate">
+                {truncateSentence(member.name, 20)}
+              </p>
+              <p className="text-xs text-subtle truncate mt-0.5">
+                {member.character.split("/")[0]}
+              </p>
+            </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

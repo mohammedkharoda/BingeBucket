@@ -5,20 +5,21 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const SkeletonGrid = () => {
   return (
-    <div className="flex gap-1">
-      <div className="w-full flex flex-col gap-2 lg:gap-5 h-[50%]">
-        <SkeletonTheme baseColor="#1c1c1c" highlightColor="#ffd700">
-          <Skeleton height={200} width={400} />
-          <Skeleton height={200} width={400} />
-        </SkeletonTheme>
+    <SkeletonTheme baseColor="#EAE7F8" highlightColor="#F3F1FD">
+      <div className="flex gap-3">
+        {/* Left column — 2 tall posters */}
+        <div className="flex flex-col gap-3">
+          <Skeleton height={195} width={195} borderRadius={12} />
+          <Skeleton height={195} width={195} borderRadius={12} />
+        </div>
+        {/* Right column — 3 smaller, offset */}
+        <div className="flex flex-col gap-3 mt-10">
+          <Skeleton height={120} width={150} borderRadius={12} />
+          <Skeleton height={120} width={150} borderRadius={12} />
+          <Skeleton height={120} width={150} borderRadius={12} />
+        </div>
       </div>
-      <div className="w-full flex flex-col gap-2 lg:gap-8">
-        <SkeletonTheme baseColor="#1c1c1c" highlightColor="#ffd700">
-          <Skeleton height={100} width={300} />
-          <Skeleton height={100} width={300} />
-        </SkeletonTheme>
-      </div>
-    </div>
+    </SkeletonTheme>
   );
 };
 

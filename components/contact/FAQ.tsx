@@ -1,87 +1,116 @@
 "use client";
-import { Accordion, AccordionItem } from "@nextui-org/react";
-import React from "react";
-import { FaLink } from "react-icons/fa";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { RiAddLine, RiSubtractLine } from "react-icons/ri";
+
+const faqs = [
+  {
+    key: "signup",
+    question: "How to sign up?",
+    answer:
+      "Signing up is simple! Just click on the \"Sign Up\" button at the top right corner of the homepage. You'll need to provide your email address or you can use the other platform for sign-up as well.",
+  },
+  {
+    key: "search",
+    question: "How to search for movies and shows?",
+    answer:
+      "You can search for movies, TV shows, and other content by using the search bar located at the top of every page. Type in a title or keyword, and our search engine will display relevant results instantly.",
+  },
+  {
+    key: "watch",
+    question: "How to watch content?",
+    answer:
+      "Once you find a movie or show you're interested in, click on it to view more details. If it's available for streaming you'll see the platforms where it's accessible.",
+  },
+  {
+    key: "create-list",
+    question: "How to create a watchlist?",
+    answer:
+      "After logging in, you can create a personalized watchlist by adding movies and shows to it. Simply click on the \"Add to Watchlist\" button on any movie or show's detail page.",
+  },
+  {
+    key: "contact",
+    question: "How to contact us?",
+    answer:
+      "If you have any questions or need support, you can contact us through the \"Contact Us\" page. Fill out the form with your inquiry, and our team will get back to you as soon as possible.",
+  },
+  {
+    key: "rate",
+    question: "Can I rate movies and shows?",
+    answer:
+      "At this time our platform does not support a rating system. However, we are working on adding this feature in the future. Stay tuned for updates!",
+  },
+];
 
 const FAQ = () => {
+  const [openKey, setOpenKey] = useState<string | null>(null);
+
   return (
-    <div className="flex px-[64px] py-[80px] flex-col lg:flex-row gap-5">
-      <div className="flex flex-col gap-5 w-full items-center lg:items-start">
-        <p className="text-[48px] font-bold leading-[120%] text-white">FAQs</p>
-        <div className="text-[18px] font-normal leading-[150%] text-white">
-          Find answers to common questions and get quick information.
+    <section className="py-20 px-6 lg:px-16 max-w-site mx-auto">
+      <div className="flex flex-col lg:flex-row gap-12">
+        {/* Left */}
+        <div className="lg:w-1/3">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-1 h-5 rounded-full bg-gold" />
+            <span className="text-xs font-bold text-gold uppercase tracking-widest">
+              FAQ
+            </span>
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-3">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-muted text-sm leading-relaxed">
+            Find answers to common questions and get quick information.
+          </p>
+        </div>
+
+        {/* Right — accordion */}
+        <div className="lg:w-2/3 flex flex-col gap-3">
+          {faqs.map((faq, idx) => (
+            <motion.div
+              key={faq.key}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: idx * 0.05 }}
+              className="bg-surface border border-surface-4 rounded-2xl overflow-hidden"
+            >
+              <button
+                onClick={() => setOpenKey(openKey === faq.key ? null : faq.key)}
+                className="w-full flex items-center justify-between px-5 py-4 text-left cursor-pointer hover:bg-surface-2 transition-colors duration-200"
+              >
+                <span className="text-sm font-semibold text-white">
+                  {faq.question}
+                </span>
+                <span className="ml-4 flex-shrink-0 text-gold">
+                  {openKey === faq.key ? (
+                    <RiSubtractLine size={18} />
+                  ) : (
+                    <RiAddLine size={18} />
+                  )}
+                </span>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {openKey === faq.key && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-4 text-sm text-muted leading-relaxed border-t border-surface-4 pt-3">
+                      {faq.answer}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
         </div>
       </div>
-      <Accordion>
-        <AccordionItem
-          key="signup"
-          aria-label="How to sign up?"
-          className="text-left"
-          indicator={<FaLink color="white" />}
-          title="How to sign up?"
-        >
-          Signing up is simple! Just click on the &quot;Sign Up&quot; button at
-          the top right corner of the homepage. You&apos;ll need to provide your
-          email address or you can use the other platform for sign-up as well.
-        </AccordionItem>
-        <AccordionItem
-          key="search"
-          aria-label="How to search for movies and shows?"
-          className="text-left"
-          indicator={<FaLink color="white" />}
-          title="How to search for movies and shows?"
-        >
-          You can search for movies, TV shows, and other content by using the
-          search bar located at the top of every page. Type in a title or
-          keyword, and our search engine will display relevant results
-          instantly.
-        </AccordionItem>
-        <AccordionItem
-          key="watch"
-          aria-label="How to watch content?"
-          className="text-left"
-          indicator={<FaLink color="white" />}
-          title="How to watch content?"
-        >
-          Once you find a movie or show you&apos;re interested in, click on it
-          to view more details. If it&apos;s available for streaming you&apos;ll
-          see the platforms where it&apos;s accessible.
-        </AccordionItem>
-        <AccordionItem
-          key="create-list"
-          aria-label="How to create a watchlist?"
-          className="text-left"
-          indicator={<FaLink color="white" />}
-          title="How to create a watchlist?"
-        >
-          After logging in, you can create a personalized watchlist by adding
-          movies and shows to it. Simply click on the “Add to Watchlist” button
-          on any movie or show&apos;s detail page.
-        </AccordionItem>
-        <AccordionItem
-          key="contact"
-          aria-label="How to contact us?"
-          className="text-left"
-          indicator={<FaLink color="white" />}
-          title="How to contact us?"
-        >
-          If you have any questions or need support, you can contact us through
-          the &quot;Contact Us&quot; page. Fill out the form with your inquiry,
-          and our team will get back to you as soon as possible.
-        </AccordionItem>
-        <AccordionItem
-          key="rate"
-          aria-label="Can I rate movies and shows?"
-          className="text-left"
-          indicator={<FaLink color="white" />}
-          title="Can I rate movies and shows?"
-        >
-          At this time our platform does not support a rating system.
-          However&rdquo; we are working on adding this feature in the future.
-          Stay tuned for updates!
-        </AccordionItem>
-      </Accordion>
-    </div>
+    </section>
   );
 };
 

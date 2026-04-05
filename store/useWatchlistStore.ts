@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 import useUserStore from "./userStore";
 
@@ -70,11 +70,21 @@ export const useWatchlistStore = create<WatchlistState>()(
           const user = useUserStore.getState().user;
 
           if (user) {
-            const userWatchlist = JSON.parse(
-              localStorage.getItem(`watchlist-${user.id}`) ?? "[]"
-            );
-
-            set({ watchlist: userWatchlist });
+            try {
+              const stored = localStorage.getItem(`watchlist-${user.id}`);
+              const parsed = stored ? JSON.parse(stored) : [];
+              const validated = Array.isArray(parsed)
+                ? parsed.filter(
+                    (item) =>
+                      item &&
+                      typeof item.id === "number" &&
+                      typeof item.title === "string"
+                  )
+                : [];
+              set({ watchlist: validated });
+            } catch {
+              set({ watchlist: [] });
+            }
           }
         },
 
@@ -93,7 +103,7 @@ export const useWatchlistStore = create<WatchlistState>()(
     },
     {
       name: "watchlist-storage",
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: (state) => {
         // Load the specific user's watchlist when rehydrating
         state?.loadUserWatchlist();

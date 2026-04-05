@@ -1,34 +1,50 @@
-import { Button } from "@nextui-org/button";
-import Link from "next/link";
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
+import { RiSparklingFill } from "react-icons/ri";
 
 const DiscoverAboutUs = () => {
   return (
-    <div className="flex lg:flex-row flex-col justify-between items-center p-10">
-      <div className="mb-8 w-full">
-        <h2 className="text-white text-lg font-semibold md:text-left text-center">
-          Discover
-        </h2>
-        <h1 className="text-white text-[48px] font-bold leading-tight md:text-left text-center">
-          Unleash the Magic
-        </h1>
-      </div>
-      <div className="lg:w-1/2 w-full mt-6 lg:mt-0 flex flex-col items-center md:items-start">
-        <div className="text-[18px] md:text-left text-center font-normal leading-[150%] text-white bg-yellow-600 py-6 ">
-          Welcome to our website, where you can explore a world of captivating
-          movies and series. Our mission is to provide you with a refined and
-          enhanced experience, just like IMDB but better. With a vast collection
-          of films and shows, we aim to bring you the best entertainment
-          available.
-        </div>
-        <Button
-          className="mt-4 bg-brown-dark border-none text-white font-bold hover:bg-orange-yellow hover:text-black p-6"
-          variant="flat"
+    <section className="py-20 px-6 lg:px-16 max-w-site mx-auto">
+      <div className="grid items-center gap-8 lg:grid-cols-[minmax(320px,0.95fr)_minmax(460px,1.15fr)] lg:gap-12">
+        {/* Left */}
+        <motion.div
+          className="flex flex-col gap-5 lg:max-w-[520px]"
+          initial={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true }}
+          whileInView={{ opacity: 1, x: 0 }}
         >
-          <Link href="/">BINGE NOW</Link>
-        </Button>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-2 border border-surface-4 w-fit">
+            <RiSparklingFill className="text-gold" size={12} />
+            <span className="text-xs font-bold text-gold uppercase tracking-widest">
+              Discover
+            </span>
+          </div>
+          <h1 className="text-4xl lg:text-6xl font-extrabold text-white leading-[1.04] tracking-tight">
+            Unleash the <span className="text-gold-gradient">Magic</span>
+          </h1>
+        </motion.div>
+
+        {/* Right */}
+        <motion.div
+          className="w-full flex flex-col gap-6"
+          initial={{ opacity: 0, x: 20 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          viewport={{ once: true }}
+          whileInView={{ opacity: 1, x: 0 }}
+        >
+          <p className="text-muted text-base md:text-[18px] leading-[1.6] lg:text-center">
+            Welcome to BingeBucket, where you can explore a world of captivating
+            movies and series. Our mission is to provide you with a refined and
+            enhanced experience — like IMDB, but more personal. With a vast
+            collection of films and shows, we bring you the best entertainment
+            available.
+          </p>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

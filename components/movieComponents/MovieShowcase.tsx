@@ -1,74 +1,69 @@
 "use client";
-import { Image } from "@nextui-org/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { RiFilmLine } from "react-icons/ri";
 
 import { usePopularMovie } from "@/hooks/usePopularMovie";
+
 export default function MovieShowcase() {
   const popularMovies = usePopularMovie();
   const [rotatingIndex, setRotatingIndex] = useState(0);
 
   useEffect(() => {
-    // Check if there are any movies to rotate through
-    if (!popularMovies?.data?.length) {
-      return;
-    }
-
+    if (!popularMovies?.data?.length) return;
     const interval = setInterval(() => {
-      setRotatingIndex((prevIndex) => {
-        // If the current index reaches the last movie, start from 1
-        if (prevIndex === popularMovies.data.length - 1) {
-          return 1;
-        } else {
-          return prevIndex + 1;
-        }
-      });
+      setRotatingIndex((prev) =>
+        prev === popularMovies.data.length - 1 ? 1 : prev + 1
+      );
     }, 5000);
-
     return () => clearInterval(interval);
   }, [popularMovies]);
 
   return (
-    <div className="flex justify-center items-center gap-20 flex-col lg:flex-row ">
-      {/* // heading and image */}
-      <div className="md:w-[60%] flex flex-col items-center justify-center lg:px-[112px] lg:py-[64px] px-[20px] py-[64px]">
-        <p className="flex items-center justify-center font-roboto text-[36px] text-center md:text-[56px] font-bold lg:min-w-max">
-          Discover Amazing Movies
-          <img
-            alt="movie-clap"
-            className="h-[100px] hidden lg:block"
-            src="../image/movie-clap.gif"
-          />
-        </p>
-        <p className="mt-2 text-lg md:text-xl text-gray-600 w-full">
-          Explore a vast collection of critically{" "}
-          <span className="font-extrabold underline underline-offset-4 text-black">
-            acclaimed movies &#x1F3C6;
+    <div className="mx-auto flex max-w-site flex-col items-center justify-center gap-10 px-6 py-8 lg:flex-row lg:px-16 lg:py-10">
+      {/* Text */}
+      <div className="flex max-w-xl flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <RiFilmLine size={16} className="text-gold flex-shrink-0" />
+          <span className="text-xs font-semibold text-gold uppercase tracking-widest">
+            Movie Collection
           </span>
-          <span className="font-extrabold underline underline-offset-4 text-black">
-            blockbusters &#x1F4F7;
-          </span>
-          and{" "}
-          <span className="font-extrabold underline underline-offset-4 text-black">
-            hidden gems &#x1F48E;
-          </span>
-          .Whether you&apos;re into{" "}
-          <b className="text-black underline">
-            action-packed thrillers &#x1F4A5;, heartfelt dramas &#x1F622;, or
-            captivating documentaries &#x1F4F9;
-          </b>
-          , we&apos;ve got something for everyone. Get ready to dive into a
-          world of cinema and enjoy the best films from around the globe!
+        </div>
+        <h1 className="text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+          Discover Amazing <br />
+          <span className="text-gold-gradient">Movies</span>
+        </h1>
+        <p className="text-muted text-[15px] leading-relaxed">
+          Browse a vast collection of critically acclaimed films, blockbusters,
+          and hidden gems. From action-packed thrillers to heartfelt dramas —
+          there is something for everyone.
         </p>
       </div>
-      {/* Image side */}
-      <div>
-        <Image
-          alt="muzzle-image"
-          loading="lazy"
-          radius="lg"
-          src={`https://image.tmdb.org/t/p/original/${popularMovies?.data?.[rotatingIndex]?.poster_path}`}
-          width={450}
-        />
+
+      {/* Rotating poster */}
+      <div className="relative h-[390px] w-[260px] flex-shrink-0 lg:h-[405px] lg:w-[270px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={rotatingIndex}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0"
+          >
+            {popularMovies?.data?.[rotatingIndex]?.poster_path && (
+              <Image
+                alt={popularMovies?.data?.[rotatingIndex]?.title || "Movie"}
+                fill
+                className="object-cover rounded-3xl shadow-card-hover ring-1 ring-surface-4"
+                loading="lazy"
+                sizes="280px"
+                src={`https://image.tmdb.org/t/p/w500${popularMovies?.data?.[rotatingIndex]?.poster_path}`}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

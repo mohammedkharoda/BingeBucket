@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { RiSearchLine } from "react-icons/ri";
 
 import { useDebounce } from "@/hooks/useDebounce";
 
@@ -11,40 +13,40 @@ const SearchInput: React.FC = () => {
 
   const handleSearch = (searchValue: string) => {
     if (searchValue.trim() === "") {
-      toast.error("Search box is empty! Please enter a search term.");
-
+      toast.error("Please enter a search term.");
       return;
     }
-
     router.push(`/search?query=${encodeURIComponent(searchValue)}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch(value); // Use the current value directly here
-    }
+    if (e.key === "Enter") handleSearch(value);
   };
 
   const handleClickSearch = () => {
-    handleSearch(debouncedValue); // Use the debounced value when clicking the button
+    handleSearch(debouncedValue);
   };
 
   return (
-    <div className="bg-transparent flex px-1 py-[2px] rounded-full border border-blue-500 overflow-hidden font-[sans-serif]">
+    <div className="relative flex items-center w-full">
+      <RiSearchLine
+        size={14}
+        className="absolute left-3 text-subtle pointer-events-none"
+      />
       <input
-        className="w-full outline-none bg-gray-dark pl-4 text-sm"
-        placeholder="Search Next Big Hit..."
+        className="w-full pl-9 pr-16 py-2 bg-surface-2 border border-white/10 rounded-lg text-sm text-white placeholder:text-subtle focus:outline-none focus:border-gold/30 focus:bg-surface-3 transition-all duration-200"
+        placeholder="Search movies & series..."
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
       <button
-        className="bg-blue-600 hover:bg-blue-700 transition-all text-white text-sm rounded-full px-5 py-2.5"
+        className="absolute right-1.5 px-2.5 py-1 bg-gold hover:bg-gold-dim text-black text-xs font-semibold rounded-md transition-all duration-200 cursor-pointer"
         type="button"
         onClick={handleClickSearch}
       >
-        Search
+        Go
       </button>
     </div>
   );

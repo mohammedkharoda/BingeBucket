@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { sendEmail } from "@/app/_actions";
+
 type EmailFormProps = {
   email: string;
 };
@@ -14,48 +15,39 @@ const EmailForm = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<EmailFormProps>({ defaultValues: { email: "" } });
+
   const processForm: SubmitHandler<EmailFormProps> = async (data) => {
     const result = await sendEmail(data);
-
     if (result?.success) {
-      toast.success("YAY!🥳 You have Subscribe to our NewsLetter");
+      toast.success("Subscribed! Welcome to BingeBucket.");
       reset();
-
       return;
     }
-
-    // toast error
-    toast.error("Email Field can't be empty");
+    toast.error("Please enter a valid email address.");
   };
 
   return (
     <form onSubmit={handleSubmit(processForm)}>
-      <div className="flex justify-between gap-5 lg:flex-row flex-col">
-        <div className="flex-grow mr-4">
-          {" "}
-          {/* Added flex-grow and margin-right */}
+      <div className="flex gap-2">
+        <div className="flex-1">
           <input
-            placeholder="Enter your Email"
+            placeholder="your@email.com"
             {...register("email")}
-            className="w-full rounded-lg p-2 bg-white text-black"
+            className="w-full px-4 py-2.5 bg-surface-2 border border-white/10 rounded-lg text-sm text-white placeholder:text-subtle focus:outline-none focus:border-gold/30 transition-all duration-200"
           />
           {errors.email?.message && (
-            <p className="ml-1 mt-1 text-sm text-red-400">
+            <p className="mt-1 text-xs text-red">
               {errors.email.message}
             </p>
           )}
         </div>
-        <div className="flex items-center">
-          {" "}
-          {/* Centering the button vertically */}
-          <button
-            className="px-3 py-2 w-full sm:w-auto bg-orange-yellow text-white rounded-md hover:bg-yellow-600 transition-colors"
-            disabled={isSubmitting}
-            type="submit"
-          >
-            {isSubmitting ? "Sending..." : "SignUp"}
-          </button>
-        </div>
+        <button
+          className="px-5 py-2.5 bg-gold hover:bg-gold-dim text-black text-sm font-semibold rounded-lg transition-all duration-200 whitespace-nowrap disabled:opacity-50 cursor-pointer"
+          disabled={isSubmitting}
+          type="submit"
+        >
+          {isSubmitting ? "..." : "Subscribe"}
+        </button>
       </div>
     </form>
   );

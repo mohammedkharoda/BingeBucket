@@ -1,95 +1,100 @@
 "use client";
 
-import { Card } from "@nextui-org/react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import React from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
+import { RiArrowRightLine, RiFlashlightFill, RiStarFill } from "react-icons/ri";
 
-import { SeriesOfWeek } from "@/types";
-import Loading from "@/shared/Loading";
 import { useTrendingSeriesOfDay } from "@/hooks/useTrendingSeriesOfDay";
+import { SeriesOfWeek } from "@/types";
 
 const TrendingSeriesBanner = () => {
   const { data: series, isLoading, isError, error } = useTrendingSeriesOfDay();
 
   return (
-    <div className="py-16">
-      <div className="flex gap-5 justify-center">
-        <div
-          style={{
-            fontWeight: 800, // equivalent to Tailwind's font-extrabol
-            fontSize: "50px", // equivalent to Tailwind's text-4xl
-            background: "linear-gradient(to left, #003049, #c1121f, #000000)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            color: "transparent",
-            paddingBottom: "30px",
-          }}
-        >
-          Top Series of the Week
+    <section className="py-20 px-6 lg:px-16 max-w-site mx-auto">
+      {/* Header */}
+      <div className="flex items-end justify-between mb-10">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-5 rounded-full bg-gold" />
+            <p className="text-xs font-bold text-gold uppercase tracking-widest">
+              This Week
+            </p>
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-white flex items-center gap-3">
+            Top Series
+            <RiFlashlightFill size={28} className="text-gold" />
+          </h2>
         </div>
-        <img
-          alt="Animated fire gif"
-          className="lg:block hidden"
-          src="../image/award.gif"
-          style={{
-            width: "80px", // adjust size as needed
-            height: "80px",
-          }}
-        />
+        <Link
+          href="/series"
+          className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-gold transition-colors duration-200"
+        >
+          See all <RiArrowRightLine size={14} />
+        </Link>
       </div>
-      {isLoading && <Loading />}
-      {isError && <p className="text-center text-red-500">{error?.message}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+
+      {isError && (
+        <p className="text-center text-red">{error?.message}</p>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         {series &&
-          series.map((series: SeriesOfWeek) => (
-            <Link key={series.id} href={`/series/${series.id}`}>
-              <Card
-                key={series.id}
-                isBlurred
-                isPressable
-                className="bg-white rounded-lg overflow-hidden p-3 h-full"
-                shadow="md"
+          series.map((item: SeriesOfWeek, idx: number) => (
+            <Link key={item.id} href={`/series/${item.id}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.05, ease: "easeOut" }}
+                className="group bg-surface border border-surface-4 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-card-hover transition-all duration-300 card-hover h-full flex flex-col"
               >
-                <img
-                  alt={series.name}
-                  className=" w-full h-fit rounded-lg shadow-lg"
-                  src={`https://image.tmdb.org/t/p/original${series.poster_path}`}
-                />
-                <div className="flex flex-col p-4 gap-5">
-                  <div
-                    className={`flex justify-around items-center w-full ${series.vote_average ? "lg:flex-row" : "lg:flex-col gap-5"} flex-col`}
-                  >
-                    <h2 className="text-[20px] text-left font-semibold text-black">
-                      {series.name?.length >= 40
-                        ? series.name.substring(0, 35) + "..."
-                        : series.name}
-                    </h2>
-                    {series.vote_average ? (
-                      <p className="text-[15px] font-semibold text-black">
-                        &#11088; {series.vote_average.toFixed(1)}
-                      </p>
+                {/* Poster */}
+                <div className="relative overflow-hidden">
+                  <img
+                    alt={item.name}
+                    className="w-full aspect-[2/3] object-cover transition-transform duration-500 group-hover:scale-105"
+                    src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                    loading="lazy"
+                  />
+                  {/* Rank badge */}
+                  <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-gold flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">{idx + 1}</span>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="p-4 flex flex-col gap-3 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-sm font-semibold text-white leading-snug line-clamp-2 flex-1">
+                      {item.name}
+                    </h3>
+                    {item.vote_average ? (
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        <RiStarFill size={12} className="text-gold" />
+                        <span className="text-xs font-bold text-muted">
+                          {item.vote_average.toFixed(1)}
+                        </span>
+                      </div>
                     ) : (
-                      <p className="bg-yellow-dark px-2 min-w-max py-2 rounded-full text-black font-semibold text-[16px] flex items-center gap-2">
-                        <PiWarningCircleBold size={26} />
-                        Yet to be released
-                      </p>
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange/20 text-orange border border-orange/30 text-[10px] font-medium flex-shrink-0">
+                        <PiWarningCircleBold size={10} />
+                        Upcoming
+                      </span>
                     )}
                   </div>
-                  {series.overview ? (
-                    <p className="text-black font-medium">{series.overview}</p>
-                  ) : (
-                    <p className="text-black font-medium">
-                      No overview available
+                  {item.overview && (
+                    <p className="text-xs text-subtle leading-relaxed line-clamp-3">
+                      {item.overview}
                     </p>
                   )}
                 </div>
-              </Card>
+              </motion.div>
             </Link>
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 

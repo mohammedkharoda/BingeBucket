@@ -1,17 +1,17 @@
-import { Suspense } from "react";
+"use client";
 
-export default function PricingLayout({
+import LoadingWrapper from "@/components/LoadingWrapper";
+
+export default function SeriesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={<div>Loading....</div>}>
-      <section className="flex flex-col items-center justify-center gap-4 ">
-        <div className="inline-block text-center justify-center w-full">
-          {children}
-        </div>
+    <LoadingWrapper>
+      <section className="relative w-full">
+        {children}
       </section>
-    </Suspense>
+    </LoadingWrapper>
   );
 }

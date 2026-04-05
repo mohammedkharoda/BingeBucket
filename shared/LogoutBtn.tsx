@@ -1,23 +1,25 @@
+"use client";
+import { useClerk } from "@clerk/nextjs";
 import { MenuItem } from "@headlessui/react";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { IoLogOutSharp } from "react-icons/io5";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 const LogoutBtn = () => {
+  const { signOut } = useClerk();
+
   return (
-    <LogoutLink>
-      <MenuItem>
-        {({ focus }) => (
-          <button
-            className={`${
-              focus ? "bg-crimson-red rounded-md" : ""
-            } w-full text-left px-4 py-2 text-sm text-gray-700 flex gap-5 items-center`}
-          >
-            <IoLogOutSharp size={16} />
-            Logout
-          </button>
-        )}
-      </MenuItem>
-    </LogoutLink>
+    <MenuItem>
+      {({ focus }) => (
+        <button
+          className={`${
+            focus ? "bg-red/10 text-red" : "text-muted"
+          } w-full text-left px-3 py-2 text-sm flex items-center gap-3 rounded-lg transition-colors duration-150 cursor-pointer`}
+          onClick={() => signOut({ redirectUrl: "/" })}
+        >
+          <RiLogoutCircleRLine size={15} />
+          Sign Out
+        </button>
+      )}
+    </MenuItem>
   );
 };
 

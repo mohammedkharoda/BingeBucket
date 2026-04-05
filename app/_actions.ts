@@ -1,15 +1,17 @@
 "use server";
 
+import React from "react";
 import ContactFormSubmissionEmail from "@/emails/contact-form-email";
 import NewsLetterForm from "@/emails/newsletter-form-email";
 import { ContactFormSchema, NewsLetterFormSchema } from "@/types/schema";
 import { Resend } from "resend";
 import { z } from "zod";
 
-type ContactFormInputs = z.infer<typeof NewsLetterFormSchema>;
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+type NewsLetterFormInputs = z.infer<typeof NewsLetterFormSchema>;
+type ContactFormInputs = z.infer<typeof ContactFormSchema>;
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendEmail(data: ContactFormInputs) {
+export async function sendEmail(data: NewsLetterFormInputs) {
   const result = NewsLetterFormSchema.safeParse(data);
 
   if (result.success) {
@@ -20,7 +22,7 @@ export async function sendEmail(data: ContactFormInputs) {
         to: [email],
         subject: "Contact form submission",
         text: `\nEmail: ${email}`,
-        react: NewsLetterForm({ email }),
+        react: NewsLetterForm({ email }) as React.ReactElement,
       });
       return { success: true, data };
     } catch (error) {
@@ -44,7 +46,7 @@ export async function sendContactEmail(data: ContactFormInputs) {
         to: [email],
         subject: "New Contact Form Submission",
         text: `\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
-        react: ContactFormSubmissionEmail({ name, email, message }), // Assuming you have a React email template component
+        react: ContactFormSubmissionEmail({ name, email, message }) as React.ReactElement,
       });
       return { success: true, data: emailData };
     } catch (error) {

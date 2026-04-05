@@ -2,81 +2,457 @@
 @tailwind components;
 @tailwind utilities;
 
-/* width */
+/*
+  Fonts are loaded via next/font/google in config/fonts.ts.
+  CSS variables are set as font-family fallbacks:
+    --font-display   → Poppins 700/800   (headings, hero text)
+    --font-inter     → Inter 400/500     (body, UI)
+    --font-heading   → Signika           (legacy — kept for compat)
+    --font-subheading → Assistant        (legacy — kept for compat)
+    --font-body      → Roboto Slab       (legacy — kept for compat)
+*/
+
+/* ═══════════════════════════════════════════════════════════════
+   CSS VARIABLES — BingeBucket Design Tokens
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer base {
+
+  /* ── Light Mode (default) ─────────────────────────────────── */
+  :root,
+  [data-theme="light"] {
+    /* Backgrounds */
+    --color-black: #F9F6F1;
+    /* page background */
+    --color-surface: #FFFFFF;
+    /* cards, sheets */
+    --color-surface-2: #F0EDE8;
+    /* inputs, hover fills */
+    --color-surface-3: #E5E0D8;
+    /* active states */
+    --color-surface-4: #D4CBBF;
+    /* borders, dividers */
+
+    /* Text */
+    --color-white: #1A1A1A;
+    /* primary text (headings) */
+    --color-off-white: #333333;
+    /* subheadings */
+    --color-muted: #374151;
+    /* body text — 12:1 contrast on white */
+    --color-subtle: #6B7280;
+    /* captions — 4.6:1 on white */
+
+    /* Accent */
+    --color-gold: #F5C842;
+    /* yellow/gold — ratings, stars */
+    --color-gold-dim: #E8A020;
+    /* darker gold — hover states */
+
+    /* Semantic */
+    --color-red: #E57373;
+    --color-red-dark: #C62828;
+    --color-green: #4CAF82;
+    --color-green-dark: #2E7D5E;
+    --color-orange: #FF9800;
+
+    /* Glass / blur surfaces */
+    --tw-glass-bg: rgba(255, 255, 255, 0.85);
+    --tw-glass-border: rgba(232, 117, 106, 0.14);
+
+    /* Shadows */
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.07);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.14);
+    --shadow-glow-primary: 0 0 40px rgba(232, 117, 106, 0.28);
+    --shadow-glow-accent: 0 0 40px rgba(245, 200, 66, 0.32);
+
+    --scrollbar-thumb: #E8756A;
+  }
+
+  /* ── Dark Mode ────────────────────────────────────────────── */
+  .dark,
+  [data-theme="dark"] {
+    /* Backgrounds */
+    --color-black: #0D0D0D;
+    /* page background */
+    --color-surface: #1A1A1A;
+    /* cards */
+    --color-surface-2: #222222;
+    /* elevated surfaces */
+    --color-surface-3: #2A2A2A;
+    /* active / selected */
+    --color-surface-4: #333333;
+    /* borders, dividers */
+
+    /* Text */
+    --color-white: #FFFFFF;
+    --color-off-white: #F0F0F0;
+    --color-muted: #9CA3AF;
+    /* body text on dark */
+    --color-subtle: #6B7280;
+    /* captions on dark */
+
+    /* Accent */
+    --color-gold: #F5C842;
+    --color-gold-dim: #C8A030;
+
+    /* Semantic */
+    --color-red: #E57373;
+    --color-red-dark: #EF5350;
+    --color-green: #4CAF82;
+    --color-green-dark: #66BB6A;
+    --color-orange: #FF9800;
+
+    /* Glass / blur surfaces */
+    --tw-glass-bg: rgba(26, 26, 26, 0.88);
+    --tw-glass-border: rgba(232, 117, 106, 0.15);
+
+    /* Shadows */
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.50);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.70);
+    --shadow-glow-primary: 0 0 40px rgba(232, 117, 106, 0.22);
+    --shadow-glow-accent: 0 0 40px rgba(245, 200, 66, 0.22);
+
+    --scrollbar-thumb: #E8756A;
+  }
+
+  /* ── Base element styles ──────────────────────────────────── */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-black);
+    color: var(--color-muted);
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* ── Typography ───────────────────────────────────────────── */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Poppins, sans-serif;
+    color: var(--color-white);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  h5,
+  h6 {
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+    color: var(--color-off-white);
+    font-weight: 600;
+  }
+
+  p,
+  li {
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+
+  button,
+  a,
+  input,
+  label,
+  nav {
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer components {
+
+  /* ── Primary CTA — coral pink, pill shape ─────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-badge bg-primary text-white font-semibold text-sm transition-all duration-200 ease-out cursor-pointer hover:scale-105 hover:shadow-glow-primary active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50;
+  }
+
+  /* ── Secondary — sky blue outlined pill ──────────────────── */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-badge border-2 border-secondary text-secondary bg-transparent font-semibold text-sm transition-all duration-200 ease-out cursor-pointer hover:bg-secondary hover:text-white hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50;
+  }
+
+  /* ── Movie Card — dark bg, rounded-card, hover lift ─────── */
+  .card-movie {
+    @apply relative bg-surface rounded-card overflow-hidden shadow-card transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-card-hover;
+  }
+
+  /* ── Genre Badge — small pill in accent colors ───────────── */
+  .badge-genre {
+    @apply inline-flex items-center px-3 py-1 rounded-badge text-xs font-semibold tracking-wide bg-accent/15 text-accent border border-accent/20;
+  }
+
+  /* Variant: sky blue badge */
+  .badge-genre-blue {
+    @apply badge-genre bg-secondary/15 text-secondary border-secondary/20;
+  }
+
+  /* Variant: coral pink badge */
+  .badge-genre-coral {
+    @apply badge-genre bg-primary/15 text-primary border-primary/20;
+  }
+
+  /* ── Rating Star — gold star + score display ─────────────── */
+  .rating-star {
+    @apply inline-flex items-center gap-1 text-accent font-bold text-sm leading-none;
+  }
+
+  /* ── Section Heading — Poppins display font ──────────────── */
+  .section-heading {
+    @apply font-display font-bold text-white text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-tight;
+  }
+
+  /* ── Glass nav / modals ──────────────────────────────────── */
+  .glass-nav {
+    background: var(--tw-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--tw-glass-border);
+  }
+
+  .glass {
+    background: var(--tw-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--tw-glass-border);
+  }
+
+  /* ── Pill / tag utility ──────────────────────────────────── */
+  .pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-badge text-xs font-medium;
+  }
+
+  /* ── Focus ring ──────────────────────────────────────────── */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50;
+  }
+
+  /* ── Card hover lift (standalone, not card-movie) ────────── */
+  .card-hover {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-card-hover;
+  }
+
+  /* ── Max-width site wrapper ──────────────────────────────── */
+  .max-w-site {
+    max-width: 1440px;
+  }
+
+  /* ── Brand gradient text ─────────────────────────────────── */
+  .text-brand-gradient {
+    background: linear-gradient(135deg, #E8756A 0%, #6BB5D6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Legacy alias */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #E8756A 0%, #F5C842 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Section backgrounds */
+  .section-pastel-lavender {
+    background: linear-gradient(180deg, #F0EDE8 0%, #F9F6F1 100%);
+  }
+
+  .dark .section-pastel-lavender {
+    background: linear-gradient(180deg, #1D1818 0%, #0D0D0D 100%);
+  }
+
+  .section-pastel-peach {
+    background: linear-gradient(180deg, #FFF1EF 0%, #FEF3F0 100%);
+  }
+
+  .dark .section-pastel-peach {
+    background: linear-gradient(180deg, #1D1010 0%, #120A0A 100%);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SKELETON SHIMMER
+   ═══════════════════════════════════════════════════════════════ */
+
+.shimmer {
+  background: linear-gradient(90deg,
+      #E5E0D8 25%,
+      #F0EDE8 50%,
+      #E5E0D8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.dark .shimmer {
+  background: linear-gradient(90deg,
+      #222222 25%,
+      #2A2A2A 50%,
+      #222222 75%);
+  background-size: 200% 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════════════ */
+
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-  background: #c49216;
+  background: var(--color-black);
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #ffd700;
-  border-radius: 5px;
+  background: var(--color-surface-4);
+  border-radius: 3px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--scrollbar-thumb);
 }
-/* HTML: <div class="loader"></div> */
+
+/* ═══════════════════════════════════════════════════════════════
+   SPINNER LOADER
+   ═══════════════════════════════════════════════════════════════ */
+
 .loader {
-  width: 55px;
-  aspect-ratio: 1;
-  --g1: conic-gradient(from 90deg at top 3px left 3px, #0000 90deg, #faf603 0);
-  --g2: conic-gradient(
-    from -90deg at bottom 3px right 3px,
-    #0000 90deg,
-    #e5ff00 0
-  );
-  background: var(--g1), var(--g1), var(--g1), var(--g1), var(--g2), var(--g2),
-    var(--g2), var(--g2);
-  background-position:
-    0 0,
-    100% 0,
-    100% 100%,
-    0 100%;
-  background-size: 25px 25px;
-  background-repeat: no-repeat;
-  animation: l11 1.5s infinite;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--tw-glass-border);
+  border-top-color: #E8756A;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
-@keyframes l11 {
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
   0% {
-    background-size:
-      35px 15px,
-      15px 15px,
-      15px 35px,
-      35px 35px;
+    background-position: -200% 0;
   }
-  25% {
-    background-size:
-      35px 35px,
-      15px 35px,
-      15px 15px,
-      35px 15px;
-  }
-  50% {
-    background-size:
-      15px 35px,
-      35px 35px,
-      35px 15px,
-      15px 15px;
-  }
-  75% {
-    background-size:
-      15px 15px,
-      35px 15px,
-      35px 35px,
-      15px 35px;
-  }
+
   100% {
-    background-size:
-      35px 15px,
-      15px 15px,
-      15px 35px,
-      35px 35px;
+    background-position: 200% 0;
   }
 }
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*
+  ═══════════════════════════════════════════════════════════════
+  USAGE REFERENCE — copy these snippets into your components
+  ═══════════════════════════════════════════════════════════════
+
+  BUTTONS
+  ─────────────────────────────────────────────────────────────
+  <button className="btn-primary">Watch Now</button>
+  <button className="btn-secondary">Add to List</button>
+
+  MOVIE CARD
+  ─────────────────────────────────────────────────────────────
+  <div className="card-movie w-48">
+    <img src={poster} className="w-full aspect-[2/3] object-cover" />
+    <div className="p-3">
+      <h3 className="font-display font-bold text-white text-sm">{title}</h3>
+    </div>
+  </div>
+
+  GENRE BADGES
+  ─────────────────────────────────────────────────────────────
+  <span className="badge-genre">Action</span>
+  <span className="badge-genre-blue">Sci-Fi</span>
+  <span className="badge-genre-coral">Romance</span>
+
+  STAR RATING
+  ─────────────────────────────────────────────────────────────
+  <span className="rating-star">
+    <FaStar />
+    8.4
+  </span>
+
+  SECTION HEADING
+  ─────────────────────────────────────────────────────────────
+  <h2 className="section-heading">Trending This Week</h2>
+
+  DIRECT TAILWIND COLOR TOKENS
+  ─────────────────────────────────────────────────────────────
+  bg-primary         → #E8756A  coral pink
+  bg-secondary       → #6BB5D6  sky blue
+  bg-accent          → #F5C842  yellow gold
+  text-primary       → #E8756A
+  text-accent        → #F5C842  (use for star ratings)
+  bg-surface         → var(--color-surface)  card bg (theme-aware)
+  text-muted         → var(--color-muted)    body text (theme-aware)
+  rounded-card       → 16px
+  rounded-badge      → 9999px (pill)
+  shadow-card        → soft depth shadow
+  shadow-glow-primary → coral glow (hover effects)
+  shadow-glow-accent  → gold glow (featured items)
+  font-display       → Poppins 700/800 (headings)
+  font-inter         → Inter 400/500 (body / UI)
+*/

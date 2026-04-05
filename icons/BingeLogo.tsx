@@ -5,8 +5,16 @@ interface BingeLogoProps {
   height?: number;
 }
 
-const BingeLogo = ({ width = 180, height = 500 }: BingeLogoProps) => {
-  return <Image src="/logo.png" width={width} height={height} alt="logo" />;
+const BingeLogo = ({ width = 160, height = 50 }: BingeLogoProps) => {
+  return (
+    <Image
+      src="/logo.png"
+      width={95}
+      height={80}
+      alt="logo"
+      // style={{ height: height, width: "auto", objectFit: "cover" }}
+    />
+  );
 };
 
 export default BingeLogo;
