@@ -1,11 +1,11 @@
 "use client";
 import { useParams } from "next/navigation";
 
-import SeriesDetailsCard from "@/components/seriesComponents/SeriesDetailsCard";
-import SeriesSeason from "@/components/seriesComponents/SeriesSeason";
-import TopBillingSeriesCast from "@/components/seriesComponents/TopBillingSeriesCast";
-import VideosShowCase from "@/components/seriesComponents/VideosShowCase";
-import LoadingWrapper from "@/components/LoadingWrapper";
+import SeriesDetailsCard from "@/components/series/SeriesDetailsCard";
+import SeriesSeason from "@/components/series/SeriesSeason";
+import TopBillingSeriesCast from "@/components/series/TopBillingSeriesCast";
+import VideosShowCase from "@/components/series/VideosShowCase";
+import LoadingWrapper from "@/components/common/LoadingWrapper";
 
 
 const SeriesDetails = () => {

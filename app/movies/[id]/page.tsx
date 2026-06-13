@@ -1,10 +1,10 @@
 "use client";
 import { useParams } from "next/navigation";
 
-import ImageShowcase from "@/components/movieComponents/ImageShowCase";
-import MovieDetailCard from "@/components/movieComponents/MovieDetailCard";
-import RecommandedMovies from "@/components/movieComponents/RecommandedMovies";
-import TopBillingCast from "@/components/movieComponents/TopBillingCast";
+import ImageShowcase from "@/components/movies/ImageShowcase";
+import MovieDetailCard from "@/components/movies/MovieDetailCard";
+import RecommendedMovies from "@/components/movies/RecommendedMovies";
+import TopBillingCast from "@/components/movies/TopBillingCast";
 
 const MoviesDetails = () => {
   const { id } = useParams() as { id: string };
@@ -14,7 +14,7 @@ const MoviesDetails = () => {
       <MovieDetailCard id={id} />
       <TopBillingCast id={id} />
       <ImageShowcase id={id} />
-      <RecommandedMovies id={id} />
+      <RecommendedMovies id={id} />
     </>
   );
 };

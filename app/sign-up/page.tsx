@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { SignUp } from '@clerk/nextjs';
-import CinemaBackground from '@/components/CinemaBackground';
+import { SignUp } from "@clerk/nextjs";
+
+import CinemaBackground from "@/components/common/CinemaBackground";
+
+export const dynamic = "force-dynamic";
 
 export default function SignUpPage() {
   return (
-    <div className="relative flex items-center justify-center min-h-[calc(100vh-80px)] py-12 px-4 overflow-hidden bg-[#0a0618]">
+    <div className="relative flex min-h-[calc(100vh-80px)] items-center justify-center overflow-hidden bg-bg px-4 py-12">
       <CinemaBackground />
       <div className="relative z-10">
         <SignUp routing="hash" />

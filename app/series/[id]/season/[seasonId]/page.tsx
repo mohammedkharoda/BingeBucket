@@ -2,8 +2,8 @@
 import { useParams } from "next/navigation";
 import React from "react";
 
-import SeasonDetailCard from "@/components/seriesComponents/SeasonDetailCard";
-import LoadingWrapper from "@/components/LoadingWrapper";
+import SeasonDetailCard from "@/components/series/SeasonDetailCard";
+import LoadingWrapper from "@/components/common/LoadingWrapper";
 
 const SeasonDetails = () => {
   const { id, seasonId } = useParams() as { id: string; seasonId: string };

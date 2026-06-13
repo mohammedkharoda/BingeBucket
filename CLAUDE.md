@@ -25,60 +25,58 @@ A Next.js 15 movie & series discovery app powered by TMDB. Users can browse tren
 
 ## Project Structure
 
+All non-route source lives under `src/`. Routes stay in `app/`. The `@/*`
+alias resolves to `./src/*` first, then `./*` (so `@/components/...`,
+`@/hooks/...`, `@/config/...` hit `src/`, while `@/app/...` hits the root).
+
 ```
-app/
-  layout.tsx          — Root layout: ClerkProvider > Providers > NavbarWrapper > Footer
-  providers.tsx       — NextUI + TanStack Query + next-themes + Sonner
-  page.tsx            — Home: Hero, promo banner, trending cards, email subscription
-  _actions.ts         — Server actions: sendEmail(), sendContactEmail() via Resend
-  api/auth/[kindeAuth]/route.ts — DEPRECATED stub (Kinde removed). Delete this directory.
-  movies/             — /movies and /movies/[id]
-  series/             — /series, /series/[id], /series/[id]/season/[seasonId]
-  search/             — /search
-  suprise-me/         — /suprise-me (mood-based suggestions)
-  watchlist/          — /watchlist (auth-gated, localStorage per user)
-  about/              — /about
-  contact-us/         — /contact-us
+app/                    — App Router routes ONLY (pages + layouts + route handlers)
+  layout.tsx            — Root: ClerkProvider > Providers > NavbarWrapper > Footer (dark default)
+  providers.tsx         — NextUI + TanStack Query + next-themes(dark) + Sonner
+  page.tsx              — Home: Hero, PromoBanner, MediaCard, NewsletterBanner
+  _actions.ts           — Server actions: sendEmail(), sendContactEmail() via Resend
+  api/recommendations/mood/route.ts — mood-based suggestion endpoint
+  movies/               — /movies and /movies/[id]
+  series/               — /series, /series/[id], /series/[id]/season/[seasonId]
+  search/               — /search
+  surprise-me/          — /surprise-me (mood-based suggestions)
+  watchlist/            — /watchlist (auth-gated, localStorage per user)
+  about/  contact-us/  sign-in/  sign-up/
 
-components/
-  Nav.tsx             — Client navbar; uses useAuth() + useUser() from Clerk
-  Footer.tsx
-  SearchInput.tsx / SearchResults.tsx
-  movieComponents/    — Movie-specific UI components
-  seriesComponents/   — Series-specific UI components
-  supriseMeComponent/ — Mood picker UI
-  about-us/ contact/  — Page-specific components
+src/
+  components/
+    layout/   — Nav, NavDesktop, NavMobile, NavbarWrapper, Footer, ThemeSwitch, BingeLogo
+    home/     — Hero, PromoBanner, MediaCard, NewsletterBanner
+    movies/   — MovieShowcase, MovieDetailCard, SortedMovies, RecommendedMovies,
+                TopBillingCast, ImageShowcase, TrendingMoviesBanner
+    series/   — SeriesShowcase, SeriesDetailsCard, SeasonDetailCard, SeriesSeason,
+                SortedSeries, TopBillingSeriesCast, TrendingSeriesBanner, VideosShowCase
+    surprise/ — MoodSuggestion
+    search/   — SearchInput, SearchResults
+    about/    — DiscoverAboutUs, DiscoverBestMovie, UncoverWorldSeries
+    contact/  — ContactForm, FAQ, GetInTouch
+    common/   — Cross-cutting: ContentGrid, EmailForm, GlobalButton, LogInBtn,
+                SignUpBtn, LogoutBtn, UserAvatar, LoadingCard, LoadingPage,
+                LoadingWrapper, SkeletonGrid, CinemaBackground
+    ui/       — Low-level primitives: slideshow, text-rotate, image-stack,
+                parallax-floating, CircularProgress
+  store/      — userStore, useWatchlistStore, useCrewStore, useSeriesCrewStore, useSeriesSeason
+  hooks/      — TanStack Query hooks wrapping lib/api.ts (TMDB)
+  lib/        — api.ts (TMDB Bearer fetchers), utils.ts (cn helper)
+  config/     — site.ts (nav + metadata), fonts.ts (Poppins + Inter),
+                data.ts, dateFormat.ts, timeConvert.ts, truncate.ts
+  types/      — index.ts (interfaces), schema.ts (Zod), css.d.ts
+  emails/     — React Email templates for Resend
 
-shared/               — Reusable cross-page components
-  NavbarWrapper.tsx   — Thin wrapper that renders <Navbar />
-  LogInBtn.tsx        — <SignInButton> from Clerk
-  SignUpBtn.tsx       — <SignUpButton> from Clerk  (use client)
-  LogoutBtn.tsx       — useClerk().signOut()       (use client)
-  UserAvatar.tsx      — useUser() from Clerk        (use client)
-  EmailForm.tsx / GlobalButton.tsx / ContentGrid.tsx
-  Loading.tsx / LoadingCard.tsx / SkeletonGrid.tsx
-
-store/
-  userStore.ts        — Zustand: { id, username, picture, given_name } | null
-                        Populated in Nav.tsx useEffect from Clerk's useUser()
-  useWatchlistStore.ts — Zustand + persist: localStorage key = watchlist-{userId}
-  useCrewStore.ts / useSeriesCrewStore.ts / useSeriesSeason.ts
-
-hooks/                — 18 TanStack Query hooks wrapping lib/api.ts TMDB calls
-lib/
-  api.ts              — All TMDB API functions (Bearer token auth)
-config/
-  site.ts             — Nav items + site metadata
-  fonts.ts            — Roboto font config
-  data.ts / dateFormat.ts / timeConvert.ts / turncate.ts
-types/
-  index.ts            — All TypeScript interfaces (MovieDetails, SeriesDetails, Cast…)
-  schema.ts           — Zod schemas: ContactFormSchema, NewsLetterFormSchema
-emails/               — React Email templates for Resend
-icons/
-  BingeLogo.tsx
-middleware.ts         — Clerk middleware (protects routes, handles session)
+styles/globals.css      — Design tokens (CSS vars) + component primitives (@layer)
+tailwind.config.js      — Maps tokens to utilities; content globs ./app + ./src
+middleware.ts           — Clerk middleware (protects routes, handles session)
 ```
+
+> Naming was normalized in the v2 restructure: `suprise-me`→`surprise-me`,
+> `RecommandedMovies`→`RecommendedMovies`, `turncate`→`truncate`,
+> `ImageShowCase`→`ImageShowcase`. The dead Kinde route and unused
+> `ui/{demo,gallery,button,arc-gallery-hero-component}` were deleted.
 
 ---
 
@@ -171,9 +169,31 @@ npm run lint         # ESLint with auto-fix
 
 ---
 
+## Design System v2 — "Cinema Noir"
+
+Dark-first cinematic identity. All colors/shadows/radii are CSS variables in
+`styles/globals.css` (`:root`/`.dark` = dark, `.light` = light) and surfaced as
+Tailwind utilities in `tailwind.config.js`. **Use tokens, never hardcoded hex.**
+
+| Token (Tailwind) | Meaning |
+|---|---|
+| `bg`, `bg-2` | page canvas (near-black ink) |
+| `surface`, `surface-2`, `surface-3` | cards, inputs, active fills |
+| `border` | hairline borders |
+| `text`, `text-2`, `text-3`, `text-4` | headings, body, captions, faint |
+| `accent` (#7C5CFF), `accent-2` (#22D3EE) | brand violet → cyan |
+| `gold` | ratings only |
+| `danger` / `success` / `warning` | semantic |
+
+Component primitives (in `@layer components`): `.btn-primary` / `.btn-ghost` /
+`.btn-outline`, `.card`, `.glass` / `.glass-nav`, `.poster-card`, `.pill` /
+`.pill-accent`, `.rating`, `.kicker`, `.section-title`, `.input`,
+`.container-site`, `.text-gradient`. Fonts: Poppins (display) + Inter (UI).
+
+---
+
 ## TODO / Known Issues
 
-- **Delete** `app/api/auth/[kindeAuth]/` — this directory is a leftover from Kinde and is no longer used. The route currently returns 404.
 - After upgrading packages, run `npm install` and verify the build (`npm run build`) for any breaking changes from Next.js 15 / React 19.
 - NextUI v2 (`@nextui-org/react`) has been rebranded as **HeroUI** (`@heroui/react`). Consider migrating in a future sprint for continued active maintenance.
 - `react-query` v3 package was removed (was duplicated alongside `@tanstack/react-query` v5). If any file still imports from `react-query` (not `@tanstack/react-query`), update those imports.

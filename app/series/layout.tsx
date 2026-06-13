@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingWrapper from "@/components/LoadingWrapper";
+import LoadingWrapper from "@/components/common/LoadingWrapper";
 
 export default function SeriesLayout({
   children,

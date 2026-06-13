@@ -1,6 +1,6 @@
-import DiscoverAboutUs from "@/components/about-us/DiscoverAboutUs";
-import DiscoverBestMovie from "@/components/about-us/DiscoverBestMovie";
-import UncoverWorldSeries from "@/components/about-us/UncoverWorldSeries";
+import DiscoverAboutUs from "@/components/about/DiscoverAboutUs";
+import DiscoverBestMovie from "@/components/about/DiscoverBestMovie";
+import UncoverWorldSeries from "@/components/about/UncoverWorldSeries";
 
 const About = () => {
   return (
